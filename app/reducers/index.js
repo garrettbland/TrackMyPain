@@ -3,11 +3,21 @@ import {
   LOGIN_ERROR,
   LOGOUT_SUCCESS,
   SET_LISTITEM,
+  YES_MEDS,
+  NO_MEDS,
 } from '../actions/index.js';
 
 
 export default function loginReducer(state,action){
   switch (action.type) {
+    case YES_MEDS:
+      return Object.assign({}, state, {user:{test:true}})
+      console.log("test -> true");
+
+    case NO_MEDS:
+      return Object.assign({}, state, {user:{test:false}})
+      console.log("test -> false");
+
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {user:{loggedIn:true}});
       console.log("Case LOGIN_SUCCESS fired");

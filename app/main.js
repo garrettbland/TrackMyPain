@@ -78,9 +78,15 @@ const AppMedsStack = StackNavigator({
       title:'Medications'
     }
   },
+  MedsAdd: {
+    screen: MedsAdd,
+    navigationOptions:{
+      title:'Add Medications'
+    }
+  }
 },{
   mode:'modal',
-  headerMode:'float',
+  headerMode:'screen',
 })
 
 const AppTab = TabNavigator({
@@ -89,8 +95,8 @@ const AppTab = TabNavigator({
   MedsStack: { screen: AppMedsStack },
   SettingsStack: { screen: AppSettingsStack },
 },{
+  initialRouteName:'RateStack',
   tabBarOptions: {
-
     tabStyle: {
 
     },

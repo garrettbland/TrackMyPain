@@ -32,7 +32,7 @@ class RateDetail extends Component {
   static navigationOptions = ({ navigation }) => ({
       title: 'Rate',
       headerBackTitle:null,
-      headerLeft: Platform.OS == 'ios' ? <Icon name={'ios-arrow-dropdown'} size={30} color={'rgb(14,122,254)'} style={{marginLeft:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
+      headerLeft: Platform.OS == 'ios' ? <Icon name={'ios-close-circle-outline'} size={30} color={'#c0392b'} style={{marginLeft:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
       headerRight: Platform.OS == 'ios' ? <Icon name={'ios-checkmark-circle-outline'} size={30} color={'#27ae60'} style={{marginRight:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
       tabBarLabel:'Rate',
       tabBarIcon: ({ focused, tintColor }) => (

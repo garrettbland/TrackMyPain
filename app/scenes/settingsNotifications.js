@@ -10,6 +10,7 @@ import { NavigationActions } from 'react-navigation';
 
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
+import * as Animatable from 'react-native-animatable';
 
 import {
   View,
@@ -89,19 +90,23 @@ class SettingsNotifications extends Component {
         <Animated.View style={{ transform: [{translateX: this.state.offsetX}], width:'100%' }}>
         <Text>Reminder Interval: {this.state.timeInterval}</Text>
             {this.state.noticationsEnabled &&
-              <Picker selectedValue = {this.state.timeInterval} onValueChange = {this.updateTimeInterval} style={{width:'100%'}}>
-                <Picker.Item label = "10 Minutes" value = "10" />
-                <Picker.Item label = "15 Minutes" value = "15" />
-                <Picker.Item label = "30 Minutes" value = "30" />
-                <Picker.Item label = "1 Hour" value = "60" />
-                <Picker.Item label = "2 Hours" value = "120" />
-                <Picker.Item label = "4 Hours" value = "180" />
-              </Picker>
+              <Animatable.View animation="fadeIn" style={{width:'100%'}}>
+                <Picker selectedValue = {this.state.timeInterval} onValueChange = {this.updateTimeInterval} style={{width:'100%'}}>
+                  <Picker.Item label = "10 Minutes" value = "10" />
+                  <Picker.Item label = "15 Minutes" value = "15" />
+                  <Picker.Item label = "30 Minutes" value = "30" />
+                  <Picker.Item label = "1 Hour" value = "60" />
+                  <Picker.Item label = "2 Hours" value = "120" />
+                  <Picker.Item label = "4 Hours" value = "180" />
+                </Picker>
+              </Animatable.View>
             }
             {!this.state.noticationsEnabled &&
-              <Picker selectedValue = {this.state.timeInterval} onValueChange = {this.updateTimeInterval} style={{width:'100%'}}>
-                <Picker.Item label = "DISABLED" value = "DISABLED" />
-              </Picker>
+              <Animatable.View animation="fadeIn" style={{width:'100%'}}>
+                <Picker selectedValue = {this.state.timeInterval} onValueChange = {this.updateTimeInterval} style={{width:'100%'}}>
+                  <Picker.Item label = "DISABLED" value = "DISABLED" />
+                </Picker>
+              </Animatable.View>
             }
 
         <Text>SLEEP MODE</Text>

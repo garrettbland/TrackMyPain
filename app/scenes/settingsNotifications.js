@@ -15,7 +15,14 @@ import {
   View,
   Text,
   Platform,
+  Switch,
+  Picker,
+  Animated,
+  Dimensions,
+  ScrollView
 } from 'react-native';
+
+const screenWidth = Dimensions.get('window').width;
 
 class SettingsNotifications extends Component {
 
@@ -32,7 +39,9 @@ class SettingsNotifications extends Component {
     constructor(props) {
       super(props);
       this.state = {
-
+        noticationsEnabled:false,
+        timeInterval:'30',
+        offsetX: new Animated.Value(0),
       }
       this.goBack = this.goBack.bind(this)
     }
@@ -49,10 +58,54 @@ class SettingsNotifications extends Component {
 
     }
 
+    updateEnabled = (value) => {
+      //this.showTimeIntervalPicker(value)
+      this.setState({
+        noticationsEnabled:value
+      })
+    }
+
+    updateTimeInterval = (selectedTime) => {
+       this.setState({ timeInterval: selectedTime })
+    }
+
+    showTimeIntervalPicker(value) {
+
+       Animated.timing(
+         this.state.offsetX,
+         { toValue: value == false ? -(screenWidth) : 0 }
+       ).start();
+     }
+
   render(){
     return(
-      <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+      <View style={{flex:1,justifyContent:'center',alignItems:'center',backgroundColor:'#ffffff'}}>
         <Text>NOTIFICATIONS</Text>
+        <Switch
+          onValueChange={this.updateEnabled}
+          style={{marginBottom: 1}}
+          value={this.state.noticationsEnabled}
+        />
+        <Animated.View style={{ transform: [{translateX: this.state.offsetX}], width:'100%' }}>
+        <Text>Reminder Interval: {this.state.timeInterval}</Text>
+            {this.state.noticationsEnabled &&
+              <Picker selectedValue = {this.state.timeInterval} onValueChange = {this.updateTimeInterval} style={{width:'100%'}}>
+                <Picker.Item label = "10 Minutes" value = "10" />
+                <Picker.Item label = "15 Minutes" value = "15" />
+                <Picker.Item label = "30 Minutes" value = "30" />
+                <Picker.Item label = "1 Hour" value = "60" />
+                <Picker.Item label = "2 Hours" value = "120" />
+                <Picker.Item label = "4 Hours" value = "180" />
+              </Picker>
+            }
+            {!this.state.noticationsEnabled &&
+              <Picker selectedValue = {this.state.timeInterval} onValueChange = {this.updateTimeInterval} style={{width:'100%'}}>
+                <Picker.Item label = "DISABLED" value = "DISABLED" />
+              </Picker>
+            }
+
+        <Text>SLEEP MODE</Text>
+        </Animated.View>
       </View>
     )
   }

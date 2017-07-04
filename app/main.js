@@ -22,6 +22,7 @@ import RateDetail from './scenes/rateDetail';
 import RateMeds from './scenes/rateMeds';
 import MedsAdd from './scenes/medsAdd';
 import SettingsNotifications from './scenes/settingsNotifications';
+import SettingsProfile from './scenes/settingsProfile';
 
 class App extends Component {
   render(){
@@ -38,6 +39,9 @@ const AppSettingsStack = StackNavigator({
   },
   SettingsNotifications: {
     screen: SettingsNotifications,
+  },
+  SettingsProfile: {
+    screen: SettingsProfile,
   }
 },{
   mode:'card',

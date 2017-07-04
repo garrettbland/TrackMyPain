@@ -44,9 +44,6 @@ class Rate extends Component {
     }
   }
 
-  componentWillMount() {
-    this.props.navigation.setParams({ test: '' });
-  }
 
   render(){
     return(

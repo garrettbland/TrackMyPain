@@ -11,20 +11,15 @@ import { NavigationActions } from 'react-navigation';
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
 
+//components
+import SettingsButton from '../components/settingsButton';
+
 import {
   View,
   Text,
-  Button
+  Button,
+  ScrollView,
 } from 'react-native';
-
-const navigateAction = NavigationActions.navigate({
-
-  routeName: 'SettingsNotifications',
-
-  params: {},
-
-  action: NavigationActions.navigate({ routeName: 'SettingsNotifications'})
-})
 
 class Settings extends Component {
 
@@ -46,9 +41,13 @@ class Settings extends Component {
 
   render(){
     return(
-      <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-        <Text>SETTINGS</Text>
-        <Button title='Notifications' onPress={()=>this.props.navigation.dispatch(navigateAction)}/>
+      <View style={{flex:1}}>
+        <ScrollView>
+          <View style={{marginTop:12}}>
+            <SettingsButton title={'Notifications'} icon={'ios-arrow-dropright'} route={'SettingsNotifications'} navigation={this.props.navigation} />
+            <SettingsButton title={'Profile'} icon={'ios-arrow-dropright'} route={'SettingsProfile'} navigation={this.props.navigation} />
+          </View>
+        </ScrollView>
       </View>
     )
   }

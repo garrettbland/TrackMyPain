@@ -15,6 +15,8 @@ import {
   View,
   Text,
   Platform,
+  TextInput,
+  Keyboard,
 } from 'react-native';
 
 class MedsAdd extends Component {
@@ -25,6 +27,7 @@ class MedsAdd extends Component {
       headerRight: Platform.OS == 'ios' ? <Icon name={'ios-checkmark-circle-outline'} size={30} color={'#27ae60'} style={{marginRight:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
       headerBackTitle:null,
       tabBarLabel:'Meds',
+      gesturesEnabled: false,
       tabBarIcon: ({ focused, tintColor }) => (
         <Icon name={focused ? 'ios-medkit' : 'ios-medkit-outline'} size={32} color={tintColor} />
       ),
@@ -33,7 +36,7 @@ class MedsAdd extends Component {
     constructor(props) {
       super(props);
       this.state = {
-
+        text:''
       }
       this.goBack = this.goBack.bind(this)
     }
@@ -43,6 +46,7 @@ class MedsAdd extends Component {
     }
 
     goBack () {
+      Keyboard.dismiss();
       const backAction = NavigationActions.back({
 
       })
@@ -54,6 +58,12 @@ class MedsAdd extends Component {
     return(
       <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
         <Text>Add Meds</Text>
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
+          autoFocus={true}
+        />
       </View>
     )
   }

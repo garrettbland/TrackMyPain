@@ -20,7 +20,8 @@ import {
   Picker,
   Animated,
   Dimensions,
-  ScrollView
+  ScrollView,
+  StyleSheet
 } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
@@ -80,37 +81,97 @@ class SettingsNotifications extends Component {
 
   render(){
     return(
-      <View style={{flex:1,justifyContent:'center',alignItems:'center',backgroundColor:'#ffffff'}}>
-        <Text>NOTIFICATIONS</Text>
-        <Switch
-          onValueChange={this.updateEnabled}
-          style={{marginBottom: 1}}
-          value={this.state.noticationsEnabled}
-        />
-        <Animated.View style={{ transform: [{translateX: this.state.offsetX}], width:'100%' }}>
-        <Text>Reminder Interval: {this.state.timeInterval}</Text>
-            {this.state.noticationsEnabled &&
-              <Animatable.View animation="fadeIn" style={{width:'100%'}}>
-                <Picker selectedValue = {this.state.timeInterval} onValueChange = {this.updateTimeInterval} style={{width:'100%'}}>
-                  <Picker.Item label = "10 Minutes" value = "10" />
-                  <Picker.Item label = "15 Minutes" value = "15" />
-                  <Picker.Item label = "30 Minutes" value = "30" />
-                  <Picker.Item label = "1 Hour" value = "60" />
-                  <Picker.Item label = "2 Hours" value = "120" />
-                  <Picker.Item label = "4 Hours" value = "180" />
-                </Picker>
-              </Animatable.View>
-            }
-            {!this.state.noticationsEnabled &&
-              <Animatable.View animation="fadeIn" style={{width:'100%'}}>
-                <Picker selectedValue = {this.state.timeInterval} onValueChange = {this.updateTimeInterval} style={{width:'100%'}}>
-                  <Picker.Item label = "DISABLED" value = "DISABLED" />
-                </Picker>
-              </Animatable.View>
-            }
-
-        <Text>SLEEP MODE</Text>
-        </Animated.View>
+      <View style={{flex:1,marginTop:1}}>
+        <ScrollView>
+          <View style={{marginTop:11}}>
+            <View style={{
+              flexDirection:'row',
+              backgroundColor:'#ffffff',
+              justifyContent:'space-between',
+              alignItems:'center',
+              paddingLeft:10,
+              paddingRight:10,
+              marginBottom:15,
+              borderTopWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+              borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+              borderColor:'#bdc3c7',
+              height:55
+            }}>
+              <View>
+                <Text style={{fontSize:20,color:'#3F3F3F',fontWeight:'bold'}}>Notifications</Text>
+              </View>
+              <View>
+                <Switch
+                  onValueChange={this.updateEnabled}
+                  style={{marginBottom: 1}}
+                  value={this.state.noticationsEnabled}
+                />
+              </View>
+            </View>
+            <View style={{paddingLeft:10,paddingBottom:3}}>
+              <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Reminder Interval</Text>
+              <Text style={{color:'#3F3F3F',fontSize:12}}>Remind me to rate my pain every selected value</Text>
+            </View>
+            <View style={{
+              borderTopWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+              borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+              borderColor:'#bdc3c7',
+              marginBottom:15,
+              backgroundColor:'#ffffff',
+            }}>
+              <Animated.View style={{ transform: [{translateX: this.state.offsetX}], width:'100%',}}>
+                  {this.state.noticationsEnabled &&
+                    <Animatable.View animation="fadeIn" style={{width:'100%'}}>
+                      <Picker selectedValue = {this.state.timeInterval} onValueChange = {this.updateTimeInterval} style={{width:'100%'}}>
+                        <Picker.Item label = "10 Minutes" value = "10" />
+                        <Picker.Item label = "15 Minutes" value = "15" />
+                        <Picker.Item label = "30 Minutes" value = "30" />
+                        <Picker.Item label = "1 Hour" value = "60" />
+                        <Picker.Item label = "2 Hours" value = "120" />
+                        <Picker.Item label = "4 Hours" value = "180" />
+                      </Picker>
+                    </Animatable.View>
+                  }
+                  {!this.state.noticationsEnabled &&
+                    <Animatable.View animation="fadeIn" style={{width:'100%',height:140,alignItems:'center',justifyContent:'center'}}>
+                      <Text style={{color:'#7f8c8d',fontSize:13}}>Disabled</Text>
+                    </Animatable.View>
+                  }
+                </Animated.View>
+              </View>
+              <View style={{paddingLeft:10,paddingBottom:3}}>
+                <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Snooze Mode</Text>
+                <Text style={{color:'#3F3F3F',fontSize:12}}>Turn notifications off between selected time</Text>
+              </View>
+              <View style={{
+                borderTopWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+                borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+                borderColor:'#bdc3c7',
+                marginBottom:15,
+                backgroundColor:'#ffffff',
+              }}>
+                <Animated.View style={{ transform: [{translateX: this.state.offsetX}], width:'100%',}}>
+                    {this.state.noticationsEnabled &&
+                      <Animatable.View animation="fadeIn" style={{width:'100%'}}>
+                        <Picker selectedValue = {this.state.timeInterval} onValueChange = {this.updateTimeInterval} style={{width:'100%'}}>
+                          <Picker.Item label = "10 Minutes" value = "10" />
+                          <Picker.Item label = "15 Minutes" value = "15" />
+                          <Picker.Item label = "30 Minutes" value = "30" />
+                          <Picker.Item label = "1 Hour" value = "60" />
+                          <Picker.Item label = "2 Hours" value = "120" />
+                          <Picker.Item label = "4 Hours" value = "180" />
+                        </Picker>
+                      </Animatable.View>
+                    }
+                    {!this.state.noticationsEnabled &&
+                      <Animatable.View animation="fadeIn" style={{width:'100%',height:140,alignItems:'center',justifyContent:'center'}}>
+                        <Text style={{color:'#7f8c8d',fontSize:13}}>Disabled</Text>
+                      </Animatable.View>
+                    }
+                  </Animated.View>
+              </View>
+          </View>
+        </ScrollView>
       </View>
     )
   }

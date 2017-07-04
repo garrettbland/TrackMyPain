@@ -11,6 +11,9 @@ import { NavigationActions } from 'react-navigation';
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
 
+//components
+import FormInput from '../components/formInput';
+
 import {
   View,
   Text,
@@ -61,35 +64,8 @@ class MedsAdd extends Component {
     return(
       <View style={{flex:1}}>
         <View style={{padding:12}}>
-          <View style={{marginBottom:14}}>
-            <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Medication Name</Text>
-            <View style={{borderColor: '#bdc3c7', borderBottomWidth: 1,marginTop:5,paddingBottom:3}}>
-              <TextInput
-                placeholder={''}
-                style={{height: 43, fontSize:30}}
-                onChangeText={(text) => this.setState({text:text})}
-                value={this.state.text}
-                autoFocus={true}
-                maxLength = {17}
-                clearButtonMode={'always'}
-                returnKeyType={'done'}
-              />
-            </View>
-          </View>
-          <View style={{marginBottom:7}}>
-            <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Amount</Text>
-            <View style={{borderColor: '#bdc3c7', borderBottomWidth: 1,marginTop:5,paddingBottom:3}}>
-              <TextInput
-                placeholder={''}
-                style={{height: 43, fontSize:30}}
-                onChangeText={(text) => this.setState({amount:text})}
-                value={this.state.amount}
-                maxLength = {17}
-                clearButtonMode={'always'}
-                returnKeyType={'done'}
-              />
-            </View>
-          </View>
+          <FormInput label={'Medication Name'} placeholder={''} onChangeText={(text) => this.setState({text:text})} autoFocus={true} value={this.state.text}/>
+          <FormInput label={'Amount'} placeholder={''} onChangeText={(text) => this.setState({amount:text})} autoFocus={false} value={this.state.amount}/>
         </View>
       </View>
     )

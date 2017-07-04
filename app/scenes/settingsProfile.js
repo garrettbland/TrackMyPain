@@ -10,19 +10,18 @@ import { NavigationActions } from 'react-navigation';
 
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
-import * as Animatable from 'react-native-animatable';
+
+//components
+import SettingsInfoListItem from '../components/settingsInfoListItem';
+import Button from '../components/button';
 
 import {
   View,
   Text,
   Platform,
-  Switch,
-  Picker,
-  Animated,
   Dimensions,
   ScrollView,
-  StyleSheet,
-  TouchableOpacity,
+  Alert,
 } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
@@ -42,11 +41,9 @@ class SettingsProfile extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        noticationsEnabled:false,
-        timeInterval:'30',
-        offsetX: new Animated.Value(0),
+
       }
-      this.goBack = this.goBack.bind(this)
+      this.goBack = this.goBack.bind(this);
     }
 
     componentDidMount() {
@@ -61,59 +58,22 @@ class SettingsProfile extends Component {
 
     }
 
+    handleLogOut(){
+      console.log("Log out");
+    }
 
   render(){
     return(
       <View style={{flex:1,marginTop:1}}>
         <ScrollView>
-        <View style={{
-          marginTop:11,
-          flexDirection:'row',
-          backgroundColor:'#ffffff',
-          justifyContent:'space-between',
-          alignItems:'center',
-          paddingLeft:10,
-          paddingRight:10,
-          marginBottom:2,
-          borderTopWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
-          borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
-          borderColor:'#bdc3c7',
-          height:48
-        }}>
-          <View>
-            <Text style={{fontSize:16,color:'#3F3F3F',fontWeight:'bold'}}>Username</Text>
+          <View style={{marginTop:11}}>
+            <SettingsInfoListItem header={'Username'} subHeader={'gmorganbland@gmail.com'}/>
+            <SettingsInfoListItem header={'Membership'} subHeader={'Premium'}/>
           </View>
-          <View>
-            <Text style={{color:'#3F3F3F',fontSize:12,}}>gmorganbland@gmail.com</Text>
-          </View>
-        </View>
 
-        <View style={{
-          flexDirection:'row',
-          backgroundColor:'#ffffff',
-          justifyContent:'space-between',
-          alignItems:'center',
-          paddingLeft:10,
-          paddingRight:10,
-          marginBottom:15,
-          borderTopWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
-          borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
-          borderColor:'#bdc3c7',
-          height:48
-        }}>
-          <View>
-            <Text style={{fontSize:16,color:'#3F3F3F',fontWeight:'bold'}}>Membership</Text>
+          <View style={{marginTop:15}}>
+            <Button title={'Sign Out'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={() => this.handleLogOut()}/>
           </View>
-          <View>
-            <Text style={{color:'#3F3F3F',fontSize:12,}}>Premium</Text>
-          </View>
-        </View>
-
-        <TouchableOpacity style={{alignItems:'center'}} activeOpacity={0.6}>
-          <View style={{backgroundColor:'#2980b9',width:'80%',height:55,borderRadius:4,overflow:'hidden',justifyContent:'center',alignItems:'center'}}>
-            <Text style={{fontSize:16,color:'#ffffff'}}>Sign Out</Text>
-          </View>
-        </TouchableOpacity>
 
         </ScrollView>
       </View>

@@ -1,30 +1,38 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {Component} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-});
+//npm packages
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const ProfileScreen = () => (
-  <View style={styles.container}>
-    <Text style={styles.welcome}>
-      Profile Screen
-    </Text>
-  </View>
-);
 
-ProfileScreen.navigationOptions = {
-  title: 'Profile',
-};
+class Button extends Component {
 
-export default ProfileScreen;
+  render(){
+    return(
+      <View style={{alignItems:'center'}}>
+        <TouchableOpacity
+        onPress={this.props.onPress}
+        activeOpacity={0.6}
+        style={{
+          backgroundColor:this.props.backgroundColor,
+          width:'80%',
+          height:55,
+          borderRadius:4,
+          overflow:'hidden',
+          justifyContent:'center',
+          alignItems:'center'
+        }}>
+          <Text style={{fontSize:16,color:this.props.titleColor,fontWeight:'bold'}}>{this.props.title}</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+}
+
+export default Button;

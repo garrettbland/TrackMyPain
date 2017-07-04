@@ -1,10 +1,5 @@
 import React, {Component} from 'react';
 
-//redux
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as Actions from '../actions';
-
 //navigation
 import { NavigationActions } from 'react-navigation';
 
@@ -32,13 +27,6 @@ class Settings extends Component {
       tabBarLabel:'Settings',
     });
 
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  }
-
   render(){
     return(
       <View style={{flex:1}}>
@@ -53,14 +41,4 @@ class Settings extends Component {
   }
 }
 
-function mapStateToProps(state){
-  return {
-    user:state.userReducers.user,
-  };
-}
-
-function mapDispatchToProps(dispatch){
-  return bindActionCreators(Actions, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default Settings

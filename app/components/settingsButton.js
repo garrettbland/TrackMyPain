@@ -26,13 +26,26 @@ class SettingsButton extends Component {
       action: NavigationActions.navigate({ routeName: this.props.route})
     });
     return(
-      <TouchableOpacity style={styles.buttonContainer} onPress={()=>{this.props.navigation.dispatch(navigateAction)}} activeOpacity={0.6}>
-        <View style={styles.button}>
+      <TouchableOpacity
+        onPress={()=>{this.props.navigation.dispatch(navigateAction)}}
+        activeOpacity={0.6}
+        style={{
+          width:'100%',
+          paddingLeft:10,
+          paddingRight:10,
+          backgroundColor:'#ffffff',
+          borderTopWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+          borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+          borderColor:'#bdc3c7',
+          marginBottom:2
+        }}
+      >
+        <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>
           <View>
-            <Text style={styles.titleText}>{this.props.title}</Text>
+            <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{this.props.title}</Text>
           </View>
           <View>
-            <Icon name={this.props.icon} size={32} style={{marginTop:3}} color={styles.primaryColor.color} />
+            <Icon name={this.props.icon} size={32} style={{marginTop:3}} color={'#3F3F3F'} />
           </View>
         </View>
       </TouchableOpacity>
@@ -41,30 +54,3 @@ class SettingsButton extends Component {
 }
 
 export default SettingsButton;
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    width:'100%',
-    paddingLeft:10,
-    paddingRight:10,
-    backgroundColor:'#ffffff',
-    borderTopWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
-    borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
-    borderColor:'#bdc3c7',
-    marginBottom:2,
-  },
-  button:{
-    justifyContent:'space-between',
-    flexDirection:'row',
-    alignItems:'center',
-    height:47,
-  },
-  titleText:{
-    color:'#3F3F3F',
-    fontWeight:'bold',
-    fontSize:15
-  },
-  primaryColor:{
-    color:'#3F3F3F'
-  },
-});

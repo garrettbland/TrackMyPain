@@ -34,8 +34,9 @@ class SettingsProfile extends Component {
       tabBarIcon: ({ focused, tintColor }) => (
         <Icon name={focused ? 'ios-options' : 'ios-options-outline'} size={32} color={tintColor} />
       ),
-      headerLeft: Platform.OS == 'ios' ? <Icon name={'ios-arrow-dropleft'} size={30} color={'rgb(14,122,254)'} style={{marginLeft:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
+      headerLeft: Platform.OS == 'ios' ? <Icon name={'ios-arrow-dropleft'} size={38} color={'rgb(14,122,254)'} style={{marginLeft:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
       tabBarLabel:'Settings',
+      headerTitleStyle:{fontWeight:'bold',fontSize:19},
     });
 
     constructor(props) {

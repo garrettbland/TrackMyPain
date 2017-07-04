@@ -23,11 +23,12 @@ class MedsAdd extends Component {
 
   static navigationOptions = ({ navigation }) => ({
       title: 'Add Meds',
-      headerLeft: Platform.OS == 'ios' ? <Icon name={'ios-close-circle-outline'} size={30} color={'#c0392b'} style={{marginLeft:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
-      headerRight: Platform.OS == 'ios' ? <Icon name={'ios-checkmark-circle-outline'} size={30} color={'#27ae60'} style={{marginRight:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
+      headerLeft: Platform.OS == 'ios' ? <Icon name={'ios-close-circle-outline'} size={38} color={'#c0392b'} style={{marginLeft:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
+      headerRight: Platform.OS == 'ios' ? <Icon name={'ios-checkmark-circle-outline'} size={38} color={'#27ae60'} style={{marginRight:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
       headerBackTitle:null,
       tabBarLabel:'Meds',
       gesturesEnabled: false,
+      headerTitleStyle:{fontWeight:'bold',fontSize:19},
       tabBarIcon: ({ focused, tintColor }) => (
         <Icon name={focused ? 'ios-medkit' : 'ios-medkit-outline'} size={32} color={tintColor} />
       ),

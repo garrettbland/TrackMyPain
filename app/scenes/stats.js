@@ -22,7 +22,8 @@ class Stats extends Component {
         <Icon name={focused ? 'ios-stats' : 'ios-stats-outline'} size={32} color={tintColor} />
       ),
       tabBarLabel:'Stats',
-      headerTitleStyle:{fontWeight:'bold',fontSize:19},
+      headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
+      headerStyle:{backgroundColor:'#3498db',borderBottomWidth:0}
     });
 
   constructor(props) {

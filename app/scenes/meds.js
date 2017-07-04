@@ -16,6 +16,7 @@ import {
   Text,
   Platform,
   Button,
+  TouchableOpacity,
 } from 'react-native';
 
 const navigateAction = NavigationActions.navigate({
@@ -32,8 +33,9 @@ class Meds extends Component {
   static navigationOptions = ({ navigation }) => ({
       title: 'Meds',
       headerBackTitle:null,
-      headerTitleStyle:{fontWeight:'bold',fontSize:19},
-      headerRight: Platform.OS == 'ios' ? <Icon name={'ios-add-circle-outline'} size={38} color={'rgb(14,122,254)'} style={{marginRight:8}} onPress={()=>navigation.dispatch(navigateAction)}/> : null,
+      headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
+      headerStyle:{backgroundColor:'#3498db',borderBottomWidth:0},
+      headerRight: <TouchableOpacity onPress={()=>navigation.dispatch(navigateAction)}><Icon name={'ios-add-circle-outline'} size={38} color={'#ffffff'} style={{marginRight:8}}/></TouchableOpacity>,
       tabBarIcon: ({ focused, tintColor }) => (
         <Icon name={focused ? 'ios-medkit' : 'ios-medkit-outline'} size={32} color={tintColor} />
       ),

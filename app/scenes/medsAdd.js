@@ -17,14 +17,15 @@ import {
   Platform,
   TextInput,
   Keyboard,
+  TouchableOpacity
 } from 'react-native';
 
 class MedsAdd extends Component {
 
   static navigationOptions = ({ navigation }) => ({
       title: 'Add Meds',
-      headerLeft: Platform.OS == 'ios' ? <Icon name={'ios-close-circle-outline'} size={38} color={'#c0392b'} style={{marginLeft:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
-      headerRight: Platform.OS == 'ios' ? <Icon name={'ios-checkmark-circle-outline'} size={38} color={'#27ae60'} style={{marginRight:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
+      headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'ios-close-circle-outline'} size={38} color={'#c0392b'} style={{marginLeft:8}}/></TouchableOpacity>,
+      headerRight: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'ios-checkmark-circle-outline'} size={38} color={'#27ae60'} style={{marginRight:8}}/></TouchableOpacity>,
       headerBackTitle:null,
       tabBarLabel:'Meds',
       gesturesEnabled: false,
@@ -37,7 +38,8 @@ class MedsAdd extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        text:''
+        text:'',
+        amount:'',
       }
       this.goBack = this.goBack.bind(this)
     }
@@ -57,14 +59,38 @@ class MedsAdd extends Component {
 
   render(){
     return(
-      <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-        <Text>Add Meds</Text>
-        <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.text}
-          autoFocus={true}
-        />
+      <View style={{flex:1}}>
+        <View style={{padding:12}}>
+          <View style={{marginBottom:14}}>
+            <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Medication Name</Text>
+            <View style={{borderColor: '#bdc3c7', borderBottomWidth: 1,marginTop:5,paddingBottom:3}}>
+              <TextInput
+                placeholder={''}
+                style={{height: 43, fontSize:30}}
+                onChangeText={(text) => this.setState({text:text})}
+                value={this.state.text}
+                autoFocus={true}
+                maxLength = {17}
+                clearButtonMode={'always'}
+                returnKeyType={'done'}
+              />
+            </View>
+          </View>
+          <View style={{marginBottom:7}}>
+            <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Amount</Text>
+            <View style={{borderColor: '#bdc3c7', borderBottomWidth: 1,marginTop:5,paddingBottom:3}}>
+              <TextInput
+                placeholder={''}
+                style={{height: 43, fontSize:30}}
+                onChangeText={(text) => this.setState({amount:text})}
+                value={this.state.amount}
+                maxLength = {17}
+                clearButtonMode={'always'}
+                returnKeyType={'done'}
+              />
+            </View>
+          </View>
+        </View>
       </View>
     )
   }

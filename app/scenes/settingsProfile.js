@@ -21,7 +21,7 @@ import {
   Platform,
   Dimensions,
   ScrollView,
-  Alert,
+  TouchableOpacity,
 } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
@@ -34,9 +34,10 @@ class SettingsProfile extends Component {
       tabBarIcon: ({ focused, tintColor }) => (
         <Icon name={focused ? 'ios-options' : 'ios-options-outline'} size={32} color={tintColor} />
       ),
-      headerLeft: Platform.OS == 'ios' ? <Icon name={'ios-arrow-dropleft'} size={38} color={'rgb(14,122,254)'} style={{marginLeft:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
+      headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'ios-arrow-dropleft'} size={38} color={'#ffffff'} style={{marginLeft:8}}/></TouchableOpacity>,
       tabBarLabel:'Settings',
-      headerTitleStyle:{fontWeight:'bold',fontSize:19},
+      headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
+      headerStyle:{backgroundColor:'#3498db',borderBottomWidth:0},
     });
 
     constructor(props) {
@@ -65,15 +66,15 @@ class SettingsProfile extends Component {
 
   render(){
     return(
-      <View style={{flex:1,marginTop:1}}>
+      <View style={{flex:1}}>
         <ScrollView>
-          <View style={{marginTop:11}}>
+          <View style={{marginTop:12}}>
             <SettingsInfoListItem header={'Username'} subHeader={'gmorganbland@gmail.com'}/>
             <SettingsInfoListItem header={'Membership'} subHeader={'Premium'}/>
           </View>
 
           <View style={{marginTop:15}}>
-            <Button title={'Sign Out'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={() => this.handleLogOut()}/>
+            <Button title={'Sign Out'} backgroundColor={'#2ecc71'} titleColor={'#ffffff'} onPress={() => this.handleLogOut()}/>
           </View>
 
         </ScrollView>

@@ -35,7 +35,7 @@ class SettingsNotifications extends Component {
       tabBarIcon: ({ focused, tintColor }) => (
         <Icon name={focused ? 'ios-options' : 'ios-options-outline'} size={32} color={tintColor} />
       ),
-      headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'ios-arrow-dropleft'} size={38} color={'#ffffff'} style={{marginLeft:8}}/></TouchableOpacity>,
+      headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'ios-arrow-dropleft'} size={38} color={'#ffffff'} style={{marginLeft:10}}/></TouchableOpacity>,
       tabBarLabel:'Settings',
       headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
       headerStyle:{backgroundColor:'#3498db',borderBottomWidth:0},
@@ -98,10 +98,10 @@ class SettingsNotifications extends Component {
               borderTopWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
               borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
               borderColor:'#bdc3c7',
-              height:55
+              height:48
             }}>
               <View>
-                <Text style={{fontSize:20,color:'#3F3F3F',fontWeight:'bold'}}>Notifications</Text>
+                <Text style={{fontSize:15,color:'#3F3F3F',fontWeight:'bold'}}>Notifications</Text>
               </View>
               <View>
                 <Switch
@@ -112,7 +112,7 @@ class SettingsNotifications extends Component {
               </View>
             </View>
             <View style={{paddingLeft:10,paddingBottom:3}}>
-              <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Reminder Interval</Text>
+              <Text style={{color:'#3F3F3F',fontSize:15,fontWeight:'bold'}}>Reminder Interval</Text>
               <Text style={{color:'#3F3F3F',fontSize:12}}>Remind me to rate my pain every selected value</Text>
             </View>
             <View style={{
@@ -143,7 +143,7 @@ class SettingsNotifications extends Component {
                 </Animated.View>
               </View>
               <View style={{paddingLeft:10,paddingBottom:3}}>
-                <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Snooze Mode</Text>
+                <Text style={{color:'#3F3F3F',fontSize:15,fontWeight:'bold'}}>Snooze Mode</Text>
                 <Text style={{color:'#3F3F3F',fontSize:12}}>Turn notifications off between selected time</Text>
               </View>
               <View style={{

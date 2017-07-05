@@ -9,6 +9,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 //components
 import SettingsButton from '../components/settingsButton';
 
+//config
+import Config from '../config';
+
 import {
   View,
   Text,
@@ -36,6 +39,9 @@ class Settings extends Component {
           <View style={{marginTop:12}}>
             <SettingsButton title={'Notifications'} icon={'ios-arrow-dropright'} route={'SettingsNotifications'} navigation={this.props.navigation} />
             <SettingsButton title={'Profile'} icon={'ios-arrow-dropright'} route={'SettingsProfile'} navigation={this.props.navigation} />
+          </View>
+          <View style={{alignItems:'center',marginTop:12}}>
+            <Text style={{color:'#3F3F3F',fontSize:12}}>Version {Config.VERSION}</Text>
           </View>
         </ScrollView>
       </View>

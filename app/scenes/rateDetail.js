@@ -33,12 +33,13 @@ class RateDetail extends Component {
       title: 'Rate',
       headerBackTitle:null,
       headerTitleStyle:{fontWeight:'bold',fontSize:19},
-      headerLeft: Platform.OS == 'ios' ? <Icon name={'ios-close-circle-outline'} size={38} color={'#c0392b'} style={{marginLeft:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
-      headerRight: Platform.OS == 'ios' ? <Icon name={'ios-checkmark-circle-outline'} size={38} color={'#27ae60'} style={{marginRight:8}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
+      headerLeft: Platform.OS == 'ios' ? <Icon name={'ios-close-circle-outline'} size={38} color={'#c0392b'} style={{marginLeft:10}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
+      headerRight: Platform.OS == 'ios' ? <Icon name={'ios-checkmark-circle-outline'} size={38} color={'#27ae60'} style={{marginRight:10}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
       tabBarLabel:'Rate',
       tabBarIcon: ({ focused, tintColor }) => (
         <Icon name={focused ? 'ios-disc' : 'ios-disc-outline'} size={32} color={tintColor} />
       ),
+      headerStyle:{backgroundColor:'#ffffff'},
     });
 
 

@@ -27,15 +27,16 @@ class MedsAdd extends Component {
 
   static navigationOptions = ({ navigation }) => ({
       title: 'Add Meds',
-      headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'ios-close-circle-outline'} size={38} color={'#c0392b'} style={{marginLeft:8}}/></TouchableOpacity>,
-      headerRight: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'ios-checkmark-circle-outline'} size={38} color={'#27ae60'} style={{marginRight:8}}/></TouchableOpacity>,
+      headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'ios-close-circle-outline'} size={38} color={'#c0392b'} style={{marginLeft:10}}/></TouchableOpacity>,
+      headerRight: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'ios-checkmark-circle-outline'} size={38} color={'#27ae60'} style={{marginRight:10}}/></TouchableOpacity>,
       headerBackTitle:null,
       tabBarLabel:'Meds',
       gesturesEnabled: false,
-      headerTitleStyle:{fontWeight:'bold',fontSize:19},
+      headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#000000'},
       tabBarIcon: ({ focused, tintColor }) => (
         <Icon name={focused ? 'ios-medkit' : 'ios-medkit-outline'} size={32} color={tintColor} />
       ),
+      headerStyle:{backgroundColor:'#ffffff'},
     });
 
     constructor(props) {

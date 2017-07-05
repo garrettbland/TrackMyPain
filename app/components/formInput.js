@@ -20,7 +20,7 @@ class FormInput extends Component {
         <View style={{borderColor: '#bdc3c7', borderBottomWidth: 1,marginTop:5,paddingBottom:3}}>
           <TextInput
             placeholder={this.props.placeholder}
-            style={{height: 43, fontSize:30}}
+            style={{height: 43, fontSize:30, color:'#3F3F3F'}}
             onChangeText={this.props.onChangeText}
             value={this.props.value}
             autoFocus={this.props.autoFocus}

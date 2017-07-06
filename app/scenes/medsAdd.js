@@ -27,8 +27,8 @@ class MedsAdd extends Component {
 
   static navigationOptions = ({ navigation }) => ({
       title: 'Add Meds',
-      headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'ios-close-circle-outline'} size={38} color={'#c0392b'} style={{marginLeft:10}}/></TouchableOpacity>,
-      headerRight: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'ios-checkmark-circle-outline'} size={38} color={'#27ae60'} style={{marginRight:10}}/></TouchableOpacity>,
+      headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-close'} size={32} color={'#c0392b'} style={{marginLeft:10}}/></TouchableOpacity>,
+      headerRight: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-checkmark'} size={32} color={'#27ae60'} style={{marginRight:10}}/></TouchableOpacity>,
       headerBackTitle:null,
       tabBarLabel:'Meds',
       gesturesEnabled: false,

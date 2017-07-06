@@ -37,8 +37,8 @@ class Settings extends Component {
       <View style={{flex:1}}>
         <ScrollView>
           <View style={{marginTop:12}}>
-            <SettingsButton title={'Notifications'} icon={'ios-arrow-dropright'} route={'SettingsNotifications'} navigation={this.props.navigation} />
-            <SettingsButton title={'Profile'} icon={'ios-arrow-dropright'} route={'SettingsProfile'} navigation={this.props.navigation} />
+            <SettingsButton title={'Notifications'} icon={'ios-arrow-forward'} route={'SettingsNotifications'} navigation={this.props.navigation} />
+            <SettingsButton title={'Profile'} icon={'ios-arrow-forward'} route={'SettingsProfile'} navigation={this.props.navigation} />
           </View>
           <View style={{alignItems:'center',marginTop:12}}>
             <Text style={{color:'#3F3F3F',fontSize:12}}>Version {Config.VERSION}</Text>

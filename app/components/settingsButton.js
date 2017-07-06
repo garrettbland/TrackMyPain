@@ -45,7 +45,7 @@ class SettingsButton extends Component {
             <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{this.props.title}</Text>
           </View>
           <View>
-            <Icon name={this.props.icon} size={32} style={{marginTop:3}} color={'#7f8c8d'} />
+            <Icon name={this.props.icon} size={28} style={{marginTop:3}} color={'#7f8c8d'} />
           </View>
         </View>
       </TouchableOpacity>

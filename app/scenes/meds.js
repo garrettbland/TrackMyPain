@@ -10,6 +10,7 @@ import { NavigationActions } from 'react-navigation';
 
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
+import { SearchBar } from 'react-native-elements'
 
 import {
   View,
@@ -54,6 +55,7 @@ class Meds extends Component {
       seed: 1,
       error: null,
       refreshing: false,
+      searchText:'',
     }
   }
 
@@ -63,7 +65,7 @@ class Meds extends Component {
 
   makeRemoteRequest = () => {
     const { page, seed} = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=8`;
     this.setState({ loading: true });
     fetch(url)
       .then(res => res.json())
@@ -94,12 +96,13 @@ class Meds extends Component {
           backgroundColor:'#ffffff',
         }}
       >
-        <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>
+        <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
           <View>
             <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{item.name.first}</Text>
+            <Text style={{color:'#3F3F3F',fontSize:12,}}>10mg</Text>
           </View>
           <View>
-            <Text style={{color:'#3F3F3F',fontSize:12,}}>10mg</Text>
+            <Icon name={'ios-more'} size={28} style={{marginTop:3,paddingRight:2}} color={'#7f8c8d'} />
           </View>
         </View>
       </View>
@@ -118,16 +121,25 @@ class Meds extends Component {
 
   _renderEmptyList = () => {
     return (
-      <View style={{alignItems:'center',justifyContent:'center'}}>
-        <Text>Your medications will be shown here when added</Text>
+      <View style={{alignItems:'center',justifyContent:'center',marginTop:40}}>
+        <Text style={{color:'#3F3F3F',fontSize:12,}}>No medications added yet</Text>
       </View>
     )
   }
 
   _renderHeader = () => {
     return (
-      <View style={{paddingTop:12,borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,borderColor:'#bdc3c7',}}>
-      </View>
+
+        <SearchBar
+          onChangeText={()=>{}}
+          clearIcon={{name: 'clear'}}
+          textInputRef={this.state.searchText}
+          placeholder='Search...'
+          inputStyle={{color:'#ffffff'}}
+          returnKeyType={'search'}
+          containerStyle={{borderTopWidth:0,borderBottomWidth:0}}
+        />
+
     )
   }
 
@@ -144,7 +156,7 @@ class Meds extends Component {
   render(){
     return(
       <View style={{flex:1}}>
-        <View>
+        <View style={{flex:1}}>
           <FlatList
             data={this.state.data}
             renderItem={({item})=>this._renderItem(item)}

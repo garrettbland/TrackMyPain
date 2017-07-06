@@ -122,7 +122,7 @@ class SettingsNotifications extends Component {
               marginBottom:15,
               backgroundColor:'#ffffff',
             }}>
-              <Animated.View style={{ transform: [{translateX: this.state.offsetX}], width:'100%',}}>
+              <View style={{width:'100%',}}>
                   {this.state.noticationsEnabled &&
                     <Animatable.View animation="fadeIn" style={{width:'100%'}}>
                       <Picker selectedValue = {this.state.timeInterval} onValueChange = {this.updateTimeInterval} style={{width:'100%'}}>
@@ -136,11 +136,13 @@ class SettingsNotifications extends Component {
                     </Animatable.View>
                   }
                   {!this.state.noticationsEnabled &&
-                    <Animatable.View animation="fadeIn" style={{width:'100%',height:140,alignItems:'center',justifyContent:'center'}}>
-                      <Text style={{color:'#7f8c8d',fontSize:13}}>Disabled</Text>
+                    <Animatable.View animation="fadeIn" style={{width:'100%',}}>
+                      <Picker selectedValue = {'null'}  style={{width:'100%'}} itemStyle={{color:'#7f8c8d'}}>
+                        <Picker.Item label="Disabled" value = "null" />
+                      </Picker>
                     </Animatable.View>
                   }
-                </Animated.View>
+                </View>
               </View>
               <View style={{paddingLeft:10,paddingBottom:3}}>
                 <Text style={{color:'#3F3F3F',fontSize:15,fontWeight:'bold'}}>Snooze Mode</Text>
@@ -167,8 +169,10 @@ class SettingsNotifications extends Component {
                       </Animatable.View>
                     }
                     {!this.state.noticationsEnabled &&
-                      <Animatable.View animation="fadeIn" style={{width:'100%',height:140,alignItems:'center',justifyContent:'center'}}>
-                        <Text style={{color:'#7f8c8d',fontSize:13}}>Disabled</Text>
+                      <Animatable.View animation="fadeIn" style={{width:'100%',}}>
+                        <Picker selectedValue = {'null'}  style={{width:'100%'}} itemStyle={{color:'#7f8c8d'}}>
+                          <Picker.Item label="Disabled" value = "null" />
+                        </Picker>
                       </Animatable.View>
                     }
                   </Animated.View>

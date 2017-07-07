@@ -11,6 +11,7 @@ import { NavigationActions } from 'react-navigation';
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
 import { SearchBar } from 'react-native-elements'
+import ActionSheet from '@yfuks/react-native-action-sheet';
 
 import {
   View,
@@ -23,7 +24,7 @@ import {
   RefreshControl,
 } from 'react-native';
 
-const navigateAction = NavigationActions.navigate({
+const newMedRoute = NavigationActions.navigate({
 
   routeName: 'MedsAdd',
 
@@ -35,13 +36,12 @@ const navigateAction = NavigationActions.navigate({
 class Meds extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-      title: 'Meds',
       headerBackTitle:null,
       headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
       headerStyle:{backgroundColor:'#3498db',borderBottomWidth:0},
-      headerRight: <TouchableOpacity onPress={()=>navigation.dispatch(navigateAction)}><Icon name={'md-add'} size={32} color={'#ffffff'} style={{marginRight:10}}/></TouchableOpacity>,
+      headerRight: <TouchableOpacity onPress={()=>navigation.dispatch(newMedRoute)}><Icon name={'md-add'} size={32} color={'#ffffff'} style={{marginRight:10}}/></TouchableOpacity>,
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-medkit' : 'ios-medkit-outline'} size={32} color={tintColor} />
+        <Icon name={focused ? 'ios-medkit' : 'ios-medkit-outline'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       tabBarLabel:'Meds',
     });
@@ -61,6 +61,20 @@ class Meds extends Component {
 
   componentDidMount(){
     this.makeRemoteRequest();
+  }
+
+
+  editMeds(medicationName,medicationAmount){
+    this.props.editMeds(medicationName,medicationAmount);
+    const editMedRoute = NavigationActions.navigate({
+
+      routeName: 'MedsAdd',
+
+      params: {},
+
+      action: NavigationActions.navigate({ routeName: 'MedsAdd'})
+    });
+    this.props.navigation.dispatch(editMedRoute);
   }
 
   makeRemoteRequest = () => {
@@ -86,6 +100,38 @@ class Meds extends Component {
     this.setState({refreshing: true});
   }
 
+  showOptions(medicationName, medicationAmount){
+    var BUTTONSiOS = [
+      'Edit',
+      'Delete',
+      'Cancel'
+    ];
+
+    var BUTTONSandroid = [
+      'Edit',
+      'Delete',
+    ];
+
+    var DESTRUCTIVE_INDEX = 1;
+    var CANCEL_INDEX = 2;
+    var MEDICATION_NAME = medicationName;
+    var MEDICATION_AMOUNT = medicationAmount
+
+    ActionSheet.showActionSheetWithOptions({
+      options: Platform.OS == 'ios' ? BUTTONSiOS : BUTTONSandroid,
+      cancelButtonIndex: CANCEL_INDEX,
+      destructiveButtonIndex: DESTRUCTIVE_INDEX,
+      tintColor: '#3498db',
+      title: MEDICATION_NAME
+    },
+    (buttonIndex) => {
+      if(buttonIndex == 0){
+        this.editMeds(MEDICATION_NAME,MEDICATION_AMOUNT);
+      }
+      console.log('button clicked :', buttonIndex);
+    });
+  }
+
   _renderItem(item){
     return (
       <View
@@ -102,7 +148,7 @@ class Meds extends Component {
             <Text style={{color:'#3F3F3F',fontSize:12,}}>10mg</Text>
           </View>
           <View>
-            <Icon name={'ios-more'} size={28} style={{marginTop:3,paddingRight:2}} color={'#7f8c8d'} />
+            <TouchableOpacity onPress={()=>this.showOptions(item.name.first,'10mg')}><Icon name={'ios-more'} size={28} style={{marginTop:3,paddingRight:2}} color={'#7f8c8d'} /></TouchableOpacity>
           </View>
         </View>
       </View>
@@ -131,11 +177,12 @@ class Meds extends Component {
     return (
 
         <SearchBar
+          lightTheme
           onChangeText={()=>{}}
           clearIcon={{name: 'clear'}}
           textInputRef={this.state.searchText}
           placeholder='Search...'
-          inputStyle={{color:'#ffffff'}}
+          inputStyle={{color:'#3F3F3F'}}
           returnKeyType={'search'}
           containerStyle={{borderTopWidth:0,borderBottomWidth:0}}
         />

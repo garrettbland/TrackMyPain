@@ -32,7 +32,7 @@ class Rate extends Component {
       headerBackTitle:null,
       tabBarLabel:'Rate',
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-disc' : 'ios-disc-outline'} size={32} color={tintColor} />
+        <Icon name={focused ? 'ios-disc' : 'ios-disc-outline'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       header:false
     });

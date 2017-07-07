@@ -6,6 +6,7 @@ export const SET_LISTITEM = 'SET_LISTITEM';
 
 export const YES_MEDS = 'YES_MEDS';
 export const NO_MEDS = 'NO_MEDS';
+export const EDIT_MEDS = 'EDIT_MEDS';
 
 export function addMeds(test){
   if(test){
@@ -16,6 +17,14 @@ export function addMeds(test){
     return {
       type:NO_MEDS
     }
+  }
+}
+
+export function editMeds(medName,medAmount){
+  return {
+    MedNamePayload:medName,
+    MedAmountPayload:medAmount,
+    type:EDIT_MEDS
   }
 }
 

@@ -25,7 +25,7 @@ class Settings extends Component {
       title: 'Settings',
       headerBackTitle:null,
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-options' : 'ios-options-outline'} size={32} color={tintColor} />
+        <Icon name={focused ? 'ios-options' : 'ios-options-outline'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       tabBarLabel:'Settings',
       headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},

@@ -32,7 +32,7 @@ class SettingsProfile extends Component {
       title: 'Profile',
       headerBackTitle:null,
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-options' : 'ios-options-outline'} size={32} color={tintColor} />
+        <Icon name={focused ? 'ios-options' : 'ios-options-outline'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-arrow-back'} size={32} color={'#ffffff'} style={{marginLeft:10}}/></TouchableOpacity>,
       tabBarLabel:'Settings',

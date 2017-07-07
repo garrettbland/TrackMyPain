@@ -85,7 +85,15 @@ const AppMedsStack = StackNavigator({
   MedsAdd: {
     screen: MedsAdd,
     navigationOptions:{
-      title:'Add Medications'
+      title:'Medication',
+      headerBackTitle:null,
+      tabBarLabel:'Meds',
+      gesturesEnabled: false,
+      headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#000000'},
+      tabBarIcon: ({ focused, tintColor }) => (
+        <Icon name={focused ? 'medkit' : 'medkit'} size={32} color={focused ? '#3498db' : tintColor} />
+      ),
+      headerStyle:{backgroundColor:'#ffffff'},
     }
   }
 },{

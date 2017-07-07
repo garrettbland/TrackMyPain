@@ -28,7 +28,7 @@ class RateMeds extends Component {
         headerRight: Platform.OS == 'ios' ? <Icon name={'md-checkmark'} size={32} color={'#27ae60'} style={{marginRight:10}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
         tabBarLabel:'Rate',
         tabBarIcon: ({ focused, tintColor }) => (
-          <Icon name={focused ? 'ios-disc' : 'ios-disc-outline'} size={32} color={tintColor} />
+          <Icon name={focused ? 'ios-disc' : 'ios-disc-outline'} size={32} color={focused ? '#3498db' : tintColor} />
         ),
         headerBackTitle:null,
         headerTitleStyle:{fontWeight:'bold',fontSize:19},

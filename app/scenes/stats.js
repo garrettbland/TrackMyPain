@@ -19,7 +19,7 @@ class Stats extends Component {
       title: 'Stats',
       headerBackTitle:null,
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-stats' : 'ios-stats-outline'} size={32} color={tintColor} />
+        <Icon name={focused ? 'ios-stats' : 'ios-stats-outline'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       tabBarLabel:'Stats',
       headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},

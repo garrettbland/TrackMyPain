@@ -23,26 +23,18 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+
 class MedsAdd extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-      title: 'Add Meds',
       headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-close'} size={32} color={'#c0392b'} style={{marginLeft:10}}/></TouchableOpacity>,
       headerRight: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-checkmark'} size={32} color={'#27ae60'} style={{marginRight:10}}/></TouchableOpacity>,
-      headerBackTitle:null,
-      tabBarLabel:'Meds',
-      gesturesEnabled: false,
-      headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#000000'},
-      tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-medkit' : 'ios-medkit-outline'} size={32} color={tintColor} />
-      ),
-      headerStyle:{backgroundColor:'#ffffff'},
     });
 
     constructor(props) {
       super(props);
       this.state = {
-        text:'',
+        name:'',
         amount:'',
       }
       this.goBack = this.goBack.bind(this)
@@ -50,7 +42,14 @@ class MedsAdd extends Component {
 
     componentDidMount() {
       this.props.navigation.setParams({ goBack: this.goBack });
+      if(this.props.user.medicationName !== null){
+        this.setState({
+          name:this.props.user.medicationName,
+          amount:this.props.user.medicationAmount
+        })
+      }
     }
+
 
     goBack () {
       Keyboard.dismiss();
@@ -58,14 +57,15 @@ class MedsAdd extends Component {
 
       })
       this.props.navigation.dispatch(backAction)
-
+      //unset redux meds props
+      this.props.editMeds();
     }
 
   render(){
     return(
       <View style={{flex:1}}>
         <View style={{padding:12}}>
-          <FormInput label={'Medication Name'} placeholder={''} onChangeText={(text) => this.setState({text:text})} autoFocus={true} value={this.state.text}/>
+          <FormInput label={'Medication Name'} placeholder={''} onChangeText={(text) => this.setState({name:text})} autoFocus={true} value={this.state.name}/>
           <FormInput label={'Amount'} placeholder={''} onChangeText={(text) => this.setState({amount:text})} autoFocus={false} value={this.state.amount}/>
         </View>
       </View>

@@ -21,24 +21,16 @@ import {
 
 class Settings extends Component {
 
-  static navigationOptions = ({ navigation }) => ({
-      title: 'Settings',
-      headerBackTitle:null,
-      tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-options' : 'ios-options-outline'} size={32} color={focused ? '#3498db' : tintColor} />
-      ),
-      tabBarLabel:'Settings',
-      headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
-      headerStyle:{backgroundColor:'#3498db',borderBottomWidth:0},
-    });
+
 
   render(){
     return(
       <View style={{flex:1}}>
         <ScrollView>
           <View style={{marginTop:12}}>
-            <SettingsButton title={'Notifications'} icon={'ios-arrow-forward'} route={'SettingsNotifications'} navigation={this.props.navigation} />
-            <SettingsButton title={'Profile'} icon={'ios-arrow-forward'} route={'SettingsProfile'} navigation={this.props.navigation} />
+            <SettingsButton title={'Notifications'} icon={'ios-arrow-forward'} iconLeft={'ios-megaphone-outline'} route={'SettingsNotifications'} navigation={this.props.navigation} />
+            <SettingsButton title={'Profile'} icon={'ios-arrow-forward'} iconLeft={'ios-contact'} route={'SettingsProfile'} navigation={this.props.navigation} />
+            <SettingsButton title={'Theme'} icon={'ios-arrow-forward'} iconLeft={'ios-color-palette-outline'} route={'SettingsProfile'} navigation={this.props.navigation} />
           </View>
           <View style={{alignItems:'center',marginTop:12}}>
             <Text style={{color:'#3F3F3F',fontSize:12}}>Version {Config.VERSION}</Text>

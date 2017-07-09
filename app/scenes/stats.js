@@ -15,17 +15,6 @@ import {
 
 class Stats extends Component {
 
-  static navigationOptions = ({ navigation }) => ({
-      title: 'Stats',
-      headerBackTitle:null,
-      tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-stats' : 'ios-stats-outline'} size={32} color={focused ? '#3498db' : tintColor} />
-      ),
-      tabBarLabel:'Stats',
-      headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
-      headerStyle:{backgroundColor:'#3498db',borderBottomWidth:0}
-    });
-
   constructor(props) {
     super(props);
     this.state = {

@@ -30,16 +30,8 @@ const screenWidth = Dimensions.get('window').width;
 class SettingsNotifications extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-      title: 'Notifications',
-      headerBackTitle:null,
-      tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-options' : 'ios-options-outline'} size={32} color={focused ? '#3498db' : tintColor} />
-      ),
       headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-arrow-back'} size={32} color={'#ffffff'} style={{marginLeft:10}}/></TouchableOpacity>,
-      tabBarLabel:'Settings',
-      headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
-      headerStyle:{backgroundColor:'#3498db',borderBottomWidth:0},
-    });
+  });
 
     constructor(props) {
       super(props);

@@ -30,16 +30,8 @@ const navigateAction = NavigationActions.navigate({
 class RateDetail extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-      title: 'Rate',
-      headerBackTitle:null,
-      headerTitleStyle:{fontWeight:'bold',fontSize:19},
       headerLeft: Platform.OS == 'ios' ? <Icon name={'md-close'} size={32} color={'#c0392b'} style={{marginLeft:10}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
       headerRight: Platform.OS == 'ios' ? <Icon name={'md-checkmark'} size={32} color={'#27ae60'} style={{marginRight:10}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
-      tabBarLabel:'Rate',
-      tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-disc' : 'ios-disc-outline'} size={32} color={focused ? '#3498db' : tintColor} />
-      ),
-      headerStyle:{backgroundColor:'#ffffff'},
     });
 
 

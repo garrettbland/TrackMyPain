@@ -41,8 +41,11 @@ class SettingsButton extends Component {
         }}
       >
         <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>
-          <View>
-            <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{this.props.title}</Text>
+          <View style={{flexDirection:'row'}}>
+            <Icon name={this.props.iconLeft} size={28} style={{marginTop:3,paddingRight:8}} color={'#7f8c8d'} />
+            <View style={{justifyContent:'center',}}>
+              <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15,}}>{this.props.title}</Text>
+            </View>
           </View>
           <View>
             <Icon name={this.props.icon} size={28} style={{marginTop:3}} color={'#7f8c8d'} />

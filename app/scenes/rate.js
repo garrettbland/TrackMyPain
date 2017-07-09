@@ -28,15 +28,6 @@ const navigateAction = NavigationActions.navigate({
 
 class Rate extends Component {
 
-  static navigationOptions = ({ navigation }) => ({
-      headerBackTitle:null,
-      tabBarLabel:'Rate',
-      tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-disc' : 'ios-disc-outline'} size={32} color={focused ? '#3498db' : tintColor} />
-      ),
-      header:false
-    });
-
   constructor(props) {
     super(props);
     this.state = {

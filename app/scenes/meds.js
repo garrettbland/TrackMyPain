@@ -36,14 +36,7 @@ const newMedRoute = NavigationActions.navigate({
 class Meds extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-      headerBackTitle:null,
-      headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
-      headerStyle:{backgroundColor:'#3498db',borderBottomWidth:0},
       headerRight: <TouchableOpacity onPress={()=>navigation.dispatch(newMedRoute)}><Icon name={'md-add'} size={32} color={'#ffffff'} style={{marginRight:10}}/></TouchableOpacity>,
-      tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-medkit' : 'ios-medkit-outline'} size={32} color={focused ? '#3498db' : tintColor} />
-      ),
-      tabBarLabel:'Meds',
     });
 
   constructor(props) {

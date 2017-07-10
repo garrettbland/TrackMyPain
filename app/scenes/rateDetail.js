@@ -15,7 +15,8 @@ import {
   View,
   Text,
   Platform,
-  Button,
+  TouchableOpacity,
+  Button
 } from 'react-native';
 
 const navigateAction = NavigationActions.navigate({
@@ -30,8 +31,8 @@ const navigateAction = NavigationActions.navigate({
 class RateDetail extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-      headerLeft: Platform.OS == 'ios' ? <Icon name={'md-close'} size={32} color={'#c0392b'} style={{marginLeft:10}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
-      headerRight: Platform.OS == 'ios' ? <Icon name={'md-checkmark'} size={32} color={'#27ae60'} style={{marginRight:10}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
+      headerLeft: Platform.OS == 'ios' ? <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}} style={{marginLeft:10,width:60}}><Icon name={'md-close'} size={32} color={'#c0392b'}/></TouchableOpacity> : null,
+      headerRight: Platform.OS == 'ios' ? <TouchableOpacity style={{marginRight:10,}} onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-checkmark'} size={32} color={'#27ae60'}/></TouchableOpacity> : null,
     });
 
 

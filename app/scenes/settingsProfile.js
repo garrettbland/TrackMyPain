@@ -29,7 +29,7 @@ const screenWidth = Dimensions.get('window').width;
 class SettingsProfile extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-      headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-arrow-back'} size={32} color={'#ffffff'} style={{marginLeft:10}}/></TouchableOpacity>,
+      headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-arrow-back'} size={32} color={'#ffffff'} style={{marginLeft:10,width:60}}/></TouchableOpacity>,
   });
 
     constructor(props) {

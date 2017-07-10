@@ -15,15 +15,16 @@ import {
   View,
   Text,
   Platform,
-  Button
+  Button,
+  TouchableOpacity,
 } from 'react-native';
 
 class RateMeds extends Component {
 
 
   static navigationOptions = ({ navigation }) => ({
-        headerLeft: Platform.OS == 'ios' ? <Icon name={'md-close'} size={32} color={'#c0392b'} style={{marginLeft:10}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
-        headerRight: Platform.OS == 'ios' ? <Icon name={'md-checkmark'} size={32} color={'#27ae60'} style={{marginRight:10}} onPress={()=>{navigation.state.params.goBack()}}/> : null,
+        headerLeft: Platform.OS == 'ios' ? <TouchableOpacity style={{marginLeft:10,width:60}} onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-close'} size={32} color={'#c0392b'}/></TouchableOpacity> : null,
+        headerRight: Platform.OS == 'ios' ? <TouchableOpacity style={{marginRight:10,}} onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-checkmark'} size={32} color={'#27ae60'}/></TouchableOpacity> : null,
     });
 
     constructor(props) {

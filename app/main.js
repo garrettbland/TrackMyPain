@@ -185,7 +185,8 @@ const AppTab = TabNavigator({
 
     },
     style:{
-
+      backgroundColor:'#F1F1F1',
+      borderTopWidth:0,
     }
   },
 });

@@ -27,8 +27,8 @@ import {
 class MedsAdd extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-      headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-close'} size={32} color={'#c0392b'} style={{marginLeft:10}}/></TouchableOpacity>,
-      headerRight: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-checkmark'} size={32} color={'#27ae60'} style={{marginRight:10}}/></TouchableOpacity>,
+      headerLeft: <TouchableOpacity style={{marginLeft:10,width:60}} onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-close'} size={32} color={'#c0392b'}/></TouchableOpacity>,
+      headerRight: <TouchableOpacity style={{marginRight:10}} onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-checkmark'} size={32} color={'#27ae60'} /></TouchableOpacity>,
     });
 
     constructor(props) {

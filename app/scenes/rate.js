@@ -36,21 +36,21 @@ class Rate extends Component {
     super(props);
     this.state = {
       pain:0,
-      pain1:'#bdc3c7',
-      pain2:'#bdc3c7',
-      pain3:'#bdc3c7',
-      pain4:'#bdc3c7',
-      pain5:'#bdc3c7',
-      pain6:'#bdc3c7',
-      pain7:'#bdc3c7',
-      pain8:'#bdc3c7',
-      pain9:'#bdc3c7',
-      pain10:'#bdc3c7',
+      pain1:'#ffffff',
+      pain2:'#ffffff',
+      pain3:'#ffffff',
+      pain4:'#ffffff',
+      pain5:'#ffffff',
+      pain6:'#ffffff',
+      pain7:'#ffffff',
+      pain8:'#ffffff',
+      pain9:'#ffffff',
+      pain10:'#ffffff',
     }
   }
 
   setPainLevel(pain,color){
-    var dColor = '#bdc3c7';
+    var dColor = '#ffffff';
 
     switch(pain){
       case 1:
@@ -96,31 +96,33 @@ class Rate extends Component {
 
   render(){
     return(
-      <View style={{flex:1,marginTop:15}}>
-        <View style={{height:'20%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-          <Number number={1} backgroundColor={this.state.pain1} color={'#3498db'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
-          <Number number={2} backgroundColor={this.state.pain2} color={'#00C853'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
-          <Number number={3} backgroundColor={this.state.pain3} color={'#64DD17'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
-        </View>
-        <View style={{height:'20%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-          <Number number={4} backgroundColor={this.state.pain4} color={'#AEEA00'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
-          <Number number={5} backgroundColor={this.state.pain5} color={'#FFD600'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
-          <Number number={6} backgroundColor={this.state.pain6} color={'#FFAB00'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
-        </View>
-        <View style={{height:'20%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-          <Number number={7} backgroundColor={this.state.pain7} color={'#FF6D00'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
-          <Number number={8} backgroundColor={this.state.pain8} color={'#E65100'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
-          <Number number={9} backgroundColor={this.state.pain9} color={'#DD2C00'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
-        </View>
-        <View style={{height:'20%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-          <View>
+      <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
+        <View style={{marginTop:15,}}>
+          <View style={{height:'20%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+            <Number number={1} backgroundColor={this.state.pain1} fontColor={this.state.pain1 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#3498db'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
+            <Number number={2} backgroundColor={this.state.pain2} fontColor={this.state.pain2 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#00C853'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
+            <Number number={3} backgroundColor={this.state.pain3} fontColor={this.state.pain3 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#64DD17'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
           </View>
-          <Number number={10} backgroundColor={this.state.pain10} color={'#b71c1c'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
-          <View>
+          <View style={{height:'20%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+            <Number number={4} backgroundColor={this.state.pain4} fontColor={this.state.pain4 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#AEEA00'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
+            <Number number={5} backgroundColor={this.state.pain5} fontColor={this.state.pain5 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#FFD600'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
+            <Number number={6} backgroundColor={this.state.pain6} fontColor={this.state.pain6 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#FFAB00'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
           </View>
-        </View>
-        <View style={{height:'15%',justifyContent:'center',}}>
-          <Button title={'Rate'} backgroundColor={'#2ecc71'} titleColor={'#ffffff'} onPress={() => this.props.navigation.dispatch(navigateAction)}/>
+          <View style={{height:'20%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+            <Number number={7} backgroundColor={this.state.pain7} fontColor={this.state.pain7 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#FF6D00'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
+            <Number number={8} backgroundColor={this.state.pain8} fontColor={this.state.pain8 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#E65100'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
+            <Number number={9} backgroundColor={this.state.pain9} fontColor={this.state.pain9 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#DD2C00'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
+          </View>
+          <View style={{height:'20%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+            <View>
+            </View>
+            <Number number={10} backgroundColor={this.state.pain10} fontColor={this.state.pain10 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#b71c1c'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
+            <View>
+            </View>
+          </View>
+          <View style={{height:'20%',justifyContent:'center'}}>
+            <Button title={'Rate'} backgroundColor={'#2ecc71'} titleColor={'#ffffff'} onPress={() => this.props.navigation.dispatch(navigateAction)}/>
+          </View>
         </View>
       </View>
     )

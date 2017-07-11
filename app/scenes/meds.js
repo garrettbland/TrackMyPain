@@ -21,19 +21,14 @@ import {
   View,
   Text,
   Platform,
-  Button,
   TouchableOpacity,
   StyleSheet,
   FlatList,
-  RefreshControl,
 } from 'react-native';
 
 const newMedRoute = NavigationActions.navigate({
-
   routeName: 'MedsAdd',
-
   params: {},
-
   action: NavigationActions.navigate({ routeName: 'MedsAdd'})
 })
 
@@ -46,9 +41,7 @@ class Meds extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading:true,
       data: [],
-      error: null,
       refreshing: false,
       searchText:'',
       dataSource: []
@@ -58,7 +51,6 @@ class Meds extends Component {
 
   componentDidMount(){
     var data = this.makeRemoteRequest();
-    console.log(data);
   }
 
   makeRemoteRequest() {
@@ -83,11 +75,8 @@ class Meds extends Component {
   editMeds(medicationName,medicationAmount){
     this.props.editMeds(medicationName,medicationAmount);
     const editMedRoute = NavigationActions.navigate({
-
       routeName: 'MedsAdd',
-
       params: {},
-
       action: NavigationActions.navigate({ routeName: 'MedsAdd'})
     });
     this.props.navigation.dispatch(editMedRoute);
@@ -159,14 +148,7 @@ class Meds extends Component {
 
   _renderItem(item){
     return (
-      <View
-        style={{
-          width:'100%',
-          paddingLeft:10,
-          paddingRight:10,
-          backgroundColor:'#ffffff',
-        }}
-      >
+      <View style={{width:'100%',paddingLeft:10,paddingRight:10,backgroundColor:'#ffffff',}}>
         <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
           <View>
             <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{item.name}</Text>
@@ -193,14 +175,13 @@ class Meds extends Component {
   _renderEmptyList = () => {
     return (
       <View style={{alignItems:'center',justifyContent:'center',marginTop:40}}>
-        <Text style={{color:'#3F3F3F',fontSize:12,}}>No medications added yet</Text>
+        <Text style={{color:'#3F3F3F',fontSize:12,fontWeight:'bold'}}>Nothing to see here</Text>
       </View>
     )
   }
 
   _renderHeader = () => {
     return (
-
         <SearchBar
           lightTheme
           onChangeText={()=>{}}
@@ -212,7 +193,6 @@ class Meds extends Component {
           containerStyle={{borderTopWidth:0,borderBottomWidth:0}}
           onChange={this.setSearchText.bind(this)}
         />
-
     )
   }
 

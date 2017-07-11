@@ -11,16 +11,20 @@ import { StackNavigator, TabNavigator, addNavigationHelpers } from 'react-naviga
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
 
-//Tab Scenes
+//Rate scenes
 import Rate from './scenes/rate';
-import Stats from './scenes/stats';
-import Meds from './scenes/meds';
-import Settings from './scenes/settings';
-
-//Stack scenes
 import RateDetail from './scenes/rateDetail';
 import RateMeds from './scenes/rateMeds';
+
+//Stats scenes
+import Stats from './scenes/stats';
+
+//Meds scenes
+import Meds from './scenes/meds';
 import MedsAdd from './scenes/medsAdd';
+
+//Settings scenes
+import Settings from './scenes/settings';
 import SettingsNotifications from './scenes/settingsNotifications';
 import SettingsProfile from './scenes/settingsProfile';
 

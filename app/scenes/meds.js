@@ -12,6 +12,10 @@ import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { SearchBar } from 'react-native-elements'
 import ActionSheet from '@yfuks/react-native-action-sheet';
+import filter from 'lodash/filter';
+
+//components
+import firebaseApp from '../components/firebaseApp';
 
 import {
   View,
@@ -42,18 +46,37 @@ class Meds extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading:false,
+      loading:true,
       data: [],
-      page: 1,
-      seed: 1,
       error: null,
       refreshing: false,
       searchText:'',
+      dataSource: []
     }
+    this.medsRef = firebaseApp.database().ref().child('users/123456789/meds/');
   }
 
   componentDidMount(){
-    this.makeRemoteRequest();
+    var data = this.makeRemoteRequest();
+    console.log(data);
+  }
+
+  makeRemoteRequest() {
+    this.medsRef.on('value', (snap) => {
+      var items = [];
+      snap.forEach((child) => {
+        items.push({
+          name: child.val().name,
+          amount: child.val().amount,
+          _key:child.key,
+        });
+      });
+      this.setState({
+        dataSource: items,
+        dataSourceClone: items,
+        refreshing:false,
+      });
+    });
   }
 
 
@@ -68,25 +91,6 @@ class Meds extends Component {
       action: NavigationActions.navigate({ routeName: 'MedsAdd'})
     });
     this.props.navigation.dispatch(editMedRoute);
-  }
-
-  makeRemoteRequest = () => {
-    const { page, seed} = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=8`;
-    this.setState({ loading: true });
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          data: page === 1 ? res.results : [...this.state.data, ...res.results],
-          error: res.error || null,
-          loading: false,
-          refreshing: false
-        });
-      })
-      .catch(error => {
-        this.setState({ error, loading: false, refreshing:false });
-      });
   }
 
   _onRefresh() {
@@ -125,6 +129,34 @@ class Meds extends Component {
     });
   }
 
+  setSearchText(event) {
+     let searchText = event.nativeEvent.text;
+     let data = this.state.dataSource;
+     let dataClone = this.state.dataSourceClone;
+
+     if(searchText !== null){
+       let filteredData = this.filterMeds(searchText, dataClone);
+       this.setState({
+         dataSource: filteredData,
+       });
+     }else{
+       this.setState({
+         dataSource:data
+       });
+     }
+
+  }
+
+  filterMeds(searchText, data){
+    let text = searchText.toLowerCase();
+    console.log(text);
+    return filter(data, (s) => {
+      let med = s.name.toLowerCase();
+      return med.search(text) !== -1;
+    })
+
+  }
+
   _renderItem(item){
     return (
       <View
@@ -137,11 +169,11 @@ class Meds extends Component {
       >
         <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
           <View>
-            <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{item.name.first}</Text>
-            <Text style={{color:'#3F3F3F',fontSize:12,}}>10mg</Text>
+            <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{item.name}</Text>
+            <Text style={{color:'#3F3F3F',fontSize:12,}}>{item.amount}</Text>
           </View>
           <View>
-            <TouchableOpacity onPress={()=>this.showOptions(item.name.first,'10mg')}><Icon name={'ios-more'} size={28} style={{marginTop:3,paddingRight:2}} color={'#7f8c8d'} /></TouchableOpacity>
+            <TouchableOpacity onPress={()=>this.showOptions(item.name,item.amount)}><Icon name={'ios-more'} size={28} style={{marginTop:3,paddingRight:2}} color={'#7f8c8d'} /></TouchableOpacity>
           </View>
         </View>
       </View>
@@ -178,6 +210,7 @@ class Meds extends Component {
           inputStyle={{color:'#3F3F3F'}}
           returnKeyType={'search'}
           containerStyle={{borderTopWidth:0,borderBottomWidth:0}}
+          onChange={this.setSearchText.bind(this)}
         />
 
     )
@@ -185,9 +218,7 @@ class Meds extends Component {
 
   _handleRefresh = () => {
     this.setState({
-      page:1,
       refreshing: true,
-      seed:this.state.seed + 1
     }, () => {
       this.makeRemoteRequest();
     })
@@ -198,12 +229,12 @@ class Meds extends Component {
       <View style={{flex:1}}>
         <View style={{flex:1}}>
           <FlatList
-            data={this.state.data}
+            data={this.state.dataSource}
             renderItem={({item})=>this._renderItem(item)}
             ItemSeparatorComponent={this._renderSeperator}
             ListEmptyComponent={this._renderEmptyList}
             ListHeaderComponent={this._renderHeader}
-            keyExtractor={item => item.email}
+            keyExtractor={item => item._key}
             refreshing={this.state.refreshing}
             onRefresh={this._handleRefresh}
           />
@@ -224,9 +255,3 @@ function mapDispatchToProps(dispatch){
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Meds);
-// refreshControl={
-//   <RefreshControl
-//     refreshing={this.state.refreshing}
-//     onRefresh={this._onRefresh.bind(this)}
-//   />
-// }

@@ -20,23 +20,7 @@ export default function loginReducer(state,action){
       console.log("test -> false");
 
     case EDIT_MEDS:
-      return Object.assign({}, state, {user:{medicationName:action.MedNamePayload,medicationAmount:action.MedAmountPayload}})
-
-    case LOGIN_SUCCESS:
-      return Object.assign({}, state, {user:{loggedIn:true}});
-      console.log("Case LOGIN_SUCCESS fired");
-
-    case LOGIN_ERROR:
-      return Object.assign({}, state, {user:{loginError:true}});
-      console.log("Case LOGIN_ERROR fired");
-
-    case LOGOUT_SUCCESS:
-      return Object.assign({}, state, {user:{loggedIn:false}});
-      console.log("Case LOGOUT_SUCCESS fired");
-
-    case SET_LISTITEM:
-      return Object.assign({}, state, {user:{selectedRow:action.payload}});
-      console.log("Case SET_LISTITEM fired");
+      return Object.assign({}, state, {user:{medicationName:action.MedNamePayload,medicationAmount:action.MedAmountPayload,medID:action.MedIDPayload}})
 
     default:
       console.log("Case default fired");

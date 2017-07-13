@@ -20,10 +20,11 @@ export function addMeds(test){
   }
 }
 
-export function editMeds(medName,medAmount){
+export function editMeds(medName,medAmount,medID){
   return {
     MedNamePayload:medName,
     MedAmountPayload:medAmount,
+    MedIDPayload:medID,
     type:EDIT_MEDS
   }
 }

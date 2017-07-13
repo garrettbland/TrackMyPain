@@ -17,7 +17,7 @@ class FormInput extends Component {
     return(
       <View style={{marginBottom:14}}>
         <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>{this.props.label}</Text>
-        <View style={{borderColor: '#bdc3c7', borderBottomWidth: 1,marginTop:5,paddingBottom:3}}>
+        <View style={{borderColor: this.props.underlineColor, borderBottomWidth: 1,marginTop:5,paddingBottom:3}}>
           <TextInput
             placeholder={this.props.placeholder}
             style={{height: 43, fontSize:30, color:'#3F3F3F'}}

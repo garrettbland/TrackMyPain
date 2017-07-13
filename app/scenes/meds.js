@@ -24,6 +24,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
+  Alert,
 } from 'react-native';
 
 const newMedRoute = NavigationActions.navigate({
@@ -71,9 +72,14 @@ class Meds extends Component {
     });
   }
 
+  deleteMed(medID){
+    this.medsRef = firebaseApp.database().ref('users/123456789/meds/').child(medID);
+    this.medsRef.remove();
+  }
 
-  editMeds(medicationName,medicationAmount){
-    this.props.editMeds(medicationName,medicationAmount);
+
+  editMeds(medicationName,medicationAmount,medicationID){
+    this.props.editMeds(medicationName,medicationAmount,medicationID);
     const editMedRoute = NavigationActions.navigate({
       routeName: 'MedsAdd',
       params: {},
@@ -82,11 +88,7 @@ class Meds extends Component {
     this.props.navigation.dispatch(editMedRoute);
   }
 
-  _onRefresh() {
-    this.setState({refreshing: true});
-  }
-
-  showOptions(medicationName, medicationAmount){
+  showOptions(medicationName, medicationAmount, medID){
     var BUTTONSiOS = [
       'Edit',
       'Delete',
@@ -101,7 +103,8 @@ class Meds extends Component {
     var DESTRUCTIVE_INDEX = 1;
     var CANCEL_INDEX = 2;
     var MEDICATION_NAME = medicationName;
-    var MEDICATION_AMOUNT = medicationAmount
+    var MEDICATION_AMOUNT = medicationAmount;
+    var MEDICATION_KEY = medID;
 
     ActionSheet.showActionSheetWithOptions({
       options: Platform.OS == 'ios' ? BUTTONSiOS : BUTTONSandroid,
@@ -112,7 +115,16 @@ class Meds extends Component {
     },
     (buttonIndex) => {
       if(buttonIndex == 0){
-        this.editMeds(MEDICATION_NAME,MEDICATION_AMOUNT);
+        this.editMeds(MEDICATION_NAME,MEDICATION_AMOUNT,MEDICATION_KEY);
+      }else if (buttonIndex == 1){
+        Alert.alert(
+          'Confirm',
+          'Are you sure you want to delete '+MEDICATION_NAME+'?',
+          [
+            {text: 'Confirm Delete', onPress: () => this.deleteMed(MEDICATION_KEY)},
+            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          ],
+        )
       }
       console.log('button clicked :', buttonIndex);
     });
@@ -155,7 +167,7 @@ class Meds extends Component {
             <Text style={{color:'#3F3F3F',fontSize:12,}}>{item.amount}</Text>
           </View>
           <View>
-            <TouchableOpacity onPress={()=>this.showOptions(item.name,item.amount)}><Icon name={'ios-more'} size={28} style={{marginTop:3,paddingRight:2}} color={'#7f8c8d'} /></TouchableOpacity>
+            <TouchableOpacity onPress={()=>this.showOptions(item.name,item.amount,item._key)}><Icon name={'ios-more'} size={28} style={{marginTop:3,paddingRight:2}} color={'#7f8c8d'} /></TouchableOpacity>
           </View>
         </View>
       </View>
@@ -175,7 +187,7 @@ class Meds extends Component {
   _renderEmptyList = () => {
     return (
       <View style={{alignItems:'center',justifyContent:'center',marginTop:40}}>
-        <Text style={{color:'#3F3F3F',fontSize:12,fontWeight:'bold'}}>Nothing to see here</Text>
+        <Text style={{color:'#3F3F3F',fontSize:12,fontWeight:'bold'}}>Loading...</Text>
       </View>
     )
   }

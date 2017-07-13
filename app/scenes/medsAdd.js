@@ -12,7 +12,9 @@ import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 //components
+import firebaseApp from '../components/firebaseApp';
 import FormInput from '../components/formInput';
+import CustomAlert from '../components/alert';
 
 import {
   View,
@@ -20,7 +22,8 @@ import {
   Platform,
   TextInput,
   Keyboard,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 
 
@@ -28,7 +31,7 @@ class MedsAdd extends Component {
 
   static navigationOptions = ({ navigation }) => ({
       headerLeft: <TouchableOpacity style={{marginLeft:10,width:60}} onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-close'} size={32} color={'#c0392b'}/></TouchableOpacity>,
-      headerRight: <TouchableOpacity style={{marginRight:10}} onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-checkmark'} size={32} color={'#27ae60'} /></TouchableOpacity>,
+      headerRight: <TouchableOpacity style={{marginRight:10}} onPress={()=>{navigation.state.params.addMed()}}><Icon name={'md-checkmark'} size={32} color={'#27ae60'} /></TouchableOpacity>,
     });
 
     constructor(props) {
@@ -36,14 +39,20 @@ class MedsAdd extends Component {
       this.state = {
         name:'',
         amount:'',
+        errorColorName:'#bdc3c7',
+        errorColorAmount:'#bdc3c7',
+        showError:false,
+        editMed:false,
       }
-      this.goBack = this.goBack.bind(this)
+      this.goBack = this.goBack.bind(this);
+      this.addMed = this.addMed.bind(this);
     }
 
     componentDidMount() {
-      this.props.navigation.setParams({ goBack: this.goBack });
+      this.props.navigation.setParams({ goBack: this.goBack, addMed: this.addMed });
       if(this.props.user.medicationName !== null){
         this.setState({
+          editMed:true,
           name:this.props.user.medicationName,
           amount:this.props.user.medicationAmount
         })
@@ -61,12 +70,50 @@ class MedsAdd extends Component {
       this.props.editMeds();
     }
 
+    editMed(){
+      if(!this.state.name || !this.state.amount){
+        this.setState({errorColorName:'#e74c3c',errorColorAmount:'#e74c3c',showError:true});
+      }else{
+        var medID = this.props.user.medID;
+        this.medsRef = firebaseApp.database().ref('users/123456789/meds/').child(medID);
+        var editMedData = {name:this.state.name,amount:this.state.amount}
+        this.medsRef.update(editMedData, function(error){
+          if(error){
+            Alert.alert('Error','Something technical went wrong. Please try again');
+          }
+        });
+        this.goBack();
+      }
+    }
+
+    addMed(){
+      if(this.props.user.medID){
+        this.editMed();
+      }else if(!this.state.name || !this.state.amount){
+        this.setState({errorColorName:'#e74c3c',errorColorAmount:'#e74c3c',showError:true});
+      }else if(this.state.name && this.state.amount){
+        var newMedID = Date.now();
+        this.medsRef = firebaseApp.database().ref('users/123456789/meds/').child(newMedID);
+        var newMedData = {name:this.state.name,amount:this.state.amount}
+        this.medsRef.set(newMedData, function(error){
+          if(error){
+            Alert.alert('Error','Something technical went wrong. Please try again');
+          }
+        });
+        this.goBack();
+
+      }
+    }
+
   render(){
     return(
       <View style={{flex:1}}>
         <View style={{padding:12}}>
-          <FormInput label={'Medication Name'} placeholder={''} onChangeText={(text) => this.setState({name:text})} autoFocus={true} value={this.state.name}/>
-          <FormInput label={'Amount'} placeholder={''} onChangeText={(text) => this.setState({amount:text})} autoFocus={false} value={this.state.amount}/>
+          {this.state.showError &&
+            <CustomAlert title={'Error'} message={'All fields must be completed'} backgroundColor={'#e74c3c'} animation={'bounceIn'}/>
+          }
+          <FormInput underlineColor={'#bdc3c7'} label={'Medication Name'} placeholder={''} onChangeText={(text) => this.setState({name:text})} autoFocus={true} value={this.state.name}/>
+          <FormInput underlineColor={'#bdc3c7'} label={'Amount'} placeholder={''} onChangeText={(text) => this.setState({amount:text})} autoFocus={false} value={this.state.amount}/>
         </View>
       </View>
     )

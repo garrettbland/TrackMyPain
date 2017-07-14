@@ -60,14 +60,19 @@ class MedsAdd extends Component {
     }
 
 
-    goBack () {
+    goBack(unset){
       Keyboard.dismiss();
       const backAction = NavigationActions.back({
 
       })
       this.props.navigation.dispatch(backAction)
-      //unset redux meds props
-      this.props.editMeds();
+      if(unset){
+        //edit or add meds don't mess with redux
+
+      }else{
+        //cancel button is pressed
+        this.props.editMeds();
+      }
     }
 
     editMed(){
@@ -82,7 +87,9 @@ class MedsAdd extends Component {
             Alert.alert('Error','Something technical went wrong. Please try again');
           }
         });
-        this.goBack();
+        this.props.showMessageMeds(true,'Success', 'Medication was successfully modified','#9b59b6');
+        console.log(this.props);
+        this.goBack({unset:true});
       }
     }
 
@@ -100,8 +107,8 @@ class MedsAdd extends Component {
             Alert.alert('Error','Something technical went wrong. Please try again');
           }
         });
-        this.goBack();
-
+        this.props.showMessageMeds(true,'Success', this.state.name + ' was added successfully','#2ecc71');
+        this.goBack({unset:true});
       }
     }
 

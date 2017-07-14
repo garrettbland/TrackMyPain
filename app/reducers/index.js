@@ -1,11 +1,8 @@
 import {
-  LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  LOGOUT_SUCCESS,
-  SET_LISTITEM,
   YES_MEDS,
   NO_MEDS,
   EDIT_MEDS,
+  SHOW_MESSAGE_MEDS,
 } from '../actions/index.js';
 
 
@@ -21,6 +18,9 @@ export default function loginReducer(state,action){
 
     case EDIT_MEDS:
       return Object.assign({}, state, {user:{medicationName:action.MedNamePayload,medicationAmount:action.MedAmountPayload,medID:action.MedIDPayload}})
+
+    case SHOW_MESSAGE_MEDS:
+      return Object.assign({}, state, {user:{showMessageMed:action.showMessageMed,alertTitle:action.alertTitle,alertText:action.alertText,alertColor:action.alertColor}})
 
     default:
       console.log("Case default fired");

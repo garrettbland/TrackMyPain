@@ -1,12 +1,7 @@
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_ERROR = 'LOGIN_ERROR';
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const REMEMBER_TRUE = 'REMEMBER_TRUE';
-export const SET_LISTITEM = 'SET_LISTITEM';
-
 export const YES_MEDS = 'YES_MEDS';
 export const NO_MEDS = 'NO_MEDS';
 export const EDIT_MEDS = 'EDIT_MEDS';
+export const SHOW_MESSAGE_MEDS = 'SHOW_MESSAGE_MEDS';
 
 export function addMeds(test){
   if(test){
@@ -21,6 +16,7 @@ export function addMeds(test){
 }
 
 export function editMeds(medName,medAmount,medID){
+  console.log('EDIT MEDS ACTION FIRED');
   return {
     MedNamePayload:medName,
     MedAmountPayload:medAmount,
@@ -29,27 +25,13 @@ export function editMeds(medName,medAmount,medID){
   }
 }
 
-export function login(userCredentials){
-  if (userCredentials.userName === 'testuser' && userCredentials.password === '123'){
-    return {
-      type:LOGIN_SUCCESS
-    }
-  } else {
-    return {
-      type:LOGIN_ERROR
-    }
-  }
-}
-
-export function logout(){
+export function showMessageMeds(showMessage,alertTitle,alertText,alertColor){
+  console.log('SHOW MESSAGE MEDS FIRED');
   return {
-    type:LOGOUT_SUCCESS
-  }
-}
-
-export function setListItem(rowData){
-  return {
-    payload:rowData,
-    type:SET_LISTITEM
+    showMessageMed:showMessage,
+    alertTitle:alertTitle,
+    alertText:alertText,
+    alertColor:alertColor,
+    type:SHOW_MESSAGE_MEDS,
   }
 }

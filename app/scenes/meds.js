@@ -16,6 +16,7 @@ import filter from 'lodash/filter';
 
 //components
 import firebaseApp from '../components/firebaseApp';
+import CustomAlert from '../components/alert';
 
 import {
   View,
@@ -25,6 +26,7 @@ import {
   StyleSheet,
   FlatList,
   Alert,
+  ScrollView,
 } from 'react-native';
 
 const newMedRoute = NavigationActions.navigate({
@@ -45,6 +47,7 @@ class Meds extends Component {
       data: [],
       refreshing: false,
       searchText:'',
+      showMessage:false,
       dataSource: []
     }
     this.medsRef = firebaseApp.database().ref().child('users/123456789/meds/');
@@ -73,8 +76,9 @@ class Meds extends Component {
   }
 
   deleteMed(medID){
-    this.medsRef = firebaseApp.database().ref('users/123456789/meds/').child(medID);
-    this.medsRef.remove();
+    this.medsRefDelete = firebaseApp.database().ref('users/123456789/meds/').child(medID);
+    this.medsRefDelete.remove();
+    this.props.showMessageMeds(true,'Success','Medication was successfully removed','#f39c12');
   }
 
 
@@ -194,6 +198,7 @@ class Meds extends Component {
 
   _renderHeader = () => {
     return (
+      <View>
         <SearchBar
           lightTheme
           onChangeText={()=>{}}
@@ -202,24 +207,22 @@ class Meds extends Component {
           placeholder='Search...'
           inputStyle={{color:'#3F3F3F'}}
           returnKeyType={'search'}
-          containerStyle={{borderTopWidth:0,borderBottomWidth:0}}
+          containerStyle={{borderTopWidth:0,borderBottomWidth:0,backgroundColor:'transparent'}}
           onChange={this.setSearchText.bind(this)}
         />
-    )
-  }
-
-  _handleRefresh = () => {
-    this.setState({
-      refreshing: true,
-    }, () => {
-      this.makeRemoteRequest();
-    })
+      </View>
+    );
   }
 
   render(){
     return(
       <View style={{flex:1}}>
-        <View style={{flex:1}}>
+        <ScrollView style={{flex:1}}>
+        {this.props.user.showMessageMed &&
+          <View style={{paddingLeft:12,paddingTop:12,paddingRight:12}}>
+            <CustomAlert title={this.props.user.alertTitle} message={this.props.user.alertText} backgroundColor={this.props.user.alertColor} animation={'bounceIn'}/>
+          </View>
+        }
           <FlatList
             data={this.state.dataSource}
             renderItem={({item})=>this._renderItem(item)}
@@ -227,10 +230,8 @@ class Meds extends Component {
             ListEmptyComponent={this._renderEmptyList}
             ListHeaderComponent={this._renderHeader}
             keyExtractor={item => item._key}
-            refreshing={this.state.refreshing}
-            onRefresh={this._handleRefresh}
           />
-        </View>
+        </ScrollView>
       </View>
     )
   }

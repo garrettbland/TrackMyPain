@@ -27,6 +27,7 @@ import {
   FlatList,
   Alert,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 
 const newMedRoute = NavigationActions.navigate({
@@ -45,10 +46,9 @@ class Meds extends Component {
     super(props);
     this.state = {
       data: [],
-      refreshing: false,
       searchText:'',
-      showMessage:false,
-      dataSource: []
+      dataSource: [],
+      isMedsEmpty:false,
     }
     this.medsRef = firebaseApp.database().ref().child('users/123456789/meds/');
   }
@@ -67,10 +67,14 @@ class Meds extends Component {
           _key:child.key,
         });
       });
+      console.log(items);
+      if (items.length == 0) {
+        this.setState({isMedsEmpty:true});
+        this.props.showMessageMeds(true,'Info','Currently no medications added. Tap the plus icon in the top right to add custom medications','#1abc9c');
+      }
       this.setState({
         dataSource: items,
         dataSourceClone: items,
-        refreshing:false,
       });
     });
   }
@@ -190,8 +194,14 @@ class Meds extends Component {
 
   _renderEmptyList = () => {
     return (
-      <View style={{alignItems:'center',justifyContent:'center',marginTop:40}}>
-        <Text style={{color:'#3F3F3F',fontSize:12,fontWeight:'bold'}}>Loading...</Text>
+      <View style={{alignItems:'center',justifyContent:'center',marginTop:40,paddingLeft:20,paddingRight:20}}>
+        {!this.state.isMedsEmpty &&
+          <ActivityIndicator
+            animating={this.state.animating}
+            size="small"
+            color='#3F3F3F'
+          />
+        }
       </View>
     )
   }

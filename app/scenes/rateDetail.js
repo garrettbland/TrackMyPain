@@ -60,7 +60,7 @@ class RateDetail extends Component {
     return(
       <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
         <Text>Rate Detail</Text>
-        <Text>Pain Level:</Text>
+        <Text>Pain Level:{this.props.user.pain}</Text>
         <Button title='Add Meds' onPress={()=>this.props.navigation.dispatch(navigateAction)}/>
       </View>
     )

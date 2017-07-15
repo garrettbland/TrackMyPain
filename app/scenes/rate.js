@@ -22,11 +22,6 @@ import {
 } from 'react-native';
 
 const navigateAction = NavigationActions.navigate({
-
-  routeName: 'RateDetail',
-
-  params: {rate:6},
-
   action: NavigationActions.navigate({ routeName: 'RateDetail'})
 })
 
@@ -51,7 +46,7 @@ class Rate extends Component {
 
   setPainLevel(pain,color){
     var dColor = '#ffffff';
-
+    this.props.setPain(pain);
     switch(pain){
       case 1:
         this.setState({pain1:color,pain2:dColor,pain3:dColor,pain4:dColor,pain5:dColor,pain6:dColor,pain7:dColor,pain8:dColor,pain9:dColor,pain10:dColor})

@@ -9,6 +9,11 @@ import {
   Easing,
 } from 'react-native';
 
+//redux
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as Actions from '../actions';
+
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
 import TouchableBounce from 'react-native-touchable-bounce';
@@ -57,4 +62,14 @@ class Number extends Component {
   }
 }
 
-export default Number;
+function mapStateToProps(state){
+  return {
+    user:state.userReducers.user,
+  };
+}
+
+function mapDispatchToProps(dispatch){
+  return bindActionCreators(Actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Number);

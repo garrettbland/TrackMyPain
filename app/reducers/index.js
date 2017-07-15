@@ -24,7 +24,7 @@ export default function loginReducer(state,action){
       return Object.assign({}, state, {user:{showMessageMed:action.showMessageMed,alertTitle:action.alertTitle,alertText:action.alertText,alertColor:action.alertColor}})
 
     case SET_PAIN:
-      return Object.assign({}, state, {user:{pain:action.pain}})
+      return Object.assign({}, state, {user:{pain:action.pain,painBackgroundColor:action.color}})
 
     default:
       console.log("Case default fired");

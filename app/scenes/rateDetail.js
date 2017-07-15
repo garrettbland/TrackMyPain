@@ -58,9 +58,8 @@ class RateDetail extends Component {
 
   render(){
     return(
-      <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-        <Text>Rate Detail</Text>
-        <Text>Pain Level:{this.props.user.pain}</Text>
+      <View style={{flex:1,alignItems:'center',backgroundColor:'#f1f1f1',padding:12}}>
+        <Text style={{fontSize:50,color:'#3F3F3F',fontWeight:'bold'}}>{this.props.user.pain}</Text>
         <Button title='Add Meds' onPress={()=>this.props.navigation.dispatch(navigateAction)}/>
       </View>
     )

@@ -37,9 +37,10 @@ export function showMessageMeds(showMessage,alertTitle,alertText,alertColor){
   }
 }
 
-export function setPain(pain) {
+export function setPain(pain,color) {
   return {
     pain:pain,
+    color:color,
     type:SET_PAIN
   }
 }

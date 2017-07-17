@@ -17,10 +17,10 @@ class FormInput extends Component {
     return(
       <View style={{marginBottom:14}}>
         <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>{this.props.label}</Text>
-        <View style={{borderColor: this.props.underlineColor, borderBottomWidth: 1,marginTop:5,paddingBottom:3}}>
+        <View style={{borderColor: this.props.underlineColor, borderBottomWidth: 1,marginTop:5,paddingBottom:this.props.fontSize ? this.props.fontSize/10 : 3}}>
           <TextInput
             placeholder={this.props.placeholder}
-            style={{height: 43, fontSize:30, color:'#3F3F3F'}}
+            style={{height: 43, fontSize:this.props.fontSize ? this.props.fontSize : 30, color:'#3F3F3F'}}
             onChangeText={this.props.onChangeText}
             value={this.props.value}
             autoFocus={this.props.autoFocus}

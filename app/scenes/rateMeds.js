@@ -47,8 +47,8 @@ class RateMeds extends Component {
       dataSource: [],
       isMedsEmpty:false,
       medsArray:[],
-      defaultIcon:true,
     }
+    if(!this.props.user.medsArray){this.props.setRateMeds([])};
     this.goBack = this.goBack.bind(this);
     this.medsRef = firebaseApp.database().ref().child('users/123456789/meds/');
   }
@@ -117,38 +117,45 @@ class RateMeds extends Component {
 
   editMedsArray(name,amount,key){
     console.log('CURRENT ARRAY: '+JSON.stringify(this.state.medsArray));
-    this.setState({defaultIcon:false});
 
-    var keyExist = this.state.medsArray.find(function(m){
-      return m.key === key;
-    })
+    var cloneProps = this.props.user.medsArray;
+    if(cloneProps){
+      var keyExist = cloneProps.find(function(m){
+        return m.key === key;
+      })
 
-    if(keyExist == undefined){
-      this.state.medsArray.push({name:name,amount:amount,key:key});
-    }else{
-      remove(this.state.medsArray, {
-        key: key
+      if(keyExist == undefined){
+        cloneProps.push({name:name,amount:amount,key:key});
+      }else{
+        remove(cloneProps, {
+          key: key
+        });
+      }
+
+      uniqBy(cloneProps, function (m) {
+        return m.key;
       });
+
+      this.props.setRateMeds(cloneProps);
+      console.log("DERP: "+JSON.stringify(this.props.user.medsArray));
     }
 
-    uniqBy(this.state.medsArray, function (m) {
-      return m.key;
-    });
-
-    Alert.alert("SHOW NEW ICON for key" + this.state[key]);
+    //this.props.setRateMeds(JSON.stringify(this.state.medsArray));
+    console.log("PROPS: "+this.props.user.medsArray);
 
     console.log('NEW ARRAY: '+JSON.stringify(this.state.medsArray));
   }
 
-  onClick(data) {
+  onClick(data,name,amount,key) {
+    this.editMedsArray(name,amount,key);
     data.checked = !data.checked;
 }
 
-  renderCheckBox(data) {
+  renderCheckBox(data,name,amount,key) {
       return (
           <CheckBox
               style={{flex: 1, padding: 10}}
-              onClick={()=>this.onClick(data)}
+              onClick={()=>this.onClick(data,name,amount,key)}
               isChecked={data.checked}
               checkedIcon={'md-checkmark-circle-outline'}
               uncheckedIcon={'md-radio-button-off'}
@@ -166,7 +173,7 @@ class RateMeds extends Component {
             <Text style={{color:'#3F3F3F',fontSize:12,}}>{item.amount}</Text>
           </View>
           <View>
-            {this.renderCheckBox(false)}
+            {this.renderCheckBox(false,item.name,item.amount,item._key)}
           </View>
         </View>
       </View>
@@ -229,11 +236,6 @@ class RateMeds extends Component {
     return(
       <View style={{flex:1}}>
         <ScrollView style={{flex:1}}>
-        {this.props.user.showMessageMed &&
-          <View style={{paddingLeft:12,paddingTop:12,paddingRight:12}}>
-            <CustomAlert title={this.props.user.alertTitle} message={this.props.user.alertText} backgroundColor={this.props.user.alertColor} animation={'bounceIn'}/>
-          </View>
-        }
           <FlatList
             data={this.state.dataSource}
             renderItem={({item})=>this._renderItem(item)}

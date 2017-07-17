@@ -3,6 +3,7 @@ export const NO_MEDS = 'NO_MEDS';
 export const EDIT_MEDS = 'EDIT_MEDS';
 export const SHOW_MESSAGE_MEDS = 'SHOW_MESSAGE_MEDS';
 export const SET_PAIN = 'SET_PAIN';
+export const SET_RATE_MEDS = 'SET_RATE_MEDS';
 
 export function addMeds(test){
   if(test){
@@ -42,5 +43,12 @@ export function setPain(pain,color) {
     pain:pain,
     color:color,
     type:SET_PAIN
+  }
+}
+
+export function setRateMeds(medsArray){
+  return {
+    medsArrayPayload:medsArray,
+    type:SET_RATE_MEDS
   }
 }

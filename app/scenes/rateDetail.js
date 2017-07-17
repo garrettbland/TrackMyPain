@@ -50,7 +50,6 @@ class RateDetail extends Component {
       notes:'',
       pain:this.props.user.pain,
       painBackgroundColor:this.props.user.painBackgroundColor,
-      dataSource:[]
     }
     this.goBack = this.goBack.bind(this)
   }
@@ -73,8 +72,8 @@ class RateDetail extends Component {
       <View style={{width:'100%',paddingLeft:10,paddingRight:10,backgroundColor:'#ffffff',}}>
         <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
           <View>
-            <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{item.title}</Text>
-            <Text style={{color:'#3F3F3F',fontSize:12,}}>{item.title}</Text>
+            <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{item.name}</Text>
+            <Text style={{color:'#3F3F3F',fontSize:12,}}>{item.amount}</Text>
           </View>
           <View>
             <TouchableOpacity onPress={()=>this.showOptions(item.name,item.amount,item._key)}><Icon name={'md-close'} size={28} style={{marginTop:3,paddingRight:2}} color={'#c0392b'} /></TouchableOpacity>
@@ -139,20 +138,34 @@ class RateDetail extends Component {
             </View>
           </View>
           <View style={{width:'100%',marginTop:12,padding:12}}>
-            <FormInput underlineColor={'#bdc3c7'} label={'Notes'} placeholder={'Custom Note'} onChangeText={(text) => this.setState({notes:text})} autoFocus={false} value={this.state.notes} maxLength={200}/>
+            <FormInput underlineColor={'#bdc3c7'} label={'Notes'} fontSize={20} placeholder={'Custom Note'} onChangeText={(text) => this.setState({notes:text})} autoFocus={false} value={this.state.notes} maxLength={200}/>
           </View>
           <View style={{paddingLeft:12,marginBottom:3}}>
             <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Medications</Text>
           </View>
-          <FlatList
-            data={this.state.dataSource}
-            renderItem={({item})=>this._renderItem(item)}
-            ItemSeparatorComponent={this._renderSeperator}
-            ListEmptyComponent={this._renderEmptyList}
-            ListHeaderComponent={this._renderHeader}
-            ListFooterComponent={this._renderFooter}
-            keyExtractor={item => item._key}
-          />
+          {!this.props.user.medsArray &&
+            <View style={{width:'100%',paddingLeft:12,paddingRight:12}}>
+              <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:40,}}>
+                <View>
+                  <Text style={{color:'#95a5a6',fontSize:15}}>No Medications Added</Text>
+                </View>
+                <View>
+
+                </View>
+              </View>
+            </View>
+          }
+          {this.props.user.medsArray &&
+            <FlatList
+              data={this.props.user.medsArray}
+              renderItem={({item})=>this._renderItem(item)}
+              ItemSeparatorComponent={this._renderSeperator}
+              ListEmptyComponent={this._renderEmptyList}
+              ListHeaderComponent={this._renderHeader}
+              ListFooterComponent={this._renderFooter}
+              keyExtractor={item => item.key}
+            />
+          }
           <View style={{width:'100%',marginTop:12,marginBottom:12,padding:12}}>
             <Button title={'Add Medications'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={()=>this.props.navigation.dispatch(navigateAction)}/>
           </View>

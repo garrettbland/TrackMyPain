@@ -108,7 +108,6 @@ class RateMeds extends Component {
 
   filterMeds(searchText, data){
     let text = searchText.toLowerCase();
-    console.log(text);
     return filter(data, (s) => {
       let med = s.name.toLowerCase();
       return med.search(text) !== -1;
@@ -126,15 +125,9 @@ class RateMeds extends Component {
 
     if(keyExist == undefined){
       this.state.medsArray.push({name:name,amount:amount,key:key});
-      this.setState({
-        [key]:true
-      });
     }else{
       remove(this.state.medsArray, {
         key: key
-      });
-      this.setState({
-        [key]:false
       });
     }
 
@@ -157,13 +150,16 @@ class RateMeds extends Component {
               style={{flex: 1, padding: 10}}
               onClick={()=>this.onClick(data)}
               isChecked={data.checked}
-              leftText={"TEST"}
+              checkedIcon={'md-checkmark-circle-outline'}
+              uncheckedIcon={'md-radio-button-off'}
+              checkedIconColor={'#3498db'}
+              uncheckedIconColor={'#95a5a6'}
           />);
   }
 
   _renderItem(item){
     return (
-      <TouchableOpacity onPress={()=>this.editMedsArray(item.name,item.amount,item._key)} style={{width:'100%',paddingLeft:10,paddingRight:10,backgroundColor:'#ffffff',}}>
+      <View style={{width:'100%',paddingLeft:10,paddingRight:10,backgroundColor:'#ffffff',}}>
         <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
           <View>
             <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{item.name}</Text>
@@ -173,7 +169,7 @@ class RateMeds extends Component {
             {this.renderCheckBox(false)}
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     )
   }
 

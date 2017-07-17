@@ -11,7 +11,7 @@ import { NavigationActions } from 'react-navigation';
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
 import { SearchBar } from 'react-native-elements'
-import ActionSheet from '@yfuks/react-native-action-sheet';
+import CheckBox from 'react-native-check-box'
 import filter from 'lodash/filter';
 import uniqBy from 'lodash/uniqBy';
 import remove from 'lodash/remove';
@@ -47,12 +47,13 @@ class RateMeds extends Component {
       dataSource: [],
       isMedsEmpty:false,
       medsArray:[],
+      defaultIcon:true,
     }
     this.goBack = this.goBack.bind(this);
     this.medsRef = firebaseApp.database().ref().child('users/123456789/meds/');
   }
 
-  componentDidMount(){
+  componentWillMount(){
     this.props.navigation.setParams({ goBack: this.goBack });
     var data = this.makeRemoteRequest();
   }
@@ -74,33 +75,17 @@ class RateMeds extends Component {
           amount: child.val().amount,
           _key:child.key,
         });
+
       });
       if (items.length == 0) {
         this.setState({isMedsEmpty:true});
-        this.props.showMessageMeds(true,'Info','Currently no medications added. Tap the plus icon in the top right to add custom medications','#1abc9c');
+        this.props.showMessageMeds(true,'Info','Currently no medications added. Go to the Meds tab to manage your medications','#1abc9c');
       }
       this.setState({
         dataSource: items,
         dataSourceClone: items,
       });
     });
-  }
-
-  deleteMed(medID){
-    this.medsRefDelete = firebaseApp.database().ref('users/123456789/meds/').child(medID);
-    this.medsRefDelete.remove();
-    this.props.showMessageMeds(true,'Success','Medication was successfully removed','#f39c12');
-  }
-
-
-  editMeds(medicationName,medicationAmount,medicationID){
-    this.props.editMeds(medicationName,medicationAmount,medicationID);
-    const editMedRoute = NavigationActions.navigate({
-      routeName: 'MedsAdd',
-      params: {},
-      action: NavigationActions.navigate({ routeName: 'MedsAdd'})
-    });
-    this.props.navigation.dispatch(editMedRoute);
   }
 
   setSearchText(event) {
@@ -133,6 +118,7 @@ class RateMeds extends Component {
 
   editMedsArray(name,amount,key){
     console.log('CURRENT ARRAY: '+JSON.stringify(this.state.medsArray));
+    this.setState({defaultIcon:false});
 
     var keyExist = this.state.medsArray.find(function(m){
       return m.key === key;
@@ -140,9 +126,15 @@ class RateMeds extends Component {
 
     if(keyExist == undefined){
       this.state.medsArray.push({name:name,amount:amount,key:key});
+      this.setState({
+        [key]:true
+      });
     }else{
       remove(this.state.medsArray, {
         key: key
+      });
+      this.setState({
+        [key]:false
       });
     }
 
@@ -150,22 +142,38 @@ class RateMeds extends Component {
       return m.key;
     });
 
+    Alert.alert("SHOW NEW ICON for key" + this.state[key]);
+
     console.log('NEW ARRAY: '+JSON.stringify(this.state.medsArray));
+  }
+
+  onClick(data) {
+    data.checked = !data.checked;
+}
+
+  renderCheckBox(data) {
+      return (
+          <CheckBox
+              style={{flex: 1, padding: 10}}
+              onClick={()=>this.onClick(data)}
+              isChecked={data.checked}
+              leftText={"TEST"}
+          />);
   }
 
   _renderItem(item){
     return (
-      <View style={{width:'100%',paddingLeft:10,paddingRight:10,backgroundColor:'#ffffff',}}>
+      <TouchableOpacity onPress={()=>this.editMedsArray(item.name,item.amount,item._key)} style={{width:'100%',paddingLeft:10,paddingRight:10,backgroundColor:'#ffffff',}}>
         <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
           <View>
             <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{item.name}</Text>
             <Text style={{color:'#3F3F3F',fontSize:12,}}>{item.amount}</Text>
           </View>
           <View>
-            <TouchableOpacity onPress={()=>this.editMedsArray(item.name,item.amount,item._key)}><Icon name={'ios-radio-button-off'} size={28} style={{marginTop:3,paddingRight:2}} color={'#7f8c8d'} /></TouchableOpacity>
+            {this.renderCheckBox(false)}
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 

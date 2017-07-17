@@ -24,7 +24,7 @@ class FormInput extends Component {
             onChangeText={this.props.onChangeText}
             value={this.props.value}
             autoFocus={this.props.autoFocus}
-            maxLength={17}
+            maxLength={this.props.maxLength ? this.props.maxLength : 17}
             clearButtonMode={'always'}
             returnKeyType={'done'}
           />

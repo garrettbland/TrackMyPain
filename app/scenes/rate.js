@@ -116,7 +116,7 @@ class Rate extends Component {
             </View>
           </View>
           <View style={{height:'20%',justifyContent:'center'}}>
-            <Button title={'Rate'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={() => this.props.navigation.dispatch(navigateAction)}/>
+            <Button title={'Rate'} backgroundColor={'#2ecc71'} titleColor={'#ffffff'} onPress={() => this.props.navigation.dispatch(navigateAction)}/>
           </View>
         </View>
       </View>

@@ -11,12 +11,20 @@ import { NavigationActions } from 'react-navigation';
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
 
+//components
+import FormInput from '../components/formInput';
+import Button from '../components/button';
+
 import {
   View,
   Text,
   Platform,
   TouchableOpacity,
-  Button
+  Keyboard,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 
 const navigateAction = NavigationActions.navigate({
@@ -39,7 +47,10 @@ class RateDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      notes:'',
+      pain:this.props.user.pain,
+      painBackgroundColor:this.props.user.painBackgroundColor,
+      dataSource:[]
     }
     this.goBack = this.goBack.bind(this)
   }
@@ -49,6 +60,7 @@ class RateDetail extends Component {
   }
 
   goBack () {
+    Keyboard.dismiss();
     const backAction = NavigationActions.back({
 
     })
@@ -56,11 +68,95 @@ class RateDetail extends Component {
 
   }
 
+  _renderItem(item){
+    return (
+      <View style={{width:'100%',paddingLeft:10,paddingRight:10,backgroundColor:'#ffffff',}}>
+        <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
+          <View>
+            <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{item.title}</Text>
+            <Text style={{color:'#3F3F3F',fontSize:12,}}>{item.title}</Text>
+          </View>
+          <View>
+            <TouchableOpacity onPress={()=>this.showOptions(item.name,item.amount,item._key)}><Icon name={'md-close'} size={28} style={{marginTop:3,paddingRight:2}} color={'#c0392b'} /></TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    )
+  }
+
+  _renderSeperator = () => {
+    return (
+      <View style={{
+        height:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+        width:'100%',
+        backgroundColor:'#bdc3c7',
+      }}/>
+    )
+  }
+
+  _renderEmptyList = () => {
+    return (
+      <View style={{width:'100%',paddingLeft:12,paddingRight:10,backgroundColor:'#ffffff',}}>
+        <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
+          <View>
+            <Text style={{color:'#95a5a6',fontSize:15}}>No Medications Added</Text>
+          </View>
+          <View>
+
+          </View>
+        </View>
+      </View>
+    )
+  }
+
+  _renderHeader = () => {
+    return (
+      <View style={{
+        height:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+        width:'100%',
+        backgroundColor:'#bdc3c7',
+      }}/>
+    );
+  }
+
+  _renderFooter = () => {
+    return (
+      <View style={{
+        height:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+        width:'100%',
+        backgroundColor:'#bdc3c7',
+      }}/>
+    );
+  }
+
   render(){
     return(
-      <View style={{flex:1,alignItems:'center',backgroundColor:'#f1f1f1',padding:12}}>
-        <Text style={{fontSize:50,color:'#3F3F3F',fontWeight:'bold'}}>{this.props.user.pain}</Text>
-        <Button title='Add Meds' onPress={()=>this.props.navigation.dispatch(navigateAction)}/>
+      <View style={{flex:1,backgroundColor:'#f1f1f1'}}>
+        <ScrollView>
+          <View style={{padding:12,alignItems:'center',}}>
+            <View style={{width:90,height:90,alignItems:'center',justifyContent:'center',borderRadius:45,borderColor:this.state.painBackgroundColor,borderWidth:2,backgroundColor:this.state.painBackgroundColor}}>
+              <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.pain}</Text>
+            </View>
+          </View>
+          <View style={{width:'100%',marginTop:12,padding:12}}>
+            <FormInput underlineColor={'#bdc3c7'} label={'Notes'} placeholder={'Custom Note'} onChangeText={(text) => this.setState({notes:text})} autoFocus={false} value={this.state.notes} maxLength={200}/>
+          </View>
+          <View style={{paddingLeft:12,marginBottom:3}}>
+            <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Medications</Text>
+          </View>
+          <FlatList
+            data={this.state.dataSource}
+            renderItem={({item})=>this._renderItem(item)}
+            ItemSeparatorComponent={this._renderSeperator}
+            ListEmptyComponent={this._renderEmptyList}
+            ListHeaderComponent={this._renderHeader}
+            ListFooterComponent={this._renderFooter}
+            keyExtractor={item => item._key}
+          />
+          <View style={{width:'100%',marginTop:12,marginBottom:12,padding:12}}>
+            <Button title={'Add Medications'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={()=>this.props.navigation.dispatch(navigateAction)}/>
+          </View>
+        </ScrollView>
       </View>
     )
   }

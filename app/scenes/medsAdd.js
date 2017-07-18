@@ -41,7 +41,6 @@ class MedsAdd extends Component {
         amount:'',
         errorColorName:'#bdc3c7',
         errorColorAmount:'#bdc3c7',
-        showError:false,
         editMed:false,
       }
       this.goBack = this.goBack.bind(this);
@@ -97,7 +96,7 @@ class MedsAdd extends Component {
       if(this.props.user.medID){
         this.editMed();
       }else if(!this.state.name || !this.state.amount){
-        this.setState({errorColorName:'#e74c3c',errorColorAmount:'#e74c3c',showError:true});
+        this.props.showMessageMeds(true,'Error', 'All fields must be completed','#e74c3c');
       }else if(this.state.name && this.state.amount){
         var newMedID = Date.now();
         this.medsRef = firebaseApp.database().ref('users/123456789/meds/').child(newMedID);
@@ -116,8 +115,8 @@ class MedsAdd extends Component {
     return(
       <View style={{flex:1}}>
         <View style={{padding:12}}>
-          {this.state.showError &&
-            <CustomAlert title={'Error'} message={'All fields must be completed'} backgroundColor={'#e74c3c'} animation={'bounceIn'}/>
+          {this.props.user.showMessageMed &&
+            <CustomAlert title={this.props.user.alertTitle} message={this.props.user.alertText} backgroundColor={this.props.user.alertColor} animation={'bounceIn'}/>
           }
           <FormInput underlineColor={'#bdc3c7'} label={'Medication Name'} placeholder={''} onChangeText={(text) => this.setState({name:text})} autoFocus={true} value={this.state.name}/>
           <FormInput underlineColor={'#bdc3c7'} label={'Amount'} placeholder={''} onChangeText={(text) => this.setState({amount:text})} autoFocus={false} value={this.state.amount}/>

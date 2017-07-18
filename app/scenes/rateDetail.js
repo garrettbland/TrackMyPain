@@ -115,7 +115,11 @@ class RateDetail extends Component {
     remove(cloneProps, {
         key: key
       });
-    this.props.setRateMeds(cloneProps);
+    if(cloneProps.length > 0){
+      this.props.setRateMeds(cloneProps);
+    }else{
+      this.props.setRateMeds();
+    }
   }
 
   _renderItem(item){

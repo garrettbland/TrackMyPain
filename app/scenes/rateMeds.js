@@ -36,7 +36,7 @@ class RateMeds extends Component {
 
   static navigationOptions = ({ navigation }) => ({
         headerLeft: Platform.OS == 'ios' ? <TouchableOpacity style={{marginLeft:10,width:60}} onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-close'} size={32} color={'#c0392b'}/></TouchableOpacity> : null,
-        headerRight: Platform.OS == 'ios' ? <TouchableOpacity style={{marginRight:10,}} onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-checkmark'} size={32} color={'#27ae60'}/></TouchableOpacity> : null,
+        headerRight: Platform.OS == 'ios' ? <TouchableOpacity style={{marginRight:10,}} onPress={()=>{navigation.state.params.setMeds()}}><Icon name={'md-checkmark'} size={32} color={'#27ae60'}/></TouchableOpacity> : null,
     });
 
   constructor(props) {
@@ -48,22 +48,29 @@ class RateMeds extends Component {
       isMedsEmpty:false,
       medsArray:[],
     }
-    if(!this.props.user.medsArray){this.props.setRateMeds([])};
     this.goBack = this.goBack.bind(this);
+    this.setMeds = this.setMeds.bind(this);
     this.medsRef = firebaseApp.database().ref().child('users/123456789/meds/');
   }
 
   componentWillMount(){
-    this.props.navigation.setParams({ goBack: this.goBack });
+    this.props.navigation.setParams({ goBack: this.goBack, setMeds: this.setMeds });
     var data = this.makeRemoteRequest();
   }
 
-  goBack () {
+  setMeds(){
+    const backAction = NavigationActions.back({
+
+    })
+    this.props.setRateMeds(this.state.medsArray);
+    this.props.navigation.dispatch(backAction)
+  }
+
+  goBack(){
     const backAction = NavigationActions.back({
 
     })
     this.props.navigation.dispatch(backAction)
-
   }
 
   makeRemoteRequest() {
@@ -116,9 +123,7 @@ class RateMeds extends Component {
   }
 
   editMedsArray(name,amount,key){
-    console.log('CURRENT ARRAY: '+JSON.stringify(this.state.medsArray));
-
-    var cloneProps = this.props.user.medsArray;
+    var cloneProps = this.state.medsArray;
     if(cloneProps){
       var keyExist = cloneProps.find(function(m){
         return m.key === key;
@@ -136,14 +141,8 @@ class RateMeds extends Component {
         return m.key;
       });
 
-      this.props.setRateMeds(cloneProps);
-      console.log("DERP: "+JSON.stringify(this.props.user.medsArray));
+      this.setState({medsArray:cloneProps});
     }
-
-    //this.props.setRateMeds(JSON.stringify(this.state.medsArray));
-    console.log("PROPS: "+this.props.user.medsArray);
-
-    console.log('NEW ARRAY: '+JSON.stringify(this.state.medsArray));
   }
 
   onClick(data,name,amount,key) {
@@ -222,16 +221,6 @@ class RateMeds extends Component {
     );
   }
 
-  _renderFooter = () => {
-    return (
-      <View style={{
-        height:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
-        width:'100%',
-        backgroundColor:'#bdc3c7',
-      }}/>
-    );
-  }
-
   render(){
     return(
       <View style={{flex:1}}>
@@ -242,7 +231,6 @@ class RateMeds extends Component {
             ItemSeparatorComponent={this._renderSeperator}
             ListEmptyComponent={this._renderEmptyList}
             ListHeaderComponent={this._renderHeader}
-            ListFooterComponent={this._renderFooter}
             keyExtractor={item => item._key}
           />
         </ScrollView>

@@ -223,16 +223,6 @@ class Meds extends Component {
     );
   }
 
-  _renderFooter = () => {
-    return (
-      <View style={{
-        height:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
-        width:'100%',
-        backgroundColor:'#bdc3c7',
-      }}/>
-    );
-  }
-
   render(){
     return(
       <View style={{flex:1}}>
@@ -248,7 +238,6 @@ class Meds extends Component {
             ItemSeparatorComponent={this._renderSeperator}
             ListEmptyComponent={this._renderEmptyList}
             ListHeaderComponent={this._renderHeader}
-            ListFooterComponent={this._renderFooter}
             keyExtractor={item => item._key}
           />
         </ScrollView>

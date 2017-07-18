@@ -10,8 +10,10 @@ import { NavigationActions } from 'react-navigation';
 
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
+import remove from 'lodash/remove';
 
 //components
+import firebaseApp from '../components/firebaseApp';
 import FormInput from '../components/formInput';
 import Button from '../components/button';
 
@@ -25,6 +27,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   ScrollView,
+  Alert,
 } from 'react-native';
 
 const navigateAction = NavigationActions.navigate({
@@ -40,7 +43,7 @@ class RateDetail extends Component {
 
   static navigationOptions = ({ navigation }) => ({
       headerLeft: Platform.OS == 'ios' ? <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}} style={{marginLeft:10,width:60}}><Icon name={'md-close'} size={32} color={'#c0392b'}/></TouchableOpacity> : null,
-      headerRight: Platform.OS == 'ios' ? <TouchableOpacity style={{marginRight:10,}} onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-checkmark'} size={32} color={'#27ae60'}/></TouchableOpacity> : null,
+      headerRight: Platform.OS == 'ios' ? <TouchableOpacity style={{marginRight:10,}} onPress={()=>{navigation.state.params.rate()}}><Icon name={'md-checkmark'} size={32} color={'#27ae60'}/></TouchableOpacity> : null,
     });
 
 
@@ -51,11 +54,12 @@ class RateDetail extends Component {
       pain:this.props.user.pain,
       painBackgroundColor:this.props.user.painBackgroundColor,
     }
+    this.rate = this.rate.bind(this);
     this.goBack = this.goBack.bind(this)
   }
 
   componentDidMount() {
-    this.props.navigation.setParams({ goBack: this.goBack });
+    this.props.navigation.setParams({ goBack: this.goBack, rate: this.rate });
   }
 
   goBack () {
@@ -67,6 +71,53 @@ class RateDetail extends Component {
 
   }
 
+  rate(){
+    var newRateID = Date.now();
+    this.rateRef = firebaseApp.database().ref('users/123456789/rates/').child(newRateID);
+
+    var pain = this.state.pain;
+    var timestamp = newRateID;
+    if(this.state.notes !== ''){
+      var note = this.state.notes;
+    }else{
+      var note = null;
+    }
+    if(!this.props.user.medsArray){
+      var meds = null;
+    }else{
+      var meds = this.props.user.medsArray;
+    }
+
+    var newRateData = {pain:pain,timestamp:timestamp,note:note,meds:meds}
+    this.rateRef.set(newRateData, function(error){
+      if(error){
+        Alert.alert('Error','Something technical went wrong. Please try again');
+      }
+    });
+
+    this.props.setPain();
+
+
+    Keyboard.dismiss();
+    const backAction = NavigationActions.back({
+
+    })
+    this.props.navigation.dispatch(backAction)
+  }
+
+  addMedicationsRoute(){
+    this.props.setRateMeds();
+    this.props.navigation.dispatch(navigateAction)
+  }
+
+  removeMed(key){
+    var cloneProps = this.props.user.medsArray;
+    remove(cloneProps, {
+        key: key
+      });
+    this.props.setRateMeds(cloneProps);
+  }
+
   _renderItem(item){
     return (
       <View style={{width:'100%',paddingLeft:10,paddingRight:10,backgroundColor:'#ffffff',}}>
@@ -76,7 +127,7 @@ class RateDetail extends Component {
             <Text style={{color:'#3F3F3F',fontSize:12,}}>{item.amount}</Text>
           </View>
           <View>
-            <TouchableOpacity onPress={()=>this.showOptions(item.name,item.amount,item._key)}><Icon name={'md-close'} size={28} style={{marginTop:3,paddingRight:2}} color={'#c0392b'} /></TouchableOpacity>
+            <TouchableOpacity onPress={()=>this.removeMed(item.key)}><Icon name={'md-close'} size={28} style={{marginTop:3,paddingRight:2}} color={'#c0392b'} /></TouchableOpacity>
           </View>
         </View>
       </View>
@@ -143,19 +194,6 @@ class RateDetail extends Component {
           <View style={{paddingLeft:12,marginBottom:3}}>
             <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Medications</Text>
           </View>
-          {!this.props.user.medsArray &&
-            <View style={{width:'100%',paddingLeft:12,paddingRight:12}}>
-              <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:40,}}>
-                <View>
-                  <Text style={{color:'#95a5a6',fontSize:15}}>No Medications Added</Text>
-                </View>
-                <View>
-
-                </View>
-              </View>
-            </View>
-          }
-          {this.props.user.medsArray &&
             <FlatList
               data={this.props.user.medsArray}
               renderItem={({item})=>this._renderItem(item)}
@@ -165,9 +203,8 @@ class RateDetail extends Component {
               ListFooterComponent={this._renderFooter}
               keyExtractor={item => item.key}
             />
-          }
           <View style={{width:'100%',marginTop:12,marginBottom:12,padding:12}}>
-            <Button title={'Add Medications'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={()=>this.props.navigation.dispatch(navigateAction)}/>
+            <Button title={'Add Medications'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={()=>this.addMedicationsRoute()}/>
           </View>
         </ScrollView>
       </View>

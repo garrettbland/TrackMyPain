@@ -21,10 +21,6 @@ import {
   Dimensions
 } from 'react-native';
 
-const navigateAction = NavigationActions.navigate({
-  action: NavigationActions.navigate({ routeName: 'RateDetail'})
-})
-
 class Rate extends Component {
 
   constructor(props) {
@@ -42,6 +38,15 @@ class Rate extends Component {
       pain9:'#ffffff',
       pain10:'#ffffff',
     }
+  }
+
+  rateDetailRoute(){
+    const navigateAction = NavigationActions.navigate({
+      action: NavigationActions.navigate({ routeName: 'RateDetail'})
+    });
+    this.props.navigation.dispatch(navigateAction);
+    var dColor = '#ffffff';
+    this.setState({pain:0,pain1:dColor,pain2:dColor,pain3:dColor,pain4:dColor,pain5:dColor,pain6:dColor,pain7:dColor,pain8:dColor,pain9:dColor,pain10:dColor})
   }
 
   setPainLevel(pain,color){
@@ -116,7 +121,7 @@ class Rate extends Component {
             </View>
           </View>
           <View style={{height:'20%',justifyContent:'center'}}>
-            <Button title={'Rate'} backgroundColor={'#2ecc71'} titleColor={'#ffffff'} onPress={() => this.props.navigation.dispatch(navigateAction)}/>
+            <Button title={'Rate'} backgroundColor={'#2ecc71'} titleColor={'#ffffff'} onPress={() => this.rateDetailRoute()}/>
           </View>
         </View>
       </View>

@@ -5,6 +5,7 @@ import {
   SHOW_MESSAGE_MEDS,
   SET_PAIN,
   SET_RATE_MEDS,
+  SHOW_RATE_MODAL,
 } from '../actions/index.js';
 
 
@@ -27,6 +28,9 @@ export default function loginReducer(state,action){
 
     case SET_RATE_MEDS:
       return Object.assign({}, state, {user:{medsArray:action.medsArrayPayload}})
+
+    case SHOW_RATE_MODAL:
+      return Object.assign({}, state, {user:{showModal:action.visible}})
 
     default:
       console.log("Case default fired");

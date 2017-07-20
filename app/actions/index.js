@@ -4,6 +4,7 @@ export const EDIT_MEDS = 'EDIT_MEDS';
 export const SHOW_MESSAGE_MEDS = 'SHOW_MESSAGE_MEDS';
 export const SET_PAIN = 'SET_PAIN';
 export const SET_RATE_MEDS = 'SET_RATE_MEDS';
+export const SHOW_RATE_MODAL = 'SHOW_RATE_MODAL';
 
 export function addMeds(test){
   if(test){
@@ -18,7 +19,6 @@ export function addMeds(test){
 }
 
 export function editMeds(medName,medAmount,medID){
-  console.log('EDIT MEDS ACTION FIRED');
   return {
     MedNamePayload:medName,
     MedAmountPayload:medAmount,
@@ -28,7 +28,6 @@ export function editMeds(medName,medAmount,medID){
 }
 
 export function showMessageMeds(showMessage,alertTitle,alertText,alertColor){
-  console.log('SHOW MESSAGE MEDS FIRED');
   return {
     showMessageMed:showMessage,
     alertTitle:alertTitle,
@@ -50,5 +49,12 @@ export function setRateMeds(medsArray){
   return {
     medsArrayPayload:medsArray,
     type:SET_RATE_MEDS
+  }
+}
+
+export function showRateModal(visible){
+  return {
+    visible:visible,
+    type:SHOW_RATE_MODAL,
   }
 }

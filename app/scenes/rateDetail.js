@@ -97,6 +97,7 @@ class RateDetail extends Component {
 
     this.props.setPain();
 
+    this.props.showRateModal(true,'ios-checkmark-circle','#2ecc71','Success','Your rate was saved successfully');
 
     Keyboard.dismiss();
     const backAction = NavigationActions.back({

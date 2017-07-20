@@ -10,6 +10,7 @@ import { NavigationActions } from 'react-navigation';
 
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
+import * as Animatable from 'react-native-animatable';
 
 //components
 import Button from '../components/button';
@@ -18,7 +19,8 @@ import Number from '../components/number';
 import {
   View,
   Text,
-  Dimensions
+  Dimensions,
+  Alert,
 } from 'react-native';
 
 class Rate extends Component {
@@ -37,6 +39,7 @@ class Rate extends Component {
       pain8:'#ffffff',
       pain9:'#ffffff',
       pain10:'#ffffff',
+      showAlert:true,
     }
   }
 
@@ -93,11 +96,28 @@ class Rate extends Component {
 
   }
 
+  closeAlert(){
+    // Start counting when the page is loaded
+         this.timeoutHandle = setTimeout(()=>{
+              this.setState({showAlert:false});
+
+         }, 2500);
+  }
+
 
   render(){
     return(
-      <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-        <View style={{marginTop:15,}}>
+      <View style={{flex:1,backgroundColor:'#F1F1F1',zIndex:1,}}>
+      <Animatable.View animation={this.state.showAlert ? 'fadeIn' : 'fadeOut'} duration={800} style={{position:'absolute',zIndex:9,width:'100%',height:'100%',alignItems:'center',justifyContent:'center',backgroundColor:'rgba(230, 230, 230,0.5)'}}>
+        <Animatable.View animation={this.state.showAlert ? 'bounceIn' : 'bounceOut'} onAnimationEnd={this.closeAlert()} View style={{width:'80%',height:'33%',backgroundColor:'#ffffff',borderRadius:4,overflow:'hidden',}}>
+          <View style={{alignItems:'center',justifyContent:'center',width:'100%',height:'100%'}}>
+            <Icon name={'ios-checkmark-circle-outline'} size={50} color={'#2ecc71'} />
+            <Text style={{fontSize:24,fontWeight:'bold',textAlign:'center'}}>Success</Text>
+            <Text style={{fontSize:14,textAlign:'center'}}>Your rate was saved successfully</Text>
+          </View>
+        </Animatable.View>
+      </Animatable.View>
+        <View style={{marginTop:15,zIndex:1}}>
           <View style={{height:'20%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
             <Number number={1} backgroundColor={this.state.pain1} fontColor={this.state.pain1 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#3498db'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
             <Number number={2} backgroundColor={this.state.pain2} fontColor={this.state.pain2 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#00C853'} callback={(pain,color) => this.setPainLevel(pain,color)}/>

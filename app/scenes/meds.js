@@ -226,11 +226,8 @@ class Meds extends Component {
   render(){
     return(
       <View style={{flex:1}}>
-        <ScrollView style={{flex:1}}>
         {this.props.user.showMessageMed &&
-          <View style={{paddingLeft:12,paddingTop:12,paddingRight:12}}>
-            <CustomAlert title={this.props.user.alertTitle} message={this.props.user.alertText} backgroundColor={this.props.user.alertColor} animation={'bounceIn'}/>
-          </View>
+            <CustomAlert title={this.props.user.alertTitle} message={this.props.user.alertText} backgroundColor={this.props.user.alertColor} animation={'fadeInDown'}/>
         }
           <FlatList
             data={this.state.dataSource}
@@ -240,7 +237,6 @@ class Meds extends Component {
             ListHeaderComponent={this._renderHeader}
             keyExtractor={item => item._key}
           />
-        </ScrollView>
       </View>
     )
   }

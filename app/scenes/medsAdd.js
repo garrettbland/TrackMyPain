@@ -86,7 +86,7 @@ class MedsAdd extends Component {
             Alert.alert('Error','Something technical went wrong. Please try again');
           }
         });
-        this.props.showMessageMeds(true,'Success', 'Medication was successfully modified','#9b59b6');
+        this.props.showMessageMeds(true,'Success', 'Medication ' + this.state.name +' was successfully modified','#2ecc71');
         console.log(this.props);
         this.goBack({unset:true});
       }
@@ -114,10 +114,10 @@ class MedsAdd extends Component {
   render(){
     return(
       <View style={{flex:1}}>
-        <View style={{padding:12}}>
           {this.props.user.showMessageMed &&
-            <CustomAlert title={this.props.user.alertTitle} message={this.props.user.alertText} backgroundColor={this.props.user.alertColor} animation={'bounceIn'}/>
+            <CustomAlert title={this.props.user.alertTitle} message={this.props.user.alertText} backgroundColor={this.props.user.alertColor} animation={'fadeInDown'}/>
           }
+        <View style={{padding:12}}>
           <FormInput underlineColor={'#bdc3c7'} label={'Medication Name'} placeholder={''} onChangeText={(text) => this.setState({name:text})} autoFocus={true} value={this.state.name}/>
           <FormInput underlineColor={'#bdc3c7'} label={'Amount'} placeholder={''} onChangeText={(text) => this.setState({amount:text})} autoFocus={false} value={this.state.amount}/>
         </View>

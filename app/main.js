@@ -105,6 +105,7 @@ const AppRateStack = StackNavigator({
         <Icon name={focused ? 'ios-disc' : 'ios-disc-outline'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       headerStyle:{backgroundColor:'#ffffff'},
+      gesturesEnabled: false,
     }
   },
   RateMeds: {
@@ -118,6 +119,7 @@ const AppRateStack = StackNavigator({
       headerBackTitle:null,
       headerTitleStyle:{fontWeight:'bold',fontSize:19},
       headerStyle:{backgroundColor:'#ffffff'},
+      gesturesEnabled: false,
     }
   },
 },{

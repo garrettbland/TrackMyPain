@@ -28,7 +28,6 @@ import {
   ActivityIndicator,
   ScrollView,
   Alert,
-  TouchableHighlight
 } from 'react-native';
 
 const navigateAction = NavigationActions.navigate({
@@ -74,7 +73,7 @@ class RateDetail extends Component {
     var newRateID = Date.now();
     this.rateRef = firebaseApp.database().ref('users/123456789/rates/').child(newRateID);
 
-    var pain = this.state.pain;
+    var pain = this.state.pain ? this.state.pain : 0;
     var timestamp = newRateID;
     if(this.state.notes !== ''){
       var note = this.state.notes;
@@ -150,7 +149,7 @@ class RateDetail extends Component {
 
   _renderEmptyList = () => {
     return (
-      <TouchableHighlight onPress={()=>this.addMedicationsRoute()}>
+      <TouchableOpacity activeOpacity={0.6} onPress={()=>this.addMedicationsRoute()}>
         <View style={{width:'100%',paddingLeft:12,paddingRight:10,backgroundColor:'#ffffff',}}>
           <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
             <View>
@@ -162,7 +161,7 @@ class RateDetail extends Component {
             </View>
           </View>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     )
   }
 
@@ -197,19 +196,19 @@ class RateDetail extends Component {
                 alignItems:'center',
                 justifyContent:'center',
                 borderRadius:45,
-                borderColor:this.state.painBackgroundColor,
+                borderColor:this.state.painBackgroundColor ? this.state.painBackgroundColor : '#9b59b6',
                 borderWidth:2,
-                backgroundColor:this.state.painBackgroundColor,
+                backgroundColor:this.state.painBackgroundColor ? this.state.painBackgroundColor : '#9b59b6',
                 shadowColor: '#000000',
                 shadowOffset: {width: 0,height: 1},
                 shadowRadius: 3,
                 shadowOpacity: 0.7
               }}>
-                <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.pain}</Text>
+                <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.pain ? this.state.pain : 0}</Text>
               </View>
             </View>
             <View style={{width:'100%',marginTop:12,padding:12}}>
-              <FormInput underlineColor={'#bdc3c7'} label={'Notes'} fontSize={20} placeholder={'Custom Note'} onChangeText={(text) => this.setState({notes:text})} autoFocus={false} value={this.state.notes} maxLength={200}/>
+              <FormInput underlineColor={'#bdc3c7'} label={'Notes'} placeholder={'Custom Note'} onChangeText={(text) => this.setState({notes:text})} autoFocus={false} value={this.state.notes} maxLength={200}/>
             </View>
             <View style={{paddingLeft:12,marginBottom:3}}>
               <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Medications</Text>

@@ -41,7 +41,7 @@ class Modal extends Component {
   render(){
     return(
       <Animatable.View animation={this.state.showModal ? 'fadeIn' : 'fadeOut'} duration={500} style={{position:'absolute',zIndex:9,width:'100%',height:'100%',alignItems:'center',justifyContent:'center',backgroundColor:'rgba(51, 51, 51, 0.5)'}}>
-        <Animatable.View animation={this.state.showModal ? 'bounceIn' : 'bounceOut'} onAnimationEnd={this.closeAnimation()} View style={{width:'80%',height:'33%',backgroundColor:'#ffffff',borderRadius:4,overflow:'hidden',}}>
+        <Animatable.View animation={this.state.showModal ? 'fadeInDown' : 'fadeOutUp'} onAnimationEnd={this.closeAnimation()} View style={{width:'80%',height:'33%',backgroundColor:'#ffffff',borderRadius:4,overflow:'hidden',}}>
           <View style={{alignItems:'center',justifyContent:'center',width:'100%',height:'100%'}}>
             <Icon name={this.props.icon} size={60} color={this.props.iconColor} />
             <Text style={{fontSize:24,fontWeight:'bold',textAlign:'center'}}>{this.props.title}</Text>

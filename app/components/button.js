@@ -26,7 +26,7 @@ class Button extends Component {
           borderRadius:4,
           overflow:'hidden',
           justifyContent:'center',
-          alignItems:'center'
+          alignItems:'center',
         }}>
           <Text style={{fontSize:16,color:this.props.titleColor,fontWeight:'bold'}}>{this.props.title}</Text>
         </TouchableOpacity>

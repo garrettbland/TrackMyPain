@@ -213,7 +213,7 @@ class RateMeds extends Component {
           textInputRef={this.state.searchText}
           placeholder='Search...'
           inputStyle={{color:'#3F3F3F'}}
-          returnKeyType={'search'}
+          returnKeyType={'done'}
           containerStyle={{borderTopWidth:0,borderBottomWidth:0,backgroundColor:'transparent'}}
           onChange={this.setSearchText.bind(this)}
         />

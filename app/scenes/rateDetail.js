@@ -28,6 +28,7 @@ import {
   ActivityIndicator,
   ScrollView,
   Alert,
+  TouchableHighlight
 } from 'react-native';
 
 const navigateAction = NavigationActions.navigate({
@@ -65,8 +66,8 @@ class RateDetail extends Component {
     const backAction = NavigationActions.back({
 
     })
+    this.props.setPain();
     this.props.navigation.dispatch(backAction)
-
   }
 
   rate(){
@@ -149,17 +150,19 @@ class RateDetail extends Component {
 
   _renderEmptyList = () => {
     return (
-      <View style={{width:'100%',paddingLeft:12,paddingRight:10,backgroundColor:'#ffffff',}}>
-        <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
-          <View>
-            <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>No Medications Added</Text>
-            <Text style={{color:'#3F3F3F',fontSize:12,}}>Add Meds by pressing the + icon</Text>
-          </View>
-          <View>
-            <TouchableOpacity onPress={()=>this.addMedicationsRoute()}><Icon name={'md-add-circle'} size={28} style={{marginTop:3,paddingRight:2}} color={'#3498db'} /></TouchableOpacity>
+      <TouchableHighlight onPress={()=>this.addMedicationsRoute()}>
+        <View style={{width:'100%',paddingLeft:12,paddingRight:10,backgroundColor:'#ffffff',}}>
+          <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
+            <View>
+              <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>No Medications Added</Text>
+              <Text style={{color:'#3F3F3F',fontSize:12,}}>Add Meds by pressing the + icon</Text>
+            </View>
+            <View>
+              <Icon name={'md-add'} size={32} style={{marginTop:3,paddingRight:2}} color={'#3498db'} />
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableHighlight>
     )
   }
 
@@ -198,8 +201,8 @@ class RateDetail extends Component {
                 borderWidth:2,
                 backgroundColor:this.state.painBackgroundColor,
                 shadowColor: '#000000',
-                shadowOffset: {width: 0,height: 3},
-                shadowRadius: 5,
+                shadowOffset: {width: 0,height: 1},
+                shadowRadius: 3,
                 shadowOpacity: 0.7
               }}>
                 <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.pain}</Text>

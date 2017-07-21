@@ -52,8 +52,8 @@ class Number extends Component {
       onPressOut={this.handlePressOut}
       onPress={()=>this.props.callback(this.props.number,this.props.color)}
       >
-        <Animated.View style={{justifyContent:'center',alignItems:'center',width:Dimensions.get('window').width/3,height:'100%',transform: [{scale: this.animatedValue}]}}>
-          <View style={{width:84,height:84,alignItems:'center',justifyContent:'center',borderRadius:42,borderColor:this.props.color,borderWidth:2,backgroundColor:this.props.backgroundColor}}>
+        <Animated.View style={{justifyContent:'center',alignItems:'center',width:Dimensions.get('window').width/3,height:'100%',transform: [{scale: this.animatedValue}],}}>
+          <View style={{width:84,height:84,alignItems:'center',justifyContent:'center',borderRadius:42,borderColor:this.props.color,borderWidth:2,backgroundColor:this.props.backgroundColor,}}>
             <Text style={{fontWeight:'bold',fontSize:23,color:this.props.fontColor}}>{this.props.number}</Text>
           </View>
         </Animated.View>

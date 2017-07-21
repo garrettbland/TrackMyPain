@@ -215,11 +215,21 @@ class Meds extends Component {
           textInputRef={this.state.searchText}
           placeholder='Search...'
           inputStyle={{color:'#3F3F3F'}}
-          returnKeyType={'search'}
+          returnKeyType={'done'}
           containerStyle={{borderTopWidth:0,borderBottomWidth:0,backgroundColor:'transparent'}}
           onChange={this.setSearchText.bind(this)}
         />
       </View>
+    );
+  }
+
+  _renderFooter = () => {
+    return (
+      <View style={{
+        height:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+        width:'100%',
+        backgroundColor:'#bdc3c7',
+      }}/>
     );
   }
 
@@ -235,6 +245,7 @@ class Meds extends Component {
             ItemSeparatorComponent={this._renderSeperator}
             ListEmptyComponent={this._renderEmptyList}
             ListHeaderComponent={this._renderHeader}
+            ListFooterComponent={this._renderFooter}
             keyExtractor={item => item._key}
           />
       </View>

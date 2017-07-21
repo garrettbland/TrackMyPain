@@ -43,9 +43,7 @@ class RateDetail extends Component {
 
   static navigationOptions = ({ navigation }) => ({
       headerLeft: Platform.OS == 'ios' ? <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}} style={{marginLeft:10,width:60}}><Icon name={'md-close'} size={32} color={'#c0392b'}/></TouchableOpacity> : null,
-      headerRight: Platform.OS == 'ios' ? <TouchableOpacity style={{marginRight:10,}} onPress={()=>{navigation.state.params.rate()}}><Icon name={'md-checkmark'} size={32} color={'#27ae60'}/></TouchableOpacity> : null,
     });
-
 
   constructor(props) {
     super(props);
@@ -125,7 +123,7 @@ class RateDetail extends Component {
 
   _renderItem(item){
     return (
-      <View style={{width:'100%',paddingLeft:10,paddingRight:10,backgroundColor:'#ffffff',}}>
+      <View style={{width:'100%',paddingLeft:12,paddingRight:10,backgroundColor:'#ffffff',}}>
         <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
           <View>
             <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{item.name}</Text>
@@ -154,10 +152,11 @@ class RateDetail extends Component {
       <View style={{width:'100%',paddingLeft:12,paddingRight:10,backgroundColor:'#ffffff',}}>
         <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
           <View>
-            <Text style={{color:'#95a5a6',fontSize:15}}>No Medications Added</Text>
+            <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>No Medications Added</Text>
+            <Text style={{color:'#3F3F3F',fontSize:12,}}>Add Meds by pressing the + icon</Text>
           </View>
           <View>
-
+            <TouchableOpacity onPress={()=>this.addMedicationsRoute()}><Icon name={'md-add-circle'} size={28} style={{marginTop:3,paddingRight:2}} color={'#3498db'} /></TouchableOpacity>
           </View>
         </View>
       </View>
@@ -188,28 +187,41 @@ class RateDetail extends Component {
     return(
       <View style={{flex:1,backgroundColor:'#f1f1f1'}}>
         <ScrollView>
-          <View style={{padding:12,alignItems:'center',}}>
-            <View style={{width:90,height:90,alignItems:'center',justifyContent:'center',borderRadius:45,borderColor:this.state.painBackgroundColor,borderWidth:2,backgroundColor:this.state.painBackgroundColor}}>
-              <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.pain}</Text>
+            <View style={{padding:12,alignItems:'center',}}>
+              <View style={{
+                width:90,
+                height:90,
+                alignItems:'center',
+                justifyContent:'center',
+                borderRadius:45,
+                borderColor:this.state.painBackgroundColor,
+                borderWidth:2,
+                backgroundColor:this.state.painBackgroundColor,
+                shadowColor: '#000000',
+                shadowOffset: {width: 0,height: 3},
+                shadowRadius: 5,
+                shadowOpacity: 0.7
+              }}>
+                <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.pain}</Text>
+              </View>
             </View>
-          </View>
-          <View style={{width:'100%',marginTop:12,padding:12}}>
-            <FormInput underlineColor={'#bdc3c7'} label={'Notes'} fontSize={20} placeholder={'Custom Note'} onChangeText={(text) => this.setState({notes:text})} autoFocus={false} value={this.state.notes} maxLength={200}/>
-          </View>
-          <View style={{paddingLeft:12,marginBottom:3}}>
-            <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Medications</Text>
-          </View>
-            <FlatList
-              data={this.props.user.medsArray}
-              renderItem={({item})=>this._renderItem(item)}
-              ItemSeparatorComponent={this._renderSeperator}
-              ListEmptyComponent={this._renderEmptyList}
-              ListHeaderComponent={this._renderHeader}
-              ListFooterComponent={this._renderFooter}
-              keyExtractor={item => item.key}
-            />
-          <View style={{width:'100%',marginTop:12,marginBottom:12,padding:12}}>
-            <Button title={'Add Medications'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={()=>this.addMedicationsRoute()}/>
+            <View style={{width:'100%',marginTop:12,padding:12}}>
+              <FormInput underlineColor={'#bdc3c7'} label={'Notes'} fontSize={20} placeholder={'Custom Note'} onChangeText={(text) => this.setState({notes:text})} autoFocus={false} value={this.state.notes} maxLength={200}/>
+            </View>
+            <View style={{paddingLeft:12,marginBottom:3}}>
+              <Text style={{color:'#3F3F3F',fontSize:16,fontWeight:'bold'}}>Medications</Text>
+            </View>
+              <FlatList
+                data={this.props.user.medsArray}
+                renderItem={({item})=>this._renderItem(item)}
+                ItemSeparatorComponent={this._renderSeperator}
+                ListEmptyComponent={this._renderEmptyList}
+                ListHeaderComponent={this._renderHeader}
+                ListFooterComponent={this._renderFooter}
+                keyExtractor={item => item.key}
+              />
+          <View style={{height:60,justifyContent:'center',marginTop:30,marginBottom:30}}>
+            <Button title={'Rate'} backgroundColor={'#2ecc71'} titleColor={'#ffffff'} onPress={()=>this.rate()}/>
           </View>
         </ScrollView>
       </View>

@@ -27,7 +27,8 @@ class Modal extends Component {
   hideAlert(){
     this.timeoutHandle = setTimeout(()=>{
          this.props.showRateModal();
-    }, 1500);
+         this.props.setPain();
+    }, 1200);
   }
 
   closeAnimation(){

@@ -1,4 +1,4 @@
-const VERSION = '1.0.1';
+const VERSION = '1.0.4';
 const FIREBASE_API_KEY = 'AIzaSyAFh5LU-FX4lbndFSH8U-hmK_uC3Dtqqos';
 const FIREBASE_AUTH_DOMAIN = 'trackmypain.firebaseapp.com';
 const FIREBASE_DATABASE_URL = 'https://trackmypain.firebaseio.com';

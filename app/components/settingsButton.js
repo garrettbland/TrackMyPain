@@ -34,10 +34,9 @@ class SettingsButton extends Component {
           paddingLeft:10,
           paddingRight:10,
           backgroundColor:'#ffffff',
-          borderTopWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
-          borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+          borderTopWidth:this.props.top ? StyleSheet.hairlineWidth : 0,
+          borderBottomWidth:this.props.bottom ? StyleSheet.hairlineWidth : 0,
           borderColor:'#bdc3c7',
-          marginBottom:2
         }}
       >
         <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>

@@ -103,7 +103,95 @@ class SettingsNotifications extends Component {
                 />
               </View>
             </View>
+
             <View style={{paddingLeft:10,paddingBottom:3}}>
+              <Text style={{color:'#3F3F3F',fontSize:15,fontWeight:'bold'}}>Reminder Interval</Text>
+              <Text style={{color:'#3F3F3F',fontSize:12}}>Remind me to rate my pain every selected value</Text>
+            </View>
+              <TouchableOpacity
+                disabled={true}
+                onPress={()=>{this.props.navigation.dispatch(navigateAction)}}
+                activeOpacity={0.6}
+                style={{
+                  width:'100%',
+                  paddingLeft:10,
+                  paddingRight:10,
+                  backgroundColor:'#ffffff',
+                  borderTopWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+                  borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+                  borderColor:'#bdc3c7',
+                  backgroundColor:'#ecf0f1'
+                }}
+              >
+                <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>
+                  <View style={{flexDirection:'row'}}>
+                    <Icon name={'ios-alarm-outline'} size={28} style={{marginTop:3,paddingRight:8}} color={'#7f8c8d'} />
+                    <View style={{justifyContent:'center',}}>
+                      <Text style={{color:'#7f8c8d',fontSize:15,}}>Every 30 minutes</Text>
+                    </View>
+                  </View>
+                  <View>
+                    <Icon name={'ios-more'} size={28} style={{marginTop:3}} color={'#7f8c8d'} />
+                  </View>
+                </View>
+              </TouchableOpacity>
+
+
+              <View style={{paddingLeft:10,paddingBottom:3,marginTop:25}}>
+                <Text style={{color:'#3F3F3F',fontSize:15,fontWeight:'bold'}}>Snooze Mode</Text>
+                <Text style={{color:'#3F3F3F',fontSize:12}}>Automatically turn notifications off between selected times</Text>
+              </View>
+                <TouchableOpacity
+                  onPress={()=>{this.props.navigation.dispatch(navigateAction)}}
+                  activeOpacity={0.6}
+                  style={{
+                    width:'100%',
+                    paddingLeft:10,
+                    paddingRight:10,
+                    backgroundColor:'#ffffff',
+                    borderTopWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+                    borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+                    borderColor:'#bdc3c7',
+                  }}
+                >
+                  <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>
+                    <View style={{flexDirection:'row'}}>
+                      <Text style={{fontSize:15,color:'#3F3F3F',fontWeight:'bold',width:60}}>Start</Text>
+                      <View style={{justifyContent:'center',}}>
+                        <Text style={{color:'#3F3F3F',fontSize:15,}}>10:00 PM</Text>
+                      </View>
+                    </View>
+                    <View>
+                      <Icon name={'ios-more'} size={28} style={{marginTop:3}} color={'#7f8c8d'} />
+                    </View>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={()=>{this.props.navigation.dispatch(navigateAction)}}
+                  activeOpacity={0.6}
+                  style={{
+                    width:'100%',
+                    paddingLeft:10,
+                    paddingRight:10,
+                    backgroundColor:'#ffffff',
+                    borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+                    borderColor:'#bdc3c7',
+                  }}
+                >
+                  <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>
+                    <View style={{flexDirection:'row'}}>
+                      <Text style={{fontSize:15,color:'#3F3F3F',fontWeight:'bold',width:60}}>Finish</Text>
+                      <View style={{justifyContent:'center',}}>
+                        <Text style={{color:'#3F3F3F',fontSize:15,}}>8:00 AM</Text>
+                      </View>
+                    </View>
+                    <View>
+                      <Icon name={'ios-more'} size={28} style={{marginTop:3}} color={'#7f8c8d'} />
+                    </View>
+                  </View>
+                </TouchableOpacity>
+
+            <View style={{paddingLeft:10,paddingBottom:3,marginTop:75}}>
               <Text style={{color:'#3F3F3F',fontSize:15,fontWeight:'bold'}}>Reminder Interval</Text>
               <Text style={{color:'#3F3F3F',fontSize:12}}>Remind me to rate my pain every selected value</Text>
             </View>

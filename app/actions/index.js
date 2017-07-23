@@ -5,6 +5,8 @@ export const SHOW_MESSAGE_MEDS = 'SHOW_MESSAGE_MEDS';
 export const SET_PAIN = 'SET_PAIN';
 export const SET_RATE_MEDS = 'SET_RATE_MEDS';
 export const SHOW_RATE_MODAL = 'SHOW_RATE_MODAL';
+export const NOTIFICATION_CHANGE = 'NOTIFICATION_CHANGE';
+export const REMINDER_INTERVAL_CHANGE = 'REMINDER_INTERVAL_CHANGE';
 
 export function addMeds(test){
   if(test){
@@ -56,5 +58,12 @@ export function showRateModal(visible){
   return {
     visible:visible,
     type:SHOW_RATE_MODAL,
+  }
+}
+
+export function notificationsChange(value){
+  return {
+    value:value,
+    type:NOTIFICATION_CHANGE
   }
 }

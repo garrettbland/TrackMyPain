@@ -6,17 +6,13 @@ import {
   SET_PAIN,
   SET_RATE_MEDS,
   SHOW_RATE_MODAL,
+  NOTIFICATION_CHANGE,
+  REMINDER_INTERVAL_CHANGE
 } from '../actions/index.js';
 
 
 export default function loginReducer(state,action){
   switch (action.type) {
-    case YES_MEDS:
-      return Object.assign({}, state, {user:{test:true}})
-
-    case NO_MEDS:
-      return Object.assign({}, state, {user:{test:false}})
-
     case EDIT_MEDS:
       return Object.assign({}, state, {user:{medicationName:action.MedNamePayload,medicationAmount:action.MedAmountPayload,medID:action.MedIDPayload}})
 
@@ -32,6 +28,9 @@ export default function loginReducer(state,action){
     case SHOW_RATE_MODAL:
       return Object.assign({}, state, {user:{showModal:action.visible}})
 
+    case NOTIFICATION_CHANGE:
+      return Object.assign({}, state, {user:{notifications:action.value}})
+      
     default:
       console.log("Case default fired");
       return Object.assign({}, state, {user:{loggedIn:false}});

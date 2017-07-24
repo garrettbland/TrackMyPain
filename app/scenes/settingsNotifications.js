@@ -12,6 +12,9 @@ import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 
+//components
+import Button from '../components/button';
+
 import {
   View,
   Text,
@@ -45,13 +48,19 @@ class SettingsNotifications extends Component {
     componentDidMount() {
       this.props.navigation.setParams({ goBack: this.goBack });
 
-      //fetch local data to set state for labels
+      //see if notifications are enabled
+      AsyncStorage.getItem("notificationsEnabled").then((value) => {
+
+        this.setState({enabled:JSON.parse(value)});
+      }).done();
+
+      //fetch local data for interval to set state
       AsyncStorage.getItem("reminderInterval").then((value) => {
           //if empty, set defaults
           if(value == null){
-            AsyncStorage.setItem("reminderInterval", "30")
+            AsyncStorage.setItem("reminderInterval", "60")
             this.setState({
-              reminderInterval:30
+              reminderInterval:60
             })
           }else{
             this.setState({
@@ -59,11 +68,36 @@ class SettingsNotifications extends Component {
             })
           }
       }).done();
-      this.setState({
-        enabled:false,
-        snoozeStart:'8:00 PM',
-        snoozeEnd:'9:00 AM',
-      })
+
+      //fetch local data for time start to set state
+      AsyncStorage.getItem("snoozeStart").then((value) => {
+          //if empty, set defaults
+          if(value == null){
+            AsyncStorage.setItem("snoozeStart", "8:00 PM")
+            this.setState({
+              snoozeStart:"8:00 PM"
+            })
+          }else{
+            this.setState({
+              snoozeStart:value
+            })
+          }
+      }).done();
+
+      //fetch local data for time end to set state
+      AsyncStorage.getItem("snoozeEnd").then((value) => {
+          //if empty, set defaults
+          if(value == null){
+            AsyncStorage.setItem("snoozeEnd", "9:00 AM")
+            this.setState({
+              snoozeEnd:"9:00 AM"
+            })
+          }else{
+            this.setState({
+              snoozeEnd:value
+            })
+          }
+      }).done();
     }
 
     goBack () {
@@ -72,6 +106,7 @@ class SettingsNotifications extends Component {
     }
 
     updateEnabled = (value) => {
+      AsyncStorage.setItem("notificationsEnabled", JSON.stringify(value));
       this.setState({
         enabled:value,
       });
@@ -84,14 +119,26 @@ class SettingsNotifications extends Component {
       });
     }
 
+    closeAnimation(handle){
+        if(handle == 'reminderIntervalModalAnimation'){
+          this.setState({reminderIntervalModalAnimation:true});
+        }
+       this.timeoutHandle = setTimeout(()=>{
+            this.setState({reminderIntervalModal:false,reminderIntervalModalAnimation:null});
+       }, 700);
+    }
+
 
   render(){
     return(
       <View style={{flex:1,zIndex:1}}>
       {this.state.reminderIntervalModal &&
-        <Animatable.View animation={this.state.reminderIntervalModal ? 'fadeIn' : 'fadeOut'} duration={500} style={{position:'absolute',zIndex:9,width:'100%',height:'100%',alignItems:'center',justifyContent:'center',backgroundColor:'rgba(51, 51, 51, 0.5)'}}>
-          <Animatable.View animation={this.state.reminderIntervalModal ? 'fadeInDown' : 'fadeOutUp'} style={{width:'80%',height:'33%',backgroundColor:'#ffffff',borderRadius:4,overflow:'hidden',}}>
-            <View style={{alignItems:'center',justifyContent:'center',width:'100%',height:'100%'}}>
+        <Animatable.View animation={this.state.reminderIntervalModalAnimation ? 'fadeOut' : 'fadeIn'} duration={500} style={{position:'absolute',zIndex:9,width:'100%',height:'100%',alignItems:'center',justifyContent:'center',backgroundColor:'rgba(51, 51, 51, 0.5)'}}>
+          <Animatable.View animation={this.state.reminderIntervalModalAnimation ? 'fadeOutUp' : 'fadeInDown'} style={{width:'80%',height:'50%',backgroundColor:'#ffffff',borderRadius:4,}}>
+            <View style={{width:'100%',height:'100%'}}>
+              <View style={{width:'100%',marginTop:30}}>
+                <Button title={'Done'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={() => this.closeAnimation('reminderIntervalModalAnimation')}/>
+              </View>
               <Picker selectedValue = {this.state.reminderInterval} onValueChange = {(value) => this.updateReminderInterval(value)} style={{width:'100%'}}>
                 <Picker.Item label = "10 Minutes" value = "10" />
                 <Picker.Item label = "15 Minutes" value = "15" />

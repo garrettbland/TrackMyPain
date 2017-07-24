@@ -61,7 +61,7 @@ class SettingsNotifications extends Component {
           if(value == null){
             AsyncStorage.setItem("reminderInterval", "60")
             this.setState({
-              reminderInterval:60
+              reminderInterval:"60"
             })
           }else{
             this.setState({
@@ -77,7 +77,7 @@ class SettingsNotifications extends Component {
           if(value == null){
             AsyncStorage.setItem("snoozeStart", "2000")
             this.setState({
-              snoozeStart:2000
+              snoozeStart:"2000"
             })
           }else{
             this.setState({
@@ -92,7 +92,7 @@ class SettingsNotifications extends Component {
           if(value == null){
             AsyncStorage.setItem("snoozeEnd", "0900")
             this.setState({
-              snoozeEnd:900
+              snoozeEnd:"0900"
             })
           }else{
             this.setState({

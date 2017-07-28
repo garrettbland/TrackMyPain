@@ -51,8 +51,12 @@ class SettingsNotifications extends Component {
 
       //see if notifications are enabled
       AsyncStorage.getItem("notificationsEnabled").then((value) => {
-
-        this.setState({enabled:JSON.parse(value)});
+        if(value == null){
+          AsyncStorage.setItem("notificationsEnabled", "false")
+          this.setState({enabled:false});
+        }else{
+          this.setState({enabled:JSON.parse(value)});
+        }
       }).done();
 
       //fetch local data for interval to set state

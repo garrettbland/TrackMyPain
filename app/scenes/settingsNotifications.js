@@ -28,6 +28,8 @@ import {
   StyleSheet,
   AsyncStorage,
   TouchableOpacity,
+  PushNotificationIOS,
+  Alert,
 } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
@@ -43,7 +45,8 @@ class SettingsNotifications extends Component {
       this.state = {
         reminderIntervalModal:false
       }
-      this.goBack = this.goBack.bind(this)
+      this.goBack = this.goBack.bind(this);
+      this.checkSnoozeZone = this.checkSnoozeZone.bind(this);
     }
 
     componentDidMount() {
@@ -53,7 +56,7 @@ class SettingsNotifications extends Component {
       AsyncStorage.getItem("notificationsEnabled").then((value) => {
         if(value == null){
           AsyncStorage.setItem("notificationsEnabled", "false")
-          this.setState({enabled:false});
+          this.setState({enabled:false,firstTimeNotifications:true});
         }else{
           this.setState({enabled:JSON.parse(value)});
         }
@@ -111,7 +114,38 @@ class SettingsNotifications extends Component {
       this.props.navigation.dispatch(backAction)
     }
 
+    checkSnoozeZone = () => {
+      AsyncStorage.setItem("notificationsEnabled", JSON.stringify(false));
+      console.log("I DID SOMETHING ________________________________________");
+    }
+
     updateEnabled = (value) => {
+
+      if(value == true){
+        //sets local notifications
+        PushNotificationIOS.checkPermissions((permissions)=>{
+          if(permissions.alert == false && !this.state.firstTimeNotifications){
+            Alert.alert("Warning","You currently have notifications turned off for Track My Pain. Please go to Settings > Track My Pain > Notifications and 'Allow'");
+            this.setState({
+              enabled:false,
+            })
+          }
+        });
+        var time = moment(Date.now()).add(1, 'm').format("YYYY-MM-DDTHH:mm:ss.sssZ");
+        PushNotificationIOS.requestPermissions()
+        PushNotificationIOS.scheduleLocalNotification({
+          fireDate:time,
+          alertBody:'Time to Track your Pain',
+          repeatInterval:'minute',
+        });
+
+      }else{
+        //cancels all local notificaitons
+        PushNotificationIOS.cancelAllLocalNotifications()
+      }
+
+      PushNotificationIOS.addEventListener('localNotification',this.checkSnoozeZone);
+
       AsyncStorage.setItem("notificationsEnabled", JSON.stringify(value));
       this.setState({
         enabled:value,

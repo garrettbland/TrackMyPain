@@ -41,7 +41,7 @@ class Rate extends Component {
       pain9:'#ffffff',
       pain10:'#ffffff',
     }
-    
+
   }
 
   rateDetailRoute(){

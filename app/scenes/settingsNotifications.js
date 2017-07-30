@@ -46,7 +46,6 @@ class SettingsNotifications extends Component {
         reminderIntervalModal:false
       }
       this.goBack = this.goBack.bind(this);
-      this.checkSnoozeZone = this.checkSnoozeZone.bind(this);
     }
 
     componentDidMount() {
@@ -66,9 +65,9 @@ class SettingsNotifications extends Component {
       AsyncStorage.getItem("reminderInterval").then((value) => {
           //if empty, set defaults
           if(value == null){
-            AsyncStorage.setItem("reminderInterval", "60")
+            AsyncStorage.setItem("reminderInterval", "day")
             this.setState({
-              reminderInterval:"60"
+              reminderInterval:"day"
             })
           }else{
             this.setState({
@@ -77,118 +76,82 @@ class SettingsNotifications extends Component {
           }
       }).done();
 
-      //fetch local data for time start to set state
-      AsyncStorage.getItem("snoozeStart").then((value) => {
-          //if empty, set defaults
+    };
 
-          if(value == null){
-            AsyncStorage.setItem("snoozeStart", "2000")
-            this.setState({
-              snoozeStart:"2000"
-            })
-          }else{
-            this.setState({
-              snoozeStart:value
-            })
-          }
-      }).done();
-
-      //fetch local data for time end to set state
-      AsyncStorage.getItem("snoozeEnd").then((value) => {
-          //if empty, set defaults
-          if(value == null){
-            AsyncStorage.setItem("snoozeEnd", "0900")
-            this.setState({
-              snoozeEnd:"0900"
-            })
-          }else{
-            this.setState({
-              snoozeEnd:value
-            })
-          }
-      }).done();
-    }
-
-    goBack () {
-      const backAction = NavigationActions.back({})
-      this.props.navigation.dispatch(backAction)
-    }
-
-    checkSnoozeZone = () => {
-      AsyncStorage.setItem("notificationsEnabled", JSON.stringify(false));
-      console.log("I DID SOMETHING ________________________________________");
-    }
+goBack () {
+  const backAction = NavigationActions.back({})
+  this.props.navigation.dispatch(backAction)
+}
 
     updateEnabled = (value) => {
 
       if(value == true){
         //sets local notifications
-        PushNotificationIOS.checkPermissions((permissions)=>{
-          if(permissions.alert == false && !this.state.firstTimeNotifications){
-            Alert.alert("Warning","You currently have notifications turned off for Track My Pain. Please go to Settings > Track My Pain > Notifications and 'Allow'");
-            this.setState({
-              enabled:false,
-            })
-          }
-        });
-        var time = moment(Date.now()).add(1, 'm').format("YYYY-MM-DDTHH:mm:ss.sssZ");
-        PushNotificationIOS.requestPermissions()
-        PushNotificationIOS.scheduleLocalNotification({
-          fireDate:time,
-          alertBody:'Time to Track your Pain',
-          repeatInterval:'minute',
-        });
+
+        if(this.state.firstTimeNotifications){
+          PushNotificationIOS.requestPermissions();
+          this.setState({
+            enabled:false,
+            firstTimeNotifications:false,
+          })
+          AsyncStorage.setItem("notificationsEnabled", JSON.stringify(false));
+        }else{
+          PushNotificationIOS.checkPermissions((permissions)=>{
+            if(permissions.alert == false && !this.state.firstTimeNotifications){
+              Alert.alert("Warning","You currently have notifications turned off for Track My Pain. Please go to Settings > Track My Pain > Notifications and 'Allow'");
+              this.setState({
+                enabled:false,
+              })
+            }
+          });
+
+          var Firetime = moment(Date.now()).add(15, 'm').format("YYYY-MM-DDTHH:mm:ss.sssZ");
+          PushNotificationIOS.scheduleLocalNotification({
+            fireDate:Firetime,
+            alertBody:'Time to Track your Pain',
+            repeatInterval:this.state.reminderInterval,
+          });
+
+          AsyncStorage.setItem("notificationsEnabled", JSON.stringify(true));
+          this.setState({
+            enabled:value,
+          });
+        }
+
 
       }else{
         //cancels all local notificaitons
         PushNotificationIOS.cancelAllLocalNotifications()
+        AsyncStorage.setItem("notificationsEnabled", JSON.stringify(true));
+        this.setState({
+          enabled:false
+        })
       }
 
-      PushNotificationIOS.addEventListener('localNotification',this.checkSnoozeZone);
-
-      AsyncStorage.setItem("notificationsEnabled", JSON.stringify(value));
-      this.setState({
-        enabled:value,
-      });
     }
 
     updateReminderInterval(time){
+      PushNotificationIOS.cancelAllLocalNotifications();
       AsyncStorage.setItem("reminderInterval", time)
       this.setState({
         reminderInterval:time
       });
-    }
-
-    updateSnoozeStart(time){
-      AsyncStorage.setItem("snoozeStart", time)
-      this.setState({
-        snoozeStart:time
-      });
-    }
-
-    updateSnoozeEnd(time){
-      AsyncStorage.setItem("snoozeEnd", time)
-      this.setState({
-        snoozeEnd:time
+      var Firetime = moment(Date.now()).add(15, 'm').format("YYYY-MM-DDTHH:mm:ss.sssZ");
+      PushNotificationIOS.scheduleLocalNotification({
+        fireDate:Firetime,
+        alertBody:'Time to Track your Pain',
+        repeatInterval:time,
       });
     }
 
     closeAnimation(handle){
         if(handle == 'reminderIntervalModalAnimation'){
           this.setState({reminderIntervalModalAnimation:true});
-        }else if (handle == 'snoozeStartModalAnimation'){
-          this.setState({snoozeStartModalAnimation:true});
-        }else if (handle == 'snoozeEndModalAnimation'){
-          this.setState({snoozeEndModalAnimation:true});
         }
        this.timeoutHandle = setTimeout(()=>{
             this.setState({
               reminderIntervalModal:false,
-              snoozeStartModal:false,
-              snoozeEndModal:false,
               reminderIntervalModalAnimation:null,
-              snoozeStartModalAnimation:null,
-              snoozeEndModalAnimation:null,
             });
        }, 700);
     }
@@ -202,88 +165,9 @@ class SettingsNotifications extends Component {
                 <Button title={'Done'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={() => this.closeAnimation('reminderIntervalModalAnimation')}/>
               </View>
               <Picker selectedValue = {this.state.reminderInterval} onValueChange = {(value) => this.updateReminderInterval(value)} style={{width:'100%'}}>
-                <Picker.Item label = "10 Minutes" value = "10" />
-                <Picker.Item label = "15 Minutes" value = "15" />
-                <Picker.Item label = "30 Minutes" value = "30" />
-                <Picker.Item label = "1 Hour" value = "60" />
-                <Picker.Item label = "2 Hours" value = "120" />
-                <Picker.Item label = "4 Hours" value = "180" />
-              </Picker>
-            </View>
-          </Animatable.View>
-        </Animatable.View>
-      )
-    }
-
-    renderStartModal(){
-      return (
-        <Animatable.View animation={this.state.snoozeStartModalAnimation ? 'fadeOut' : 'fadeIn'} duration={500} style={{position:'absolute',zIndex:9,width:'100%',height:'100%',alignItems:'center',justifyContent:'center',backgroundColor:'rgba(51, 51, 51, 0.5)'}}>
-          <Animatable.View animation={this.state.snoozeStartModalAnimation ? 'fadeOutUp' : 'fadeInDown'} style={{width:'80%',height:'50%',backgroundColor:'#ffffff',borderRadius:4,}}>
-            <View style={{width:'100%',height:'100%'}}>
-              <View style={{width:'100%',marginTop:30}}>
-                <Button title={'Done'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={() => this.closeAnimation('snoozeStartModalAnimation')}/>
-              </View>
-              <Picker selectedValue = {this.state.snoozeStart} onValueChange = {(value) => this.updateSnoozeStart(value)} style={{width:'100%'}}>
-                <Picker.Item label = "1:00 AM" value = "0100" />
-                <Picker.Item label = "2:00 AM" value = "0200" />
-                <Picker.Item label = "3:00 AM" value = "0300" />
-                <Picker.Item label = "4:00 AM" value = "0400" />
-                <Picker.Item label = "5:00 AM" value = "0500" />
-                <Picker.Item label = "6:00 AM" value = "0600" />
-                <Picker.Item label = "7:00 AM" value = "0700" />
-                <Picker.Item label = "8:00 AM" value = "0800" />
-                <Picker.Item label = "9:00 AM" value = "0900" />
-                <Picker.Item label = "10:00 AM" value = "1000" />
-                <Picker.Item label = "11:00 AM" value = "1100" />
-                <Picker.Item label = "1:00 PM" value = "1300" />
-                <Picker.Item label = "2:00 PM" value = "1400" />
-                <Picker.Item label = "3:00 PM" value = "1500" />
-                <Picker.Item label = "4:00 PM" value = "1600" />
-                <Picker.Item label = "5:00 PM" value = "1700" />
-                <Picker.Item label = "6:00 PM" value = "1800" />
-                <Picker.Item label = "7:00 PM" value = "1900" />
-                <Picker.Item label = "8:00 PM" value = "2000" />
-                <Picker.Item label = "9:00 PM" value = "2100" />
-                <Picker.Item label = "10:00 PM" value = "2200" />
-                <Picker.Item label = "11:00 PM" value = "2300" />
-              </Picker>
-            </View>
-          </Animatable.View>
-        </Animatable.View>
-      )
-    }
-
-    renderEndModal(){
-      return (
-        <Animatable.View animation={this.state.snoozeEndModalAnimation ? 'fadeOut' : 'fadeIn'} duration={500} style={{position:'absolute',zIndex:9,width:'100%',height:'100%',alignItems:'center',justifyContent:'center',backgroundColor:'rgba(51, 51, 51, 0.5)'}}>
-          <Animatable.View animation={this.state.snoozeEndModalAnimation ? 'fadeOutUp' : 'fadeInDown'} style={{width:'80%',height:'50%',backgroundColor:'#ffffff',borderRadius:4,}}>
-            <View style={{width:'100%',height:'100%'}}>
-              <View style={{width:'100%',marginTop:30}}>
-                <Button title={'Done'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={() => this.closeAnimation('snoozeEndModalAnimation')}/>
-              </View>
-              <Picker selectedValue = {this.state.snoozeEnd} onValueChange = {(value) => this.updateSnoozeEnd(value)} style={{width:'100%'}}>
-              <Picker.Item label = "1:00 AM" value = "0100" />
-              <Picker.Item label = "2:00 AM" value = "0200" />
-              <Picker.Item label = "3:00 AM" value = "0300" />
-              <Picker.Item label = "4:00 AM" value = "0400" />
-              <Picker.Item label = "5:00 AM" value = "0500" />
-              <Picker.Item label = "6:00 AM" value = "0600" />
-              <Picker.Item label = "7:00 AM" value = "0700" />
-              <Picker.Item label = "8:00 AM" value = "0800" />
-              <Picker.Item label = "9:00 AM" value = "0900" />
-              <Picker.Item label = "10:00 AM" value = "1000" />
-              <Picker.Item label = "11:00 AM" value = "1100" />
-              <Picker.Item label = "1:00 PM" value = "1300" />
-              <Picker.Item label = "2:00 PM" value = "1400" />
-              <Picker.Item label = "3:00 PM" value = "1500" />
-              <Picker.Item label = "4:00 PM" value = "1600" />
-              <Picker.Item label = "5:00 PM" value = "1700" />
-              <Picker.Item label = "6:00 PM" value = "1800" />
-              <Picker.Item label = "7:00 PM" value = "1900" />
-              <Picker.Item label = "8:00 PM" value = "2000" />
-              <Picker.Item label = "9:00 PM" value = "2100" />
-              <Picker.Item label = "10:00 PM" value = "2200" />
-              <Picker.Item label = "11:00 PM" value = "2300" />
+                <Picker.Item label = "Once an hour" value = "hour" />
+                <Picker.Item label = "Once a day" value = "day" />
+                <Picker.Item label = "Once a week" value = "week" />
               </Picker>
             </View>
           </Animatable.View>
@@ -297,12 +181,6 @@ class SettingsNotifications extends Component {
       <View style={{flex:1,zIndex:1}}>
       {this.state.reminderIntervalModal &&
         this.renderIntervalModal()
-      }
-      {this.state.snoozeStartModal &&
-        this.renderStartModal()
-      }
-      {this.state.snoozeEndModal &&
-        this.renderEndModal()
       }
         <ScrollView>
           <View style={{marginTop:12}}>
@@ -353,7 +231,7 @@ class SettingsNotifications extends Component {
                   <View style={{flexDirection:'row'}}>
                     <Icon name={'ios-alarm-outline'} size={28} style={{marginTop:3,paddingRight:8}} color={this.state.enabled ? '#7f8c8d': '#bdc3c7'} />
                     <View style={{justifyContent:'center',}}>
-                      <Text style={{color:this.state.enabled ? '#3F3F3F': '#bdc3c7',fontSize:15,}}>{'Every '+this.state.reminderInterval+' minutes'}</Text>
+                      <Text style={{color:this.state.enabled ? '#3F3F3F': '#bdc3c7',fontSize:15,}}>{'Once a '+this.state.reminderInterval}</Text>
                     </View>
                   </View>
                   <View>
@@ -361,64 +239,6 @@ class SettingsNotifications extends Component {
                   </View>
                 </View>
               </TouchableOpacity>
-
-
-              <View style={{paddingLeft:10,paddingBottom:3,marginTop:25}}>
-                <Text style={{color:'#3F3F3F',fontSize:15,fontWeight:'bold'}}>Snooze Mode</Text>
-                <Text style={{color:'#3F3F3F',fontSize:12}}>Automatically turn notifications off between selected times</Text>
-              </View>
-                <TouchableOpacity
-                  disabled={!this.state.enabled}
-                  onPress={()=>this.setState({snoozeStartModal:true})}
-                  activeOpacity={0.6}
-                  style={{
-                    width:'100%',
-                    paddingLeft:10,
-                    paddingRight:10,
-                    backgroundColor:'#ffffff',
-                    borderTopWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
-                    borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
-                    borderColor:'#bdc3c7',
-                  }}
-                >
-                  <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>
-                    <View style={{flexDirection:'row'}}>
-                      <Text style={{fontSize:15,color:this.state.enabled ? '#3F3F3F': '#bdc3c7',fontWeight:'bold',width:60}}>Start</Text>
-                      <View style={{justifyContent:'center',}}>
-                        <Text style={{color:this.state.enabled ? '#3F3F3F': '#bdc3c7',fontSize:15,}}>{moment(this.state.snoozeStart, "hh").format('h:mm A')}</Text>
-                      </View>
-                    </View>
-                    <View>
-                      <Icon name={'ios-more'} size={28} style={{marginTop:3}} color={this.state.enabled ? '#7f8c8d': '#bdc3c7'} />
-                    </View>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  disabled={!this.state.enabled}
-                  onPress={()=>this.setState({snoozeEndModal:true})}
-                  activeOpacity={0.6}
-                  style={{
-                    width:'100%',
-                    paddingLeft:10,
-                    paddingRight:10,
-                    backgroundColor:'#ffffff',
-                    borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
-                    borderColor:'#bdc3c7',
-                  }}
-                >
-                  <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>
-                    <View style={{flexDirection:'row'}}>
-                      <Text style={{fontSize:15,color:this.state.enabled ? '#3F3F3F': '#bdc3c7',fontWeight:'bold',width:60}}>End</Text>
-                      <View style={{justifyContent:'center',}}>
-                        <Text style={{color:this.state.enabled ? '#3F3F3F': '#bdc3c7',fontSize:15,}}>{moment(this.state.snoozeEnd, "hh").format('h:mm A')}</Text>
-                      </View>
-                    </View>
-                    <View>
-                      <Icon name={'ios-more'} size={28} style={{marginTop:3}} color={this.state.enabled ? '#7f8c8d': '#bdc3c7'} />
-                    </View>
-                  </View>
-                </TouchableOpacity>
-
 
           </View>
         </ScrollView>
@@ -438,3 +258,138 @@ function mapDispatchToProps(dispatch){
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsNotifications);
+
+
+
+
+// <View style={{paddingLeft:10,paddingBottom:3,marginTop:25}}>
+//   <Text style={{color:'#3F3F3F',fontSize:15,fontWeight:'bold'}}>Snooze Mode</Text>
+//   <Text style={{color:'#3F3F3F',fontSize:12}}>Automatically turn notifications off between selected times</Text>
+// </View>
+//   <TouchableOpacity
+//     disabled={!this.state.enabled}
+//     onPress={()=>this.setState({snoozeStartModal:true})}
+//     activeOpacity={0.6}
+//     style={{
+//       width:'100%',
+//       paddingLeft:10,
+//       paddingRight:10,
+//       backgroundColor:'#ffffff',
+//       borderTopWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+//       borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+//       borderColor:'#bdc3c7',
+//     }}
+//   >
+//     <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>
+//       <View style={{flexDirection:'row'}}>
+//         <Text style={{fontSize:15,color:this.state.enabled ? '#3F3F3F': '#bdc3c7',fontWeight:'bold',width:60}}>Start</Text>
+//         <View style={{justifyContent:'center',}}>
+//           <Text style={{color:this.state.enabled ? '#3F3F3F': '#bdc3c7',fontSize:15,}}>{moment(this.state.snoozeStart, "hh").format('h:mm A')}</Text>
+//         </View>
+//       </View>
+//       <View>
+//         <Icon name={'ios-more'} size={28} style={{marginTop:3}} color={this.state.enabled ? '#7f8c8d': '#bdc3c7'} />
+//       </View>
+//     </View>
+//   </TouchableOpacity>
+//   <TouchableOpacity
+//     disabled={!this.state.enabled}
+//     onPress={()=>this.setState({snoozeEndModal:true})}
+//     activeOpacity={0.6}
+//     style={{
+//       width:'100%',
+//       paddingLeft:10,
+//       paddingRight:10,
+//       backgroundColor:'#ffffff',
+//       borderBottomWidth:Platform.OS == 'ios' ? StyleSheet.hairlineWidth : 1,
+//       borderColor:'#bdc3c7',
+//     }}
+//   >
+//     <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>
+//       <View style={{flexDirection:'row'}}>
+//         <Text style={{fontSize:15,color:this.state.enabled ? '#3F3F3F': '#bdc3c7',fontWeight:'bold',width:60}}>End</Text>
+//         <View style={{justifyContent:'center',}}>
+//           <Text style={{color:this.state.enabled ? '#3F3F3F': '#bdc3c7',fontSize:15,}}>{moment(this.state.snoozeEnd, "hh").format('h:mm A')}</Text>
+//         </View>
+//       </View>
+//       <View>
+//         <Icon name={'ios-more'} size={28} style={{marginTop:3}} color={this.state.enabled ? '#7f8c8d': '#bdc3c7'} />
+//       </View>
+//     </View>
+//   </TouchableOpacity>
+
+// renderStartModal(){
+//   return (
+//     <Animatable.View animation={this.state.snoozeStartModalAnimation ? 'fadeOut' : 'fadeIn'} duration={500} style={{position:'absolute',zIndex:9,width:'100%',height:'100%',alignItems:'center',justifyContent:'center',backgroundColor:'rgba(51, 51, 51, 0.5)'}}>
+//       <Animatable.View animation={this.state.snoozeStartModalAnimation ? 'fadeOutUp' : 'fadeInDown'} style={{width:'80%',height:'50%',backgroundColor:'#ffffff',borderRadius:4,}}>
+//         <View style={{width:'100%',height:'100%'}}>
+//           <View style={{width:'100%',marginTop:30}}>
+//             <Button title={'Done'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={() => this.closeAnimation('snoozeStartModalAnimation')}/>
+//           </View>
+//           <Picker selectedValue = {this.state.snoozeStart} onValueChange = {(value) => this.updateSnoozeStart(value)} style={{width:'100%'}}>
+//             <Picker.Item label = "1:00 AM" value = "0100" />
+//             <Picker.Item label = "2:00 AM" value = "0200" />
+//             <Picker.Item label = "3:00 AM" value = "0300" />
+//             <Picker.Item label = "4:00 AM" value = "0400" />
+//             <Picker.Item label = "5:00 AM" value = "0500" />
+//             <Picker.Item label = "6:00 AM" value = "0600" />
+//             <Picker.Item label = "7:00 AM" value = "0700" />
+//             <Picker.Item label = "8:00 AM" value = "0800" />
+//             <Picker.Item label = "9:00 AM" value = "0900" />
+//             <Picker.Item label = "10:00 AM" value = "1000" />
+//             <Picker.Item label = "11:00 AM" value = "1100" />
+//             <Picker.Item label = "1:00 PM" value = "1300" />
+//             <Picker.Item label = "2:00 PM" value = "1400" />
+//             <Picker.Item label = "3:00 PM" value = "1500" />
+//             <Picker.Item label = "4:00 PM" value = "1600" />
+//             <Picker.Item label = "5:00 PM" value = "1700" />
+//             <Picker.Item label = "6:00 PM" value = "1800" />
+//             <Picker.Item label = "7:00 PM" value = "1900" />
+//             <Picker.Item label = "8:00 PM" value = "2000" />
+//             <Picker.Item label = "9:00 PM" value = "2100" />
+//             <Picker.Item label = "10:00 PM" value = "2200" />
+//             <Picker.Item label = "11:00 PM" value = "2300" />
+//           </Picker>
+//         </View>
+//       </Animatable.View>
+//     </Animatable.View>
+//   )
+// }
+//
+// renderEndModal(){
+//   return (
+//     <Animatable.View animation={this.state.snoozeEndModalAnimation ? 'fadeOut' : 'fadeIn'} duration={500} style={{position:'absolute',zIndex:9,width:'100%',height:'100%',alignItems:'center',justifyContent:'center',backgroundColor:'rgba(51, 51, 51, 0.5)'}}>
+//       <Animatable.View animation={this.state.snoozeEndModalAnimation ? 'fadeOutUp' : 'fadeInDown'} style={{width:'80%',height:'50%',backgroundColor:'#ffffff',borderRadius:4,}}>
+//         <View style={{width:'100%',height:'100%'}}>
+//           <View style={{width:'100%',marginTop:30}}>
+//             <Button title={'Done'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={() => this.closeAnimation('snoozeEndModalAnimation')}/>
+//           </View>
+//           <Picker selectedValue = {this.state.snoozeEnd} onValueChange = {(value) => this.updateSnoozeEnd(value)} style={{width:'100%'}}>
+//           <Picker.Item label = "1:00 AM" value = "0100" />
+//           <Picker.Item label = "2:00 AM" value = "0200" />
+//           <Picker.Item label = "3:00 AM" value = "0300" />
+//           <Picker.Item label = "4:00 AM" value = "0400" />
+//           <Picker.Item label = "5:00 AM" value = "0500" />
+//           <Picker.Item label = "6:00 AM" value = "0600" />
+//           <Picker.Item label = "7:00 AM" value = "0700" />
+//           <Picker.Item label = "8:00 AM" value = "0800" />
+//           <Picker.Item label = "9:00 AM" value = "0900" />
+//           <Picker.Item label = "10:00 AM" value = "1000" />
+//           <Picker.Item label = "11:00 AM" value = "1100" />
+//           <Picker.Item label = "1:00 PM" value = "1300" />
+//           <Picker.Item label = "2:00 PM" value = "1400" />
+//           <Picker.Item label = "3:00 PM" value = "1500" />
+//           <Picker.Item label = "4:00 PM" value = "1600" />
+//           <Picker.Item label = "5:00 PM" value = "1700" />
+//           <Picker.Item label = "6:00 PM" value = "1800" />
+//           <Picker.Item label = "7:00 PM" value = "1900" />
+//           <Picker.Item label = "8:00 PM" value = "2000" />
+//           <Picker.Item label = "9:00 PM" value = "2100" />
+//           <Picker.Item label = "10:00 PM" value = "2200" />
+//           <Picker.Item label = "11:00 PM" value = "2300" />
+//           </Picker>
+//         </View>
+//       </Animatable.View>
+//     </Animatable.View>
+//   )
+// }

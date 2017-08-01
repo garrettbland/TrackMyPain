@@ -39,9 +39,9 @@ class SettingsButton extends Component {
           borderColor:'#bdc3c7',
         }}
       >
-        <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>
+        <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:54,}}>
           <View style={{flexDirection:'row'}}>
-            <Icon name={this.props.iconLeft} size={28} style={{marginTop:3,paddingRight:8}} color={'#7f8c8d'} />
+            <Icon name={this.props.iconLeft} size={28} style={{marginTop:3,paddingRight:10}} color={'#3498db'} />
             <View style={{justifyContent:'center',}}>
               <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15,}}>{this.props.title}</Text>
             </View>

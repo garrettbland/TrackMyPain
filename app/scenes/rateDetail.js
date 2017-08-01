@@ -42,7 +42,7 @@ const navigateAction = NavigationActions.navigate({
 class RateDetail extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-      headerLeft: Platform.OS == 'ios' ? <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}} style={{marginLeft:10,width:60}}><Icon name={'md-close'} size={32} color={'#c0392b'}/></TouchableOpacity> : null,
+      headerLeft: Platform.OS == 'ios' ? <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}} style={{marginLeft:10,width:60}}><Text style={{color:'#c0392b',fontWeight:'bold',fontSize:15}}>Cancel</Text></TouchableOpacity> : null,
     });
 
   constructor(props) {
@@ -223,7 +223,7 @@ class RateDetail extends Component {
                 keyExtractor={item => item.key}
               />
           <View style={{height:60,justifyContent:'center',marginTop:30,marginBottom:30}}>
-            <Button title={'Rate'} backgroundColor={'#2ecc71'} titleColor={'#ffffff'} onPress={()=>this.rate()}/>
+            <Button title={'Rate'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={()=>this.rate()}/>
           </View>
         </ScrollView>
       </View>

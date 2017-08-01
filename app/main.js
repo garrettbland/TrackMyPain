@@ -44,7 +44,7 @@ const AppSettingsStack = StackNavigator({
       title: 'Settings',
       headerBackTitle:null,
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-options' : 'ios-options-outline'} size={32} color={focused ? '#3498db' : tintColor} />
+        <Icon name={'ios-switch'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       tabBarLabel:'Settings',
       headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
@@ -57,7 +57,7 @@ const AppSettingsStack = StackNavigator({
       title: 'Notifications',
       headerBackTitle:null,
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-options' : 'ios-options-outline'} size={32} color={focused ? '#3498db' : tintColor} />
+        <Icon name={'ios-switch'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       tabBarLabel:'Settings',
       headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
@@ -70,7 +70,7 @@ const AppSettingsStack = StackNavigator({
       title: 'Profile',
       headerBackTitle:null,
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-options' : 'ios-options-outline'} size={32} color={focused ? '#3498db' : tintColor} />
+        <Icon name={'ios-switch'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       tabBarLabel:'Settings',
       headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
@@ -89,10 +89,10 @@ const AppRateStack = StackNavigator({
       headerBackTitle:null,
       tabBarLabel:'Rate',
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-disc' : 'ios-disc-outline'} size={32} color={focused ? '#3498db' : tintColor} />
+        <Icon name={focused ? 'md-heart' : 'md-heart-outline'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       header:false
-    }
+    },
   },
   RateDetail: {
     screen: RateDetail,
@@ -102,7 +102,7 @@ const AppRateStack = StackNavigator({
       headerTitleStyle:{fontWeight:'bold',fontSize:19},
       tabBarLabel:'Rate',
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-disc' : 'ios-disc-outline'} size={32} color={focused ? '#3498db' : tintColor} />
+        <Icon name={focused ? 'md-heart' : 'md-heart-outline'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       headerStyle:{backgroundColor:'#ffffff'},
       gesturesEnabled: false,
@@ -114,7 +114,7 @@ const AppRateStack = StackNavigator({
       title: 'Choose Meds',
       tabBarLabel:'Rate',
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-disc' : 'ios-disc-outline'} size={32} color={focused ? '#3498db' : tintColor} />
+        <Icon name={focused ? 'md-heart' : 'md-heart-outline'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       headerBackTitle:null,
       headerTitleStyle:{fontWeight:'bold',fontSize:19},
@@ -134,7 +134,7 @@ const AppStatsStack = StackNavigator({
       title: 'Statistics',
       headerBackTitle:null,
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-stats' : 'ios-stats-outline'} size={32} color={focused ? '#3498db' : tintColor} />
+        <Icon name={'md-stats'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       tabBarLabel:'Stats',
       headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
@@ -155,7 +155,7 @@ const AppMedsStack = StackNavigator({
       headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
       headerStyle:{backgroundColor:'#3498db',borderBottomWidth:0},
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-medkit' : 'ios-medkit-outline'} size={32} color={focused ? '#3498db' : tintColor} />
+        <Icon name={'md-medkit'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       tabBarLabel:'Meds',
     }
@@ -169,7 +169,7 @@ const AppMedsStack = StackNavigator({
       gesturesEnabled: false,
       headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#000000'},
       tabBarIcon: ({ focused, tintColor }) => (
-        <Icon name={focused ? 'ios-medkit' : 'ios-medkit-outline'} size={32} color={focused ? '#3498db' : tintColor} />
+        <Icon name={'md-medkit'} size={32} color={focused ? '#3498db' : tintColor} />
       ),
       headerStyle:{backgroundColor:'#ffffff'},
     }
@@ -187,8 +187,10 @@ const AppTab = TabNavigator({
 },{
   initialRouteName:'RateStack',
   tabBarOptions: {
-    tabStyle: {
-
+    activeTintColor:'#3498db',
+    showLabel:false,
+    labelStyle:{
+      fontWeight:'bold'
     },
     style:{
       backgroundColor:'#F1F1F1',

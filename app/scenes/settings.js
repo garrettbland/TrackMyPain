@@ -28,9 +28,9 @@ class Settings extends Component {
       <View style={{flex:1}}>
         <ScrollView>
           <View style={{marginTop:12}}>
-            <SettingsButton title={'Notifications'} top={true} bottom={false} icon={'ios-arrow-forward'} iconLeft={'ios-megaphone-outline'} route={'SettingsNotifications'} navigation={this.props.navigation} />
-            <SettingsButton title={'Profile'} top={true} bottom={false} icon={'ios-arrow-forward'} iconLeft={'ios-contact'} route={'SettingsProfile'} navigation={this.props.navigation} />
-            <SettingsButton title={'Theme'} top={true} bottom={true} icon={'ios-arrow-forward'} iconLeft={'ios-color-palette-outline'} route={'SettingsProfile'} navigation={this.props.navigation} />
+            <SettingsButton title={'Notifications'} top={true} bottom={false} icon={'ios-arrow-forward'} iconLeft={'md-notifications'} route={'SettingsNotifications'} navigation={this.props.navigation} />
+            <SettingsButton title={'Profile'} top={true} bottom={false} icon={'ios-arrow-forward'} iconLeft={'md-person'} route={'SettingsProfile'} navigation={this.props.navigation} />
+            <SettingsButton title={'Theme'} top={true} bottom={true} icon={'ios-arrow-forward'} iconLeft={'md-color-palette'} route={'SettingsProfile'} navigation={this.props.navigation} />
           </View>
           <View style={{alignItems:'center',marginTop:12}}>
             <Text style={{color:'#3F3F3F',fontSize:12}}>Version {Config.VERSION}</Text>

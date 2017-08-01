@@ -37,7 +37,7 @@ const screenWidth = Dimensions.get('window').width;
 class SettingsNotifications extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-      headerLeft: <TouchableOpacity style={{width:60}} onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-arrow-back'} size={32} color={'#ffffff'} style={{marginLeft:10}}/></TouchableOpacity>,
+      headerLeft: <TouchableOpacity style={{width:60}} onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-arrow-round-back'} size={32} color={'#ffffff'} style={{marginLeft:10}}/></TouchableOpacity>,
   });
 
     constructor(props) {
@@ -253,7 +253,7 @@ goBack () {
 
   render(){
     return(
-      <View style={{flex:1,zIndex:1}}>
+      <View style={{flex:1,zIndex:1,}}>
       {this.state.reminderIntervalModal &&
         this.renderIntervalModal()
       }
@@ -273,7 +273,7 @@ goBack () {
               borderTopWidth:StyleSheet.hairlineWidth,
               borderBottomWidth:StyleSheet.hairlineWidth,
               borderColor:'#bdc3c7',
-              height:48
+              height:55
             }}>
               <View>
                 <Text style={{fontSize:15,color:'#3F3F3F',fontWeight:'bold'}}>Notifications</Text>
@@ -305,15 +305,15 @@ goBack () {
                   borderColor:'#bdc3c7',
                 }}
               >
-                <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>
+                <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:54,}}>
                   <View style={{flexDirection:'row'}}>
-                    <Icon name={'ios-alarm-outline'} size={28} style={{marginTop:3,paddingRight:8}} color={this.state.enabled ? '#7f8c8d': '#bdc3c7'} />
+                    <Icon name={'md-alarm'} size={28} style={{marginTop:3,paddingRight:8}} color={this.state.enabled ? '#3498db': '#bdc3c7'} />
                     <View style={{justifyContent:'center',}}>
                       <Text style={{color:this.state.enabled ? '#3F3F3F': '#bdc3c7',fontSize:15,}}>{'Once a '+this.state.reminderInterval}</Text>
                     </View>
                   </View>
                   <View>
-                    <Icon name={'ios-more'} size={28} style={{marginTop:3}} color={this.state.enabled ? '#7f8c8d': '#bdc3c7'} />
+                    <Icon name={'ios-more'} size={32} style={{marginTop:5}} color={this.state.enabled ? '#7f8c8d': '#bdc3c7'} />
                   </View>
                 </View>
               </TouchableOpacity>
@@ -336,7 +336,7 @@ goBack () {
                     borderColor:'#bdc3c7',
                   }}
                 >
-                  <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:47,}}>
+                  <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:54,}}>
                     <View style={{flexDirection:'row'}}>
                       <Text style={{fontSize:15,color:this.state.enabled ? '#3F3F3F': '#bdc3c7',fontWeight:'bold',width:60}}>Start</Text>
                       <View style={{justifyContent:'center',}}>
@@ -344,7 +344,7 @@ goBack () {
                       </View>
                     </View>
                     <View>
-                      <Icon name={'ios-more'} size={28} style={{marginTop:3}} color={this.state.enabled ? '#7f8c8d': '#bdc3c7'} />
+                      <Icon name={'ios-more'} size={32} style={{marginTop:5}} color={this.state.enabled ? '#7f8c8d': '#bdc3c7'} />
                     </View>
                   </View>
                 </TouchableOpacity>

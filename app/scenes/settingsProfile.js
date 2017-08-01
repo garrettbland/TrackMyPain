@@ -29,7 +29,7 @@ const screenWidth = Dimensions.get('window').width;
 class SettingsProfile extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-      headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-arrow-back'} size={32} color={'#ffffff'} style={{marginLeft:10,width:60}}/></TouchableOpacity>,
+      headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-arrow-round-back'} size={32} color={'#ffffff'} style={{marginLeft:10,width:60}}/></TouchableOpacity>,
   });
 
     constructor(props) {
@@ -66,7 +66,7 @@ class SettingsProfile extends Component {
           </View>
 
           <View style={{marginTop:15}}>
-            <Button title={'Sign Out'} backgroundColor={'#2ecc71'} titleColor={'#ffffff'} onPress={() => this.handleLogOut()}/>
+            <Button title={'Sign Out'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={() => this.handleLogOut()}/>
           </View>
 
         </ScrollView>

@@ -101,11 +101,11 @@ class Rate extends Component {
     return(
       <View style={{flex:1,backgroundColor:'#F1F1F1',zIndex:1,}}>
       {this.props.user.showModal &&
-        <Modal icon={'ios-checkmark-circle'} iconColor={'#2ecc71'} title={'Success'} body={'Your rate was saved successfully'} />
+        <Modal icon={'md-checkmark-circle'} iconColor={'#2ecc71'} title={'Success'} body={'Your rate was saved successfully'} />
       }
         <View style={{marginTop:15,zIndex:1}}>
           <View style={{height:'20%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-            <Number number={1} backgroundColor={this.state.pain1} fontColor={this.state.pain1 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#3498db'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
+            <Number number={1} backgroundColor={this.state.pain1} fontColor={this.state.pain1 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#019875'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
             <Number number={2} backgroundColor={this.state.pain2} fontColor={this.state.pain2 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#00C853'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
             <Number number={3} backgroundColor={this.state.pain3} fontColor={this.state.pain3 !== '#ffffff' ? '#ffffff' : '#2c3e50'} color={'#64DD17'} callback={(pain,color) => this.setPainLevel(pain,color)}/>
           </View>
@@ -127,7 +127,7 @@ class Rate extends Component {
             </View>
           </View>
           <View style={{height:'20%',justifyContent:'center'}}>
-            <Button title={'Rate'} backgroundColor={'#2ecc71'} titleColor={'#ffffff'} onPress={() => this.rateDetailRoute()}/>
+            <Button title={'Rate'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={() => this.rateDetailRoute()}/>
           </View>
         </View>
       </View>

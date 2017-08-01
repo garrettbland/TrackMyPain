@@ -11,9 +11,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {
   View,
   Text,
+  TouchableOpacity
 } from 'react-native';
 
 class Stats extends Component {
+
+  static navigationOptions = ({ navigation }) => ({
+      headerRight: <TouchableOpacity style={{marginRight:10}} onPress={()=>{navigation.state.params.addMed()}}><Icon name={'md-calendar'} size={32} color={'#ffffff'}/></TouchableOpacity>,
+    });
 
   constructor(props) {
     super(props);

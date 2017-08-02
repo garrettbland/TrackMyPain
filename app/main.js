@@ -141,6 +141,19 @@ const AppStatsStack = StackNavigator({
       headerStyle:{backgroundColor:'#3498db',borderBottomWidth:0}
     }
   },
+  StatsLog: {
+    screen: SettingsProfile,
+    navigationOptions:{
+      title: 'Log',
+      headerBackTitle:null,
+      tabBarIcon: ({ focused, tintColor }) => (
+        <Icon name={'md-stats'} size={32} color={focused ? '#3498db' : tintColor} />
+      ),
+      tabBarLabel:'Stats',
+      headerTitleStyle:{fontWeight:'bold',fontSize:19,color:'#ffffff'},
+      headerStyle:{backgroundColor:'#3498db',borderBottomWidth:0},
+    }
+  },
 },{
   mode:'card',
   headerMode:'float',
@@ -186,6 +199,7 @@ const AppTab = TabNavigator({
   SettingsStack: { screen: AppSettingsStack },
 },{
   initialRouteName:'RateStack',
+  lazy:true,
   tabBarOptions: {
     activeTintColor:'#3498db',
     showLabel:false,

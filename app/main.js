@@ -18,6 +18,7 @@ import RateMeds from './scenes/rateMeds';
 
 //Stats scenes
 import Stats from './scenes/stats';
+import StatsLog from './scenes/statsLog';
 
 //Meds scenes
 import Meds from './scenes/meds';
@@ -142,7 +143,7 @@ const AppStatsStack = StackNavigator({
     }
   },
   StatsLog: {
-    screen: SettingsProfile,
+    screen: StatsLog,
     navigationOptions:{
       title: 'Log',
       headerBackTitle:null,

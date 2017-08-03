@@ -118,7 +118,7 @@ class Meds extends Component {
       cancelButtonIndex: CANCEL_INDEX,
       destructiveButtonIndex: DESTRUCTIVE_INDEX,
       tintColor: '#3498db',
-      title: MEDICATION_NAME
+      title: 'Options'
     },
     (buttonIndex) => {
       if(buttonIndex == 0){

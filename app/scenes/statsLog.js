@@ -35,6 +35,7 @@ class StatsLog extends Component {
 
   static navigationOptions = ({ navigation }) => ({
       headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-arrow-round-back'} size={32} color={'#ffffff'} style={{marginLeft:10,width:60}}/></TouchableOpacity>,
+      headerRight: <TouchableOpacity onPress={()=>console.log("TEST")}><Icon name={'ios-share-outline'} size={32} color={'#ffffff'} style={{marginRight:10}}/></TouchableOpacity>,
   });
 
     constructor(props) {
@@ -108,7 +109,7 @@ class StatsLog extends Component {
         cancelButtonIndex: CANCEL_INDEX,
         destructiveButtonIndex: DESTRUCTIVE_INDEX,
         tintColor: '#3498db',
-        title: RATE_KEY
+        title: 'Options'
       },
       (buttonIndex) => {
         if (buttonIndex == 0){
@@ -204,7 +205,7 @@ class StatsLog extends Component {
             onChangeText={()=>{}}
             clearIcon={{name: 'clear'}}
             textInputRef={this.state.searchText}
-            placeholder='Search...'
+            placeholder='Search Notes...'
             inputStyle={{color:'#3F3F3F'}}
             returnKeyType={'done'}
             containerStyle={{borderTopWidth:0,borderBottomWidth:0,backgroundColor:'transparent'}}

@@ -11,6 +11,7 @@ import * as Animatable from 'react-native-animatable';
 import { SearchBar } from 'react-native-elements'
 import ActionSheet from '@yfuks/react-native-action-sheet';
 import filter from 'lodash/filter';
+import moment from 'moment';
 
 //navigation
 import { NavigationActions, addNavigationHelpers } from 'react-navigation';
@@ -77,7 +78,7 @@ class StatsLog extends Component {
           this.props.showMessageMeds(true,'Info','Currently no rates. Tap the heart icon in the bottom left to start tracking your pain','#1abc9c');
         }
         this.setState({
-          dataSource: items,
+          dataSource: items.reverse(),
           dataSourceClone: items,
         });
       });
@@ -157,16 +158,70 @@ class StatsLog extends Component {
 
     }
 
+    renderPainColor(pain){
+      switch (pain){
+        case 0:
+          return '#9b59b6';
+        case 1:
+          return '#019875';
+        case 2:
+          return '#00C853';
+        case 3:
+          return '#64DD17';
+        case 4:
+          return '#AEEA00';
+        case 5:
+          return '#FFD600';
+        case 6:
+          return '#FFAB00';
+        case 7:
+          return '#FF6D00';
+        case 8:
+          return '#E65100';
+        case 9:
+          return '#DD2C00';
+        case 10:
+          return '#b71c1c';
+      }
+    }
+
+    renderMeds(medsObject){
+      if(medsObject){
+        var meds = [];
+        var array = Object.keys(medsObject).map(function (key) {
+          var name = medsObject[key].name;
+          var amount = medsObject[key].amount;
+          meds.push(name +'('+ amount + ')')
+        });
+        var medsPretty = meds.join(", ")
+        return medsPretty.toString()
+      }else{
+        return 'Empty'
+      }
+    }
+
     _renderItem(item){
       return (
         <View style={{width:'100%',paddingLeft:10,paddingRight:10,backgroundColor:'#ffffff',}}>
-          <View style={{justifyContent:'space-between',flexDirection:'row',alignItems:'center',height:55,}}>
-            <View>
-              <Text style={{color:'#3F3F3F',fontWeight:'bold',fontSize:15}}>{item.pain}</Text>
-              <Text style={{color:'#3F3F3F',fontSize:12,}}>{item.note}</Text>
+          <View style={{flexDirection:'row',justifyContent:'space-between',minHeight:60}}>
+            <View style={{justifyContent:'center',alignItems:'center',width:'15%'}}>
+              <Text style={{fontWeight:'bold',fontSize:32,color:this.renderPainColor(item.pain)}}>
+                {item.pain}
+              </Text>
             </View>
-            <View>
-              <TouchableOpacity onPress={()=>this.showOptions(item._key)}><Icon name={'ios-more'} size={28} style={{marginTop:3,paddingRight:2}} color={'#7f8c8d'} /></TouchableOpacity>
+            <View style={{width:'70%',justifyContent:'center'}}>
+              <Text style={{fontSize:12}}>
+                <Text style={{fontWeight:'bold'}}>Date:</Text> {moment(item.timestamp).format('LLLL')}
+              </Text>
+              <Text style={{fontSize:12}}>
+                <Text style={{fontWeight:'bold'}}>Note: </Text>{item.note ? item.note : 'Empty'}
+              </Text>
+              <Text style={{fontSize:12}}>
+                <Text style={{fontWeight:'bold'}}>Meds: </Text>{this.renderMeds(item.meds)}
+              </Text>
+            </View>
+            <View style={{width:'15%',alignItems:'center',justifyContent:'center'}}>
+              <TouchableOpacity onPress={()=>this.showOptions(item._key)}><Icon name={'ios-more'} size={28} style={{marginTop:3,}} color={'#7f8c8d'} /></TouchableOpacity>
             </View>
           </View>
         </View>

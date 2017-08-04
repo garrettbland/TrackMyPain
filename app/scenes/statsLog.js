@@ -196,7 +196,7 @@ class StatsLog extends Component {
         var medsPretty = meds.join(", ")
         return medsPretty.toString()
       }else{
-        return 'Empty'
+        return 'None'
       }
     }
 
@@ -214,7 +214,7 @@ class StatsLog extends Component {
                 <Text style={{fontWeight:'bold'}}>Date:</Text> {moment(item.timestamp).format('LLLL')}
               </Text>
               <Text style={{fontSize:12}}>
-                <Text style={{fontWeight:'bold'}}>Note: </Text>{item.note ? item.note : 'Empty'}
+                <Text style={{fontWeight:'bold'}}>Note: </Text>{item.note ? item.note : 'None'}
               </Text>
               <Text style={{fontSize:12}}>
                 <Text style={{fontWeight:'bold'}}>Meds: </Text>{this.renderMeds(item.meds)}
@@ -283,6 +283,7 @@ class StatsLog extends Component {
             ListEmptyComponent={this._renderEmptyList}
             ListHeaderComponent={this._renderHeader}
             keyExtractor={item => item._key}
+            initialNumToRender={15}
           />
       </View>
     )

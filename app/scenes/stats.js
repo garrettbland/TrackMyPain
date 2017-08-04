@@ -8,6 +8,10 @@ import * as Actions from '../actions';
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
+import moment from 'moment';
+
+//components
+import firebaseApp from '../components/firebaseApp';
 
 //navigation
 import { NavigationActions, addNavigationHelpers } from 'react-navigation';
@@ -28,18 +32,45 @@ class Stats extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      averagePainToday: [],
+      averagePainYesterday: [],
+      averagePainLast7Days: [],
+      averagePainLast30Days: [],
     }
+    var start = moment().startOf('day')
+    var end = moment().endOf('day')
+    var startClean = moment(start).valueOf().toString();
+    var endClean = moment(end).valueOf().toString();
+    console.log('START: ' + start);
+    console.log("End: " + end);
+    var ref = firebaseApp.database().ref('users/' + 123456789 +'/rates/');
+    this.averageRef = ref.orderByKey().startAt(startClean).endAt(endClean);
+  }
+
+  componentDidMount(){
+    var data = this.makeRemoteRequest();
+  }
+
+  makeRemoteRequest() {
+    this.averageRef.on('value', (snap) => {
+      var items = [];
+      snap.forEach((child) => {
+        items.push({
+          pain: child.val().pain,
+        });
+      });
+      console.log(items);
+      this.setState({
+        averagePainToday:items
+      });
+    });
   }
 
   render(){
 
     var navigateAction = NavigationActions.navigate({
-
       routeName: this.props.route,
-
       params: {},
-
       action: NavigationActions.navigate({ routeName: 'StatsLog'})
     });
 

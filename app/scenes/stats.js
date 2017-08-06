@@ -20,7 +20,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  StatusBar,
 } from 'react-native';
 
 class Stats extends Component {
@@ -32,37 +33,69 @@ class Stats extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      averagePainToday: [],
-      averagePainYesterday: [],
-      averagePainLast7Days: [],
-      averagePainLast30Days: [],
+      animating:true,
+      startToday : moment().startOf('day').valueOf().toString(),
+      endToday : moment().endOf('day').valueOf().toString(),
+      startYesterday : moment().subtract(1, 'days').startOf('day').valueOf().toString(),
+      endYesterday : moment().subtract(1, 'days').endOf('day').valueOf().toString(),
+      start7DaysAgo : moment().subtract(7, 'days').startOf('day').valueOf().toString(),
+      start30DaysAgo : moment().subtract(30, 'days').startOf('day').valueOf().toString(),
     }
-    var start = moment().startOf('day')
-    var end = moment().endOf('day')
-    var startClean = moment(start).valueOf().toString();
-    var endClean = moment(end).valueOf().toString();
-    console.log('START: ' + start);
-    console.log("End: " + end);
-    var ref = firebaseApp.database().ref('users/' + 123456789 +'/rates/');
-    this.averageRef = ref.orderByKey().startAt(startClean).endAt(endClean);
   }
 
   componentDidMount(){
-    var data = this.makeRemoteRequest();
+    this.timeoutHandle = setTimeout(()=>{
+        this.calculateAverage(this.state.startToday,this.state.endToday,1)
+        this.calculateAverage(this.state.startYesterday,this.state.endYesterday,2)
+        this.calculateAverage(this.state.start7DaysAgo,this.state.endToday,3)
+        this.calculateAverage(this.state.start30DaysAgo,this.state.endToday,4)
+    }, 750);
   }
 
-  makeRemoteRequest() {
-    this.averageRef.on('value', (snap) => {
+  calculateAverage(startTime,endTime,time){
+    var ref = firebaseApp.database().ref('users/' + 123456789 +'/rates/');
+    var averageRef = ref.orderByKey().startAt(startTime).endAt(endTime);
+    averageRef.on('value', (snap) => {
       var items = [];
       snap.forEach((child) => {
         items.push({
           pain: child.val().pain,
         });
       });
-      console.log(items);
-      this.setState({
-        averagePainToday:items
-      });
+      var averageArray = items.map(function(item){
+        return item.pain
+      })
+
+      if(averageArray.length){
+        var sum = averageArray.reduce(function(a,b) {return a + b});
+        var avg = sum / averageArray.length;
+        var avgRounded = Math.round( avg * 10) / 10;
+        switch (time){
+          case 1:
+            this.setState({averageToday:avgRounded})
+          case 2:
+            this.setState({averageYesterday:avgRounded})
+          case 3:
+            this.setState({averageLast7Days:avgRounded})
+          case 4:
+            this.setState({averageLast30Days:avgRounded})
+          default:
+
+        }
+      }else{
+        switch (time){
+          case 1:
+            this.setState({averageToday:'Na'})
+          case 2:
+            this.setState({averageYesterday:'Na'})
+          case 3:
+            this.setState({averageLast7Days:'Na'})
+          case 4:
+            this.setState({averageLast30Days:'Na'})
+          default:
+
+        }
+      }
     });
   }
 
@@ -97,7 +130,10 @@ class Stats extends Component {
                 shadowRadius: 3,
                 shadowOpacity: 0.7,
               }}>
-              <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.pain ? this.state.pain : 0}</Text>
+              {this.state.averageToday &&
+                <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.averageToday}</Text>
+              }
+
             </View>
           </View>
         </Animatable.View>
@@ -121,7 +157,7 @@ class Stats extends Component {
               shadowRadius: 3,
               shadowOpacity: 0.7,
             }}>
-            <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.pain ? this.state.pain : 0}</Text>
+            <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.averageYesterday}</Text>
           </View>
         </View>
       </Animatable.View>
@@ -145,7 +181,7 @@ class Stats extends Component {
                 shadowRadius: 3,
                 shadowOpacity: 0.7,
               }}>
-              <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.pain ? this.state.pain : 0}</Text>
+              <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.averageLast7Days}</Text>
             </View>
           </View>
         </Animatable.View>
@@ -169,7 +205,7 @@ class Stats extends Component {
               shadowRadius: 3,
               shadowOpacity: 0.7,
             }}>
-            <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.pain ? this.state.pain : 0}</Text>
+            <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.averageLast30Days}</Text>
           </View>
         </View>
       </Animatable.View>

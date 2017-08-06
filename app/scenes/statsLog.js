@@ -74,7 +74,7 @@ class StatsLog extends Component {
           });
         });
         if (items.length == 0) {
-          this.setState({isRatesEmpty:true});
+          this.setState({isRatesEmpty:true,});
           this.props.showMessageMeds(true,'Info','Currently no rates. Tap the heart icon in the bottom left to start tracking your pain','#1abc9c');
         }
         this.setState({
@@ -101,8 +101,8 @@ class StatsLog extends Component {
         'Delete',
       ];
 
-      var DESTRUCTIVE_INDEX = 1;
-      var CANCEL_INDEX = 2;
+      var DESTRUCTIVE_INDEX = 0;
+      var CANCEL_INDEX = 1;
       var RATE_KEY = rateID;
 
       ActionSheet.showActionSheetWithOptions({

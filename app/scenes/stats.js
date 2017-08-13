@@ -26,10 +26,6 @@ import {
 
 class Stats extends Component {
 
-  static navigationOptions = ({ navigation }) => ({
-      headerRight: <TouchableOpacity style={{marginRight:10}} onPress={()=>console.log("test")}><Icon name={'md-share'} size={32} color={'#ffffff'}/></TouchableOpacity>,
-    });
-
   constructor(props) {
     super(props);
     this.state = {

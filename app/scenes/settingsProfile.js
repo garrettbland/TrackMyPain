@@ -60,13 +60,16 @@ class SettingsProfile extends Component {
     return(
       <View style={{flex:1}}>
         <ScrollView>
-          <View style={{marginTop:12}}>
-            <SettingsInfoListItem header={'Username'} subHeader={'gmorganbland@gmail.com'}/>
-            <SettingsInfoListItem header={'Membership'} subHeader={'Premium'}/>
+        <View style={{paddingLeft:10,paddingRight:10,paddingBottom:3,marginTop:14}}>
+          <Text style={{color:'#3F3F3F',fontSize:12}}>Your ID and Secret Key are used to recover your data if you lose or switch devices. Write this down for safe keeping.</Text>
+        </View>
+          <View style={{marginTop:4}}>
+            <SettingsInfoListItem header={'ID'} subHeader={'9918128'}/>
+            <SettingsInfoListItem header={'Secret Key'} subHeader={'a4ndn49fn4*$n3n^&DB'}/>
           </View>
 
           <View style={{marginTop:15}}>
-            <Button title={'Sign Out'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={() => this.handleLogOut()}/>
+            <Button title={'Reset All Data'} backgroundColor={'#e74c3c'} titleColor={'#ffffff'} onPress={() => this.handleLogOut()}/>
           </View>
 
         </ScrollView>

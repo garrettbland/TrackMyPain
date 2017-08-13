@@ -36,7 +36,6 @@ class StatsLog extends Component {
 
   static navigationOptions = ({ navigation }) => ({
       headerLeft: <TouchableOpacity onPress={()=>{navigation.state.params.goBack()}}><Icon name={'md-arrow-round-back'} size={32} color={'#ffffff'} style={{marginLeft:10,width:60}}/></TouchableOpacity>,
-      headerRight: <TouchableOpacity onPress={()=>console.log("TEST")}><Icon name={'ios-share-outline'} size={32} color={'#ffffff'} style={{marginRight:10}}/></TouchableOpacity>,
   });
 
     constructor(props) {

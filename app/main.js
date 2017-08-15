@@ -5,6 +5,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from './actions';
 
+import {
+  Alert,
+  View,
+  AsyncStorage,
+} from 'react-native';
+
 //navigation
 import { StackNavigator, TabNavigator, addNavigationHelpers } from 'react-navigation';
 
@@ -30,10 +36,11 @@ import SettingsNotifications from './scenes/settingsNotifications';
 import SettingsProfile from './scenes/settingsProfile';
 
 class App extends Component {
+
   render(){
-    return (
+    return(
       <AppTab/>
-    )
+    );
   }
 }
 

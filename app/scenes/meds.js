@@ -28,6 +28,7 @@ import {
   Alert,
   ScrollView,
   ActivityIndicator,
+  AsyncStorage,
 } from 'react-native';
 
 const newMedRoute = NavigationActions.navigate({
@@ -50,15 +51,21 @@ class Meds extends Component {
       dataSource: [],
       isMedsEmpty:false,
     }
-    this.medsRef = firebaseApp.database().ref().child('users/123456789/meds/');
   }
 
   componentDidMount(){
-    var data = this.makeRemoteRequest();
+    AsyncStorage.getItem("userID").then((value) => {
+      if(value == null){
+        Alert.alert("Uh oh :(", "Something went wrong when reading your data. Please close the app and try again")
+      }else{
+        this.setState({userID:value})
+        var data = this.makeRemoteRequest(value);
+      }
+    }).done();
   }
 
-  makeRemoteRequest() {
-    this.medsRef.on('value', (snap) => {
+  makeRemoteRequest(userID) {
+    firebaseApp.database().ref().child('users/'+userID+'/meds/').on('value', (snap) => {
       var items = [];
       snap.forEach((child) => {
         items.push({
@@ -79,7 +86,7 @@ class Meds extends Component {
   }
 
   deleteMed(medID){
-    this.medsRefDelete = firebaseApp.database().ref('users/123456789/meds/').child(medID);
+    this.medsRefDelete = firebaseApp.database().ref('users/'+this.state.userID+'/meds/').child(medID);
     this.medsRefDelete.remove();
     this.props.showMessageMeds(true,'Success','Medication was successfully removed','#f39c12');
   }

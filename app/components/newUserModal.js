@@ -39,42 +39,42 @@ class Modal extends Component {
             <View style={{width:'100%',padding:20,}}>
             <View style={{justifyContent:'center',alignItems:'center'}}>
               <View style={{flexDirection:'column',}}>
-                <View style={{flexDirection:'row',marginBottom:8}}>
+                <Animatable.View animation="fadeInUp" delay={60} style={{flexDirection:'row',marginBottom:8}}>
                   <View style={{width:50}}>
                     <Icon name={'md-heart'} size={36} color={'#3498db'} />
                   </View>
                   <View style={{justifyContent:'center'}}>
                     <Text style={{fontSize:20,fontWeight:'700'}}>Rate your pain</Text>
                   </View>
-                </View>
-                <View style={{flexDirection:'row',marginBottom:8}}>
+                </Animatable.View>
+                <Animatable.View animation="fadeInUp" delay={120} style={{flexDirection:'row',marginBottom:8}}>
                   <View style={{width:50}}>
                     <Icon name={'md-stats'} size={36} color={'#3498db'} />
                   </View>
                   <View style={{justifyContent:'center'}}>
                     <Text style={{fontSize:20,fontWeight:'700'}}>Track your pain</Text>
                   </View>
-                </View>
-                <View style={{flexDirection:'row',marginBottom:8}}>
+                </Animatable.View>
+                <Animatable.View animation="fadeInUp" delay={180} style={{flexDirection:'row',marginBottom:8}}>
                   <View style={{width:50}}>
                     <Icon name={'md-medkit'} size={36} color={'#3498db'} />
                   </View>
                   <View style={{justifyContent:'center'}}>
                     <Text style={{fontSize:20,fontWeight:'700'}}>Add Medications</Text>
                   </View>
-                </View>
-                <View style={{flexDirection:'row',marginBottom:8}}>
+                </Animatable.View>
+                <Animatable.View animation="fadeInUp" delay={240} style={{flexDirection:'row',marginBottom:8}}>
                   <View style={{width:50}}>
                     <Icon name={'ios-switch'} size={36} color={'#3498db'} />
                   </View>
                   <View style={{justifyContent:'center'}}>
                     <Text style={{fontSize:20,fontWeight:'700'}}>Set Reminders</Text>
                   </View>
-                </View>
+                </Animatable.View>
               </View>
-              <View style={{width:'100%',marginTop:30}}>
-                <Button title={'Get Started'} backgroundColor={'#2ecc71'} titleColor={'#ffffff'} onPress={() => this.closeAnimation('reminderIntervalModalAnimation')}/>
-              </View>
+              <Animatable.View animation="fadeInUp" delay={300} style={{width:'100%',marginTop:20}}>
+                <Button title={'Get Started'} backgroundColor={'#2ecc71'} titleColor={'#ffffff'} onPress={() => this.props.callback(false)}/>
+              </Animatable.View>
               </View>
             </View>
           </View>

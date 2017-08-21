@@ -22,14 +22,21 @@ import {
   TouchableOpacity,
   ScrollView,
   StatusBar,
+  AsyncStorage,
+  Alert,
 } from 'react-native';
 
 class Stats extends Component {
+
+  static navigationOptions = ({ navigation }) => ({
+      headerRight: <TouchableOpacity onPress={()=>{navigation.state.params.refreshStats()}}><Icon name={'md-refresh'} size={30} color={'#ffffff'} style={{marginRight:10}}/></TouchableOpacity>,
+  });
 
   constructor(props) {
     super(props);
     this.state = {
       animating:true,
+      loading:false,
       startToday : moment().startOf('day').valueOf().toString(),
       endToday : moment().endOf('day').valueOf().toString(),
       startYesterday : moment().subtract(1, 'days').startOf('day').valueOf().toString(),
@@ -37,21 +44,38 @@ class Stats extends Component {
       start7DaysAgo : moment().subtract(7, 'days').startOf('day').valueOf().toString(),
       start30DaysAgo : moment().subtract(30, 'days').startOf('day').valueOf().toString(),
     }
+    this.getAverages = this.getAverages.bind(this);
   }
 
+
   componentDidMount(){
+    this.props.navigation.setParams({ refreshStats: this.getAverages });
+    AsyncStorage.getItem("userID").then((value) => {
+      if(value == null){
+        Alert.alert("Uh oh :(", "Something went wrong when reading your data. Please close the app and try again")
+        this.setState({newUserModal:true})
+      }else{
+        this.setState({userID:value})
+      }
+    }).done();
+    this.getAverages();
+  }
+
+  getAverages(){
+    this.setState({loading:true})
     this.timeoutHandle = setTimeout(()=>{
-        this.calculateAverage(this.state.startToday,this.state.endToday,1)
-        this.calculateAverage(this.state.startYesterday,this.state.endYesterday,2)
-        this.calculateAverage(this.state.start7DaysAgo,this.state.endToday,3)
-        this.calculateAverage(this.state.start30DaysAgo,this.state.endToday,4)
+        this.calculateAverage(this.state.startToday,this.state.endToday,1,this.state.userID)
+        this.calculateAverage(this.state.startYesterday,this.state.endYesterday,2,this.state.userID)
+        this.calculateAverage(this.state.start7DaysAgo,this.state.endToday,3,this.state.userID)
+        this.calculateAverage(this.state.start30DaysAgo,this.state.endToday,4,this.state.userID)
+        this.setState({loading:false})
     }, 750);
   }
 
-  calculateAverage(startTime,endTime,time){
-    var ref = firebaseApp.database().ref('users/' + 123456789 +'/rates/');
+  calculateAverage(startTime,endTime,time,userID){
+    var ref = firebaseApp.database().ref('users/' + userID +'/rates/');
     var averageRef = ref.orderByKey().startAt(startTime).endAt(endTime);
-    averageRef.on('value', (snap) => {
+    averageRef.once('value', (snap) => {
       var items = [];
       snap.forEach((child) => {
         items.push({
@@ -95,12 +119,13 @@ class Stats extends Component {
     });
   }
 
+
   render(){
 
     var navigateAction = NavigationActions.navigate({
       routeName: this.props.route,
       params: {},
-      action: NavigationActions.navigate({ routeName: 'StatsLog'})
+      action: NavigationActions.navigate({ routeName: 'StatsLog', userID: this.state.userID})
     });
 
     return(
@@ -126,7 +151,7 @@ class Stats extends Component {
                 shadowRadius: 3,
                 shadowOpacity: 0.7,
               }}>
-              {this.state.averageToday &&
+              {this.state.averageToday !== null &&
                 <Text style={{fontWeight:'bold',fontSize:30,color:'#ffffff'}}>{this.state.averageToday}</Text>
               }
 
@@ -238,6 +263,7 @@ class Stats extends Component {
       </Animatable.View>
 
       </ScrollView>
+      <StatusBar networkActivityIndicatorVisible={this.state.loading} barStyle="light-content"/>
     </View>
     )
   }

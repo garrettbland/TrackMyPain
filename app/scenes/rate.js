@@ -11,6 +11,7 @@ import { NavigationActions } from 'react-navigation';
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
+import moment from 'moment';
 
 //components
 import Button from '../components/button';
@@ -24,6 +25,7 @@ import {
   Dimensions,
   Alert,
   AsyncStorage,
+  StatusBar
 } from 'react-native';
 
 class Rate extends Component {
@@ -47,19 +49,23 @@ class Rate extends Component {
   }
 
   componentWillMount(){
-    //see if notifications are enabled
-    AsyncStorage.getItem("test").then((value) => {
+    //see if new user
+    AsyncStorage.getItem("userID").then((value) => {
       if(value == null){
+        var newUserID = JSON.stringify(Date.now());
+        AsyncStorage.setItem("userID", newUserID)
         this.setState({newUserModal:true})
       }else{
-
+        this.setState({userID:value})
       }
     }).done();
   }
 
   rateDetailRoute(){
-    const navigateAction = NavigationActions.navigate({
-      action: NavigationActions.navigate({ routeName: 'RateDetail'})
+    var navigateAction = NavigationActions.navigate({
+      routeName: this.props.route,
+      params: {userID: this.state.userID},
+      action: NavigationActions.navigate({ routeName: 'RateDetail', userID: this.state.userID})
     });
     this.props.navigation.dispatch(navigateAction);
     var dColor = '#ffffff';
@@ -110,6 +116,12 @@ class Rate extends Component {
 
   }
 
+  closeNewUserModal(value){
+    this.setState({
+      newUserModal:value
+    })
+  }
+
   render(){
     return(
       <View style={{flex:1,backgroundColor:'#F1F1F1',zIndex:1,}}>
@@ -118,7 +130,7 @@ class Rate extends Component {
         <Modal icon={'md-checkmark-circle'} iconColor={'#2ecc71'} title={'Success'} body={'Your rate was saved successfully'} />
       }
       {this.state.newUserModal &&
-        <NewUserModal icon={'md-checkmark-circle'} iconColor={'#2ecc71'} title={'Hello!'} body={'Welcome new user'} />
+        <NewUserModal icon={'md-checkmark-circle'} iconColor={'#2ecc71'} title={'Hello!'} body={'Welcome new user'} callback={(value) => this.closeNewUserModal(value)}/>
       }
         <View style={{marginTop:25,zIndex:1,}}>
           <View style={{height:'20%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
@@ -147,6 +159,7 @@ class Rate extends Component {
             <Button title={'Rate'} backgroundColor={'#3498db'} titleColor={'#ffffff'} onPress={() => this.rateDetailRoute()}/>
           </View>
         </View>
+        <StatusBar barStyle="light-content"/>
       </View>
     )
   }

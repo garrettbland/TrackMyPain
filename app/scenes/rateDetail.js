@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
 
 //navigation
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 
 //npm packages
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -28,6 +28,7 @@ import {
   ActivityIndicator,
   ScrollView,
   Alert,
+  AsyncStorage,
 } from 'react-native';
 
 const navigateAction = NavigationActions.navigate({
@@ -56,6 +57,16 @@ class RateDetail extends Component {
     this.goBack = this.goBack.bind(this)
   }
 
+  componentWillMount(){
+    AsyncStorage.getItem("userID").then((value) => {
+      if(value == null){
+        Alert.alert("Uh oh :(", "Something went wrong when reading your data. Please close the app and try again")
+      }else{
+        this.setState({userID:value})
+      }
+    }).done();
+  }
+
   componentDidMount() {
     this.props.navigation.setParams({ goBack: this.goBack, rate: this.rate });
   }
@@ -71,7 +82,8 @@ class RateDetail extends Component {
 
   rate(){
     var newRateID = Date.now();
-    this.rateRef = firebaseApp.database().ref('users/123456789/rates/').child(newRateID);
+    var userID = Number(this.props.navigation.userID);
+    this.rateRef = firebaseApp.database().ref('users/' + this.state.userID + '/rates/').child(newRateID);
 
     var pain = this.state.pain ? this.state.pain : 0;
     var timestamp = newRateID;

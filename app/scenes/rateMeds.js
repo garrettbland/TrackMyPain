@@ -30,6 +30,7 @@ import {
   Alert,
   ScrollView,
   ActivityIndicator,
+  AsyncStorage,
 } from 'react-native';
 
 class RateMeds extends Component {
@@ -50,12 +51,21 @@ class RateMeds extends Component {
     }
     this.goBack = this.goBack.bind(this);
     this.setMeds = this.setMeds.bind(this);
-    this.medsRef = firebaseApp.database().ref().child('users/123456789/meds/');
+  }
+
+  componentDidMount(){
+    AsyncStorage.getItem("userID").then((value) => {
+      if(value == null){
+        Alert.alert("Uh oh :(", "Something went wrong when reading your data. Please close the app and try again")
+      }else{
+        this.setState({userID:value})
+        var data = this.makeRemoteRequest(value);
+      }
+    }).done();
   }
 
   componentWillMount(){
     this.props.navigation.setParams({ goBack: this.goBack, setMeds: this.setMeds });
-    var data = this.makeRemoteRequest();
   }
 
   setMeds(){
@@ -73,7 +83,8 @@ class RateMeds extends Component {
     this.props.navigation.dispatch(backAction)
   }
 
-  makeRemoteRequest() {
+  makeRemoteRequest(userID) {
+    this.medsRef = firebaseApp.database().ref().child('users/'+userID+'/meds/');
     this.medsRef.on('value', (snap) => {
       var items = [];
       snap.forEach((child) => {

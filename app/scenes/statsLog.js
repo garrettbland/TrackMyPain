@@ -30,6 +30,7 @@ import {
   Alert,
   ScrollView,
   ActivityIndicator,
+  AsyncStorage
 } from 'react-native';
 
 class StatsLog extends Component {
@@ -47,7 +48,6 @@ class StatsLog extends Component {
         isRatesEmpty:false,
       }
       this.goBack = this.goBack.bind(this);
-      this.ratesRef = firebaseApp.database().ref().child('users/' + 123456789 +'/rates/');
     }
 
     goBack () {
@@ -57,10 +57,21 @@ class StatsLog extends Component {
 
     componentDidMount() {
       this.props.navigation.setParams({ goBack: this.goBack });
-      var data = this.makeRemoteRequest();
     }
 
-    makeRemoteRequest() {
+    componentWillMount(){
+      AsyncStorage.getItem("userID").then((value) => {
+        if(value == null){
+          Alert.alert("Uh oh :(", "Something went wrong when reading your data. Please close the app and try again")
+        }else{
+          this.setState({userID:value})
+          var data = this.makeRemoteRequest(value);
+        }
+      }).done();
+    }
+
+    makeRemoteRequest(userID) {
+      this.ratesRef = firebaseApp.database().ref().child('users/' + userID +'/rates/');
       this.ratesRef.on('value', (snap) => {
         var items = [];
         snap.forEach((child) => {
@@ -84,7 +95,7 @@ class StatsLog extends Component {
     }
 
     deleteRate(rateID){
-      this.medsRefDelete = firebaseApp.database().ref('users/' + 123456789 +'/rates/').child(rateID);
+      this.medsRefDelete = firebaseApp.database().ref('users/' + this.state.userID +'/rates/').child(rateID);
       this.medsRefDelete.remove();
       this.props.showMessageMeds(true,'Success','Rate was successfully removed','#f39c12');
     }

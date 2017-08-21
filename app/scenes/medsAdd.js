@@ -23,7 +23,8 @@ import {
   TextInput,
   Keyboard,
   TouchableOpacity,
-  Alert
+  Alert,
+  AsyncStorage,
 } from 'react-native';
 
 
@@ -45,6 +46,17 @@ class MedsAdd extends Component {
       }
       this.goBack = this.goBack.bind(this);
       this.addMed = this.addMed.bind(this);
+    }
+
+
+    componentWillMount(){
+      AsyncStorage.getItem("userID").then((value) => {
+        if(value == null){
+          Alert.alert("Uh oh :(", "Something went wrong when reading your data. Please close the app and try again")
+        }else{
+          this.setState({userID:value})
+        }
+      }).done();
     }
 
     componentDidMount() {
@@ -79,7 +91,7 @@ class MedsAdd extends Component {
         this.setState({errorColorName:'#e74c3c',errorColorAmount:'#e74c3c',showError:true});
       }else{
         var medID = this.props.user.medID;
-        this.medsRef = firebaseApp.database().ref('users/123456789/meds/').child(medID);
+        this.medsRef = firebaseApp.database().ref('users/'+this.state.userID+'/meds/').child(medID);
         var editMedData = {name:this.state.name,amount:this.state.amount}
         this.medsRef.update(editMedData, function(error){
           if(error){
@@ -99,7 +111,7 @@ class MedsAdd extends Component {
         this.props.showMessageMeds(true,'Error', 'All fields must be completed','#e74c3c');
       }else if(this.state.name && this.state.amount){
         var newMedID = Date.now();
-        this.medsRef = firebaseApp.database().ref('users/123456789/meds/').child(newMedID);
+        this.medsRef = firebaseApp.database().ref('users/'+this.state.userID+'/meds/').child(newMedID);
         var newMedData = {name:this.state.name,amount:this.state.amount}
         this.medsRef.set(newMedData, function(error){
           if(error){

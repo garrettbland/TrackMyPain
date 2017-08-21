@@ -14,6 +14,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 //components
 import SettingsInfoListItem from '../components/settingsInfoListItem';
 import Button from '../components/button';
+import ActionSheet from '@yfuks/react-native-action-sheet';
+import firebaseApp from '../components/firebaseApp';
 
 import {
   View,
@@ -22,6 +24,8 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
+  Alert,
+  AsyncStorage,
 } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
@@ -40,6 +44,16 @@ class SettingsProfile extends Component {
       this.goBack = this.goBack.bind(this);
     }
 
+    componentWillMount(){
+      AsyncStorage.getItem("userID").then((value) => {
+        if(value == null){
+          Alert.alert("Uh oh :(", "Something went wrong when reading your data. Please close the app and try again")
+        }else{
+          this.setState({userID:value})
+        }
+      }).done();
+    }
+
     componentDidMount() {
       this.props.navigation.setParams({ goBack: this.goBack });
     }
@@ -52,8 +66,21 @@ class SettingsProfile extends Component {
 
     }
 
-    handleLogOut(){
-      console.log("Log out");
+    resetData(){
+      this.medsRefDelete = firebaseApp.database().ref('users/').child(this.state.userID)
+      this.medsRefDelete.remove();
+      Alert.alert("Success","User data was successfully reset")
+    }
+
+    showOptions(){
+      Alert.alert(
+        'Confirm',
+        'Are you sure you want to reset all user data? This cannot be reversed.',
+        [
+          {text: 'Confirm Reset', onPress: () => this.resetData(this.state.userID)},
+          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        ],
+      )
     }
 
   render(){
@@ -61,15 +88,11 @@ class SettingsProfile extends Component {
       <View style={{flex:1}}>
         <ScrollView>
         <View style={{paddingLeft:10,paddingRight:10,paddingBottom:3,marginTop:14}}>
-          <Text style={{color:'#3F3F3F',fontSize:12}}>Your ID and Secret Key are used to recover your data if you lose or switch devices. Write this down for safe keeping.</Text>
+          <Text style={{color:'#3F3F3F',fontSize:12}}>Tab the button below to reset all your stats, rates, and meds. Does not modify any notification settings.</Text>
         </View>
-          <View style={{marginTop:4}}>
-            <SettingsInfoListItem header={'ID'} subHeader={'9918128'}/>
-            <SettingsInfoListItem header={'Secret Key'} subHeader={'a4ndn49fn4*$n3n^&DB'}/>
-          </View>
 
           <View style={{marginTop:15}}>
-            <Button title={'Reset All Data'} backgroundColor={'#e74c3c'} titleColor={'#ffffff'} onPress={() => this.handleLogOut()}/>
+            <Button title={'Reset All Data'} backgroundColor={'#e74c3c'} titleColor={'#ffffff'} onPress={() => this.showOptions()}/>
           </View>
 
         </ScrollView>

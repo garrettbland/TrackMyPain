@@ -75,7 +75,7 @@ const AppSettingsStack = StackNavigator({
   SettingsProfile: {
     screen: SettingsProfile,
     navigationOptions:{
-      title: 'Profile',
+      title: 'User',
       headerBackTitle:null,
       tabBarIcon: ({ focused, tintColor }) => (
         <Icon name={'ios-switch'} size={32} color={focused ? '#3498db' : tintColor} />
